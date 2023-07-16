@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A5D194B2A644D9C00017053 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194A2A644D9C00017053 /* Error.swift */; };
+		3A5D194D2A644DF100017053 /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194C2A644DF100017053 /* LaunchRequest.swift */; };
+		3A5D194F2A644F2400017053 /* RocketsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194E2A644F2400017053 /* RocketsRequest.swift */; };
 		3A84A9B12A63F40A0050EAF4 /* Rocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A9B02A63F40A0050EAF4 /* Rocket.swift */; };
 		3A84A9B32A63FF9C0050EAF4 /* Launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A9B22A63FF9C0050EAF4 /* Launch.swift */; };
 		3A84A9B52A6400540050EAF4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A9B42A6400540050EAF4 /* Settings.swift */; };
@@ -21,6 +24,9 @@
 
 /* Begin PBXFileReference section */
 		03C5865C5D62F486A47D31D9 /* Pods-SpaceXApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceXApp.release.xcconfig"; path = "Target Support Files/Pods-SpaceXApp/Pods-SpaceXApp.release.xcconfig"; sourceTree = "<group>"; };
+		3A5D194A2A644D9C00017053 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		3A5D194C2A644DF100017053 /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
+		3A5D194E2A644F2400017053 /* RocketsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsRequest.swift; sourceTree = "<group>"; };
 		3A84A9B02A63F40A0050EAF4 /* Rocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rocket.swift; sourceTree = "<group>"; };
 		3A84A9B22A63FF9C0050EAF4 /* Launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Launch.swift; sourceTree = "<group>"; };
 		3A84A9B42A6400540050EAF4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -143,7 +149,10 @@
 			isa = PBXGroup;
 			children = (
 				3A84A9B62A6404C30050EAF4 /* NetworkService.swift */,
+				3A5D194A2A644D9C00017053 /* Error.swift */,
 				3A84A9B82A6418D20050EAF4 /* APIRequest.swift */,
+				3A5D194E2A644F2400017053 /* RocketsRequest.swift */,
+				3A5D194C2A644DF100017053 /* LaunchRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -289,11 +298,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A5D194B2A644D9C00017053 /* Error.swift in Sources */,
+				3A5D194F2A644F2400017053 /* RocketsRequest.swift in Sources */,
 				3A84A9B12A63F40A0050EAF4 /* Rocket.swift in Sources */,
 				3A84A9B92A6418D20050EAF4 /* APIRequest.swift in Sources */,
 				3ADEB1912A5DAB9F00537A58 /* RocketsViewController.swift in Sources */,
 				3A84A9B32A63FF9C0050EAF4 /* Launch.swift in Sources */,
 				3ADEB1772A5DAAD100537A58 /* AppDelegate.swift in Sources */,
+				3A5D194D2A644DF100017053 /* LaunchRequest.swift in Sources */,
 				3A84A9B72A6404C30050EAF4 /* NetworkService.swift in Sources */,
 				3A84A9B52A6400540050EAF4 /* Settings.swift in Sources */,
 			);

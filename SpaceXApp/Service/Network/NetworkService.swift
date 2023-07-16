@@ -2,25 +2,23 @@
 //  NetworkService.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 16.07.23.
+//  Created by Anton Tropin on 16.07.23.
 //
 
 import Foundation
 import RxSwift
 
-enum NetworkError: Error {
-    case invalidURL
-    case noData
-    case decodingError
-}
-
 final class NetworkService {
     
     static let shared = NetworkService()
-    
+
+    private let decoder: JSONDecoder
     private let baseURL: String = "https://api.spacexdata.com/v3/"
 
-    private init() {}
+    private init() {
+        decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+    }
     
     func get<T: Decodable>(dataType: T.Type, apiRequest: APIRequest) -> Single<T> {
         return Single<T>.create { single in
@@ -44,9 +42,7 @@ final class NetworkService {
                 }
                 
                 do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let dataResponse = try decoder.decode(T.self, from: data)
+                    let dataResponse = try self.decoder.decode(T.self, from: data)
                     single(.success(dataResponse))
                 } catch let error {
                     single(.failure(error))

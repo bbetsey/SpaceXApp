@@ -2,7 +2,7 @@
 //  Rocket.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 16.07.23.
+//  Created by Anton Tropin on 16.07.23.
 //
 
 import Foundation
