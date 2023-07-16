@@ -8,22 +8,22 @@
 import UIKit
 import RxSwift
 
-class RocketsViewController: UIViewController {
+final class RocketsViewController: UIViewController {
 
-	private let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-		NetworkService.shared.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: "falcon1"))
-			.subscribe(
-				onSuccess: { rockets in
-					print(rockets)
-				}, onFailure: { error in
-					print("Error: \(error.localizedDescription)")
-				}
-			)
-			.disposed(by: disposeBag)
-	}
+        NetworkService.shared.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: "falcon1"))
+            .subscribe(
+                onSuccess: { rockets in
+                    print(rockets)
+                }, onFailure: { error in
+                    print("Error: \(error.localizedDescription)")
+                }
+            )
+            .disposed(by: disposeBag)
+    }
 
 }

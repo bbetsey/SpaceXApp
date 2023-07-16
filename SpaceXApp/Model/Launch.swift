@@ -9,7 +9,7 @@ import Foundation
 
 
 struct Launch: Decodable {
-	let missionName: String
-	let launchDateUnix: Int
-	let launchSuccess: Bool
+    let missionName: String?
+    let launchDateUnix: Int?
+    let launchSuccess: Bool?
 }
