@@ -2,15 +2,28 @@
 //  RocketsViewController.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 11.07.23.
+//  Created by Anton Tropin on 11.07.23.
 //
 
 import UIKit
+import RxSwift
 
-class RocketsViewController: UIViewController {
+final class RocketsViewController: UIViewController {
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
+    private let disposeBag = DisposeBag()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        NetworkService().get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: "falcon1"))
+            .subscribe(
+                onSuccess: { rockets in
+                    print(rockets)
+                }, onFailure: { error in
+                    print("Error: \(error.localizedDescription)")
+                }
+            )
+            .disposed(by: disposeBag)
+    }
 
 }
