@@ -15,7 +15,7 @@ final class RocketsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NetworkService.shared.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: "falcon1"))
+        NetworkService().get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: "falcon1"))
             .subscribe(
                 onSuccess: { rockets in
                     print(rockets)

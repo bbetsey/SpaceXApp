@@ -9,38 +9,32 @@ import Foundation
 import RxSwift
 
 final class NetworkService {
-    
-    static let shared = NetworkService()
 
     private let decoder: JSONDecoder
     private let baseURL: String = "https://api.spacexdata.com/v3/"
 
-    private init() {
+    init() {
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
     
     func get<T: Decodable>(dataType: T.Type, apiRequest: APIRequest) -> Single<T> {
-        return Single<T>.create { single in
+        .create { single in
             guard let url = URL(string: self.baseURL) else {
                 single(.failure(NetworkError.invalidURL))
                 return Disposables.create()
             }
             
             let request = apiRequest.request(with: url)
-            
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                
                 if let error = error {
                     single(.failure(error))
                     return
                 }
-                
                 guard let data = data else {
                     single(.failure(NetworkError.noData))
                     return
                 }
-                
                 do {
                     let dataResponse = try self.decoder.decode(T.self, from: data)
                     single(.success(dataResponse))

@@ -8,11 +8,11 @@
 import Foundation
 
 struct LaunchRequest: APIRequest {
-    var parameters: [String : String] = [:]
-    let method = RequestType.GET
-    let path = "launches"
+    let parameters: [String : String]
+    var method: RequestType { .GET }
+    var path: String { "launches" }
 
     init(rocketID: String) {
-        parameters["rocket_id"] = rocketID
+        parameters = ["rocket_id": rocketID]
     }
 }
