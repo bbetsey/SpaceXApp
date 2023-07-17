@@ -8,7 +8,7 @@
 import Foundation
 
 struct RocketsRequest: APIRequest {
-    let parameters: [String : String] = [:]
+    var parameters: [String : String] { [:] }
     var method: RequestType { .GET }
     var path: String { "rockets" }
 }
