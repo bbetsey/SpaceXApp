@@ -15,10 +15,11 @@
 		3A84A9B52A6400540050EAF4 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A9B42A6400540050EAF4 /* Settings.swift */; };
 		3A84A9B72A6404C30050EAF4 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A9B62A6404C30050EAF4 /* NetworkService.swift */; };
 		3A84A9B92A6418D20050EAF4 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A84A9B82A6418D20050EAF4 /* APIRequest.swift */; };
+		3AC5CA842A66E1E400CABAA1 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5CA832A66E1E400CABAA1 /* RocketViewController.swift */; };
 		3ADEB1772A5DAAD100537A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADEB1762A5DAAD100537A58 /* AppDelegate.swift */; };
 		3ADEB1802A5DAAD200537A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADEB17F2A5DAAD200537A58 /* Assets.xcassets */; };
 		3ADEB1832A5DAAD200537A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ADEB1812A5DAAD200537A58 /* LaunchScreen.storyboard */; };
-		3ADEB1912A5DAB9F00537A58 /* RocketsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADEB1902A5DAB9F00537A58 /* RocketsViewController.swift */; };
+		3ADEB1912A5DAB9F00537A58 /* RocketsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADEB1902A5DAB9F00537A58 /* RocketsPageViewController.swift */; };
 		70262EC783E400FF55BF42A6 /* Pods_SpaceXApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2998C77EE6322E63A121EF1 /* Pods_SpaceXApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,12 +33,13 @@
 		3A84A9B42A6400540050EAF4 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		3A84A9B62A6404C30050EAF4 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3A84A9B82A6418D20050EAF4 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		3AC5CA832A66E1E400CABAA1 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
 		3ADEB1732A5DAAD100537A58 /* SpaceXApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceXApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ADEB1762A5DAAD100537A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3ADEB17F2A5DAAD200537A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3ADEB1822A5DAAD200537A58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3ADEB1842A5DAAD200537A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3ADEB1902A5DAB9F00537A58 /* RocketsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsViewController.swift; sourceTree = "<group>"; };
+		3ADEB1902A5DAB9F00537A58 /* RocketsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsPageViewController.swift; sourceTree = "<group>"; };
 		61E973B7454AA391F7EF5D27 /* Pods-SpaceXApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceXApp.debug.xcconfig"; path = "Target Support Files/Pods-SpaceXApp/Pods-SpaceXApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E2998C77EE6322E63A121EF1 /* Pods_SpaceXApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpaceXApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -61,6 +63,14 @@
 				03C5865C5D62F486A47D31D9 /* Pods-SpaceXApp.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		3AC5CA822A66E1D100CABAA1 /* Rocket */ = {
+			isa = PBXGroup;
+			children = (
+				3AC5CA832A66E1E400CABAA1 /* RocketViewController.swift */,
+			);
+			path = Rocket;
 			sourceTree = "<group>";
 		};
 		3ADEB16A2A5DAAD100537A58 = {
@@ -114,6 +124,7 @@
 		3ADEB18C2A5DAB7100537A58 /* Module */ = {
 			isa = PBXGroup;
 			children = (
+				3AC5CA822A66E1D100CABAA1 /* Rocket */,
 				3ADEB18F2A5DAB8F00537A58 /* Rockets */,
 			);
 			path = Module;
@@ -140,7 +151,7 @@
 		3ADEB18F2A5DAB8F00537A58 /* Rockets */ = {
 			isa = PBXGroup;
 			children = (
-				3ADEB1902A5DAB9F00537A58 /* RocketsViewController.swift */,
+				3ADEB1902A5DAB9F00537A58 /* RocketsPageViewController.swift */,
 			);
 			path = Rockets;
 			sourceTree = "<group>";
@@ -302,9 +313,10 @@
 				3A5D194F2A644F2400017053 /* RocketsRequest.swift in Sources */,
 				3A84A9B12A63F40A0050EAF4 /* Rocket.swift in Sources */,
 				3A84A9B92A6418D20050EAF4 /* APIRequest.swift in Sources */,
-				3ADEB1912A5DAB9F00537A58 /* RocketsViewController.swift in Sources */,
+				3ADEB1912A5DAB9F00537A58 /* RocketsPageViewController.swift in Sources */,
 				3A84A9B32A63FF9C0050EAF4 /* Launch.swift in Sources */,
 				3ADEB1772A5DAAD100537A58 /* AppDelegate.swift in Sources */,
+				3AC5CA842A66E1E400CABAA1 /* RocketViewController.swift in Sources */,
 				3A5D194D2A644DF100017053 /* LaunchRequest.swift in Sources */,
 				3A84A9B72A6404C30050EAF4 /* NetworkService.swift in Sources */,
 				3A84A9B52A6400540050EAF4 /* Settings.swift in Sources */,
