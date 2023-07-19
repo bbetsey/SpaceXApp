@@ -40,7 +40,7 @@ final class RocketsPageViewController: UIPageViewController {
 
 // MARK: - Private Methods
 private extension RocketsPageViewController {
-    private func setup() {
+    func setup() {
         dataSource = self
         views = [viewOne, viewTwo, viewThree]
         setViewControllers([views[0]], direction: .forward, animated: true)
@@ -51,23 +51,16 @@ private extension RocketsPageViewController {
 extension RocketsPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let rocketVC = viewController as? RocketViewController,
-              let currentIndex = views.firstIndex(of: rocketVC)
-        else { return nil }
+              let currentIndex = views.firstIndex(of: rocketVC) else { return nil }
 
-        return currentIndex == 0
-        ? nil
-        : views[currentIndex - 1]
+        return currentIndex == 0 ? nil : views[currentIndex - 1]
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let rocketVC = viewController as? RocketViewController,
-              let currentIndex = views.firstIndex(of: rocketVC)
-        else { return nil }
+              let currentIndex = views.firstIndex(of: rocketVC) else { return nil }
 
-        return (currentIndex == views.count - 1)
-        ? nil
-        : views[currentIndex + 1]
-
+        return (currentIndex == views.count - 1) ? nil : views[currentIndex + 1]
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
