@@ -51,14 +51,12 @@ private extension RocketsPageViewController {
 extension RocketsPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let rocketVC = viewController as? RocketViewController,
-                let currentIndex = views.firstIndex(of: rocketVC)
+              let currentIndex = views.firstIndex(of: rocketVC)
         else { return nil }
 
-        if currentIndex == 0 {
-            return nil
-        } else {
-            return views[currentIndex - 1]
-        }
+        return currentIndex == 0
+        ? nil
+        : views[currentIndex - 1]
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -66,11 +64,10 @@ extension RocketsPageViewController: UIPageViewControllerDataSource {
               let currentIndex = views.firstIndex(of: rocketVC)
         else { return nil }
 
-        if currentIndex == views.count - 1 {
-            return nil
-        } else {
-            return views[currentIndex + 1]
-        }
+        return (currentIndex == views.count - 1)
+        ? nil
+        : views[currentIndex + 1]
+
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
