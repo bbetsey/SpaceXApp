@@ -34,7 +34,6 @@ final class RocketsPageViewController: UIPageViewController {
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPageIndicatorTintColor = .white
         pageControl.pageIndicatorTintColor = .systemGray
-        pageControl.backgroundColor = .black
         pageControl.numberOfPages = views.count
         pageControl.currentPage = initialPage
         pageControl.addTarget(self, action: #selector(pageControlTapped(_:)), for: .valueChanged)
@@ -73,7 +72,7 @@ extension RocketsPageViewController {
         ])
     }
 
-    @objc func pageControlTapped(_ sender: UIPageControl) {
+    @objc private func pageControlTapped(_ sender: UIPageControl) {
         sender.tag < sender.currentPage
             ? setViewControllers([views[sender.currentPage]], direction: .forward, animated: true)
             : setViewControllers([views[sender.currentPage]], direction: .reverse, animated: true)
