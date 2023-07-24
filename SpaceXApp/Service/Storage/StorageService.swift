@@ -9,9 +9,19 @@ import Foundation
 
 final class StorageService {
     private let key = "settings"
-    private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
-    private let userDefaults = UserDefaults.standard
+    private let encoder: JSONEncoder
+    private let decoder: JSONDecoder
+    private let userDefaults: UserDefaults
+
+    init(
+        encoder: JSONEncoder = JSONEncoder(),
+        decoder: JSONDecoder = JSONDecoder(),
+        userDefaults: UserDefaults = .standard
+    ) {
+        self.encoder = encoder
+        self.decoder = decoder
+        self.userDefaults = userDefaults
+    }
 }
 
 // MARK: - Public Methods
