@@ -1,5 +1,5 @@
 //
-//  UITableViewCell + extension.swift
+//  UITableViewCell + reuseIdentifier.swift
 //  SpaceXApp
 //
 //  Created by Anton Tropin on 24.07.23.
