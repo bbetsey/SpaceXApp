@@ -20,6 +20,7 @@
 		3AC5CA872A6857AF00CABAA1 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5CA862A6857AF00CABAA1 /* StorageService.swift */; };
 		3AC5CA8A2A694B3100CABAA1 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5CA892A694B3100CABAA1 /* SettingsTableViewController.swift */; };
 		3AC5CA8C2A6AA49400CABAA1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5CA8B2A6AA49400CABAA1 /* SettingsViewModel.swift */; };
+		3ADB32A02A6ED3A600035166 /* UITableViewCell + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADB329F2A6ED3A600035166 /* UITableViewCell + extension.swift */; };
 		3ADEB1772A5DAAD100537A58 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADEB1762A5DAAD100537A58 /* AppDelegate.swift */; };
 		3ADEB1802A5DAAD200537A58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADEB17F2A5DAAD200537A58 /* Assets.xcassets */; };
 		3ADEB1832A5DAAD200537A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ADEB1812A5DAAD200537A58 /* LaunchScreen.storyboard */; };
@@ -42,6 +43,7 @@
 		3AC5CA862A6857AF00CABAA1 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		3AC5CA892A694B3100CABAA1 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		3AC5CA8B2A6AA49400CABAA1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		3ADB329F2A6ED3A600035166 /* UITableViewCell + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell + extension.swift"; sourceTree = "<group>"; };
 		3ADEB1732A5DAAD100537A58 /* SpaceXApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceXApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ADEB1762A5DAAD100537A58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3ADEB17F2A5DAAD200537A58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -99,6 +101,22 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		3ADB329D2A6ED38C00035166 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				3ADB329E2A6ED39600035166 /* Extension */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		3ADB329E2A6ED39600035166 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3ADB329F2A6ED3A600035166 /* UITableViewCell + extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		3ADEB16A2A5DAAD100537A58 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +141,7 @@
 				3ADEB18C2A5DAB7100537A58 /* Module */,
 				3ADEB18E2A5DAB8000537A58 /* Service */,
 				3ADEB18D2A5DAB7900537A58 /* Model */,
+				3ADB329D2A6ED38C00035166 /* Helper */,
 				3ADEB18A2A5DAB5100537A58 /* App */,
 				3ADEB18B2A5DAB6A00537A58 /* Resources */,
 			);
@@ -352,6 +371,7 @@
 				3A84A9B72A6404C30050EAF4 /* NetworkService.swift in Sources */,
 				3A84A9B52A6400540050EAF4 /* Settings.swift in Sources */,
 				3AC5CA8C2A6AA49400CABAA1 /* SettingsViewModel.swift in Sources */,
+				3ADB32A02A6ED3A600035166 /* UITableViewCell + extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,8 +516,9 @@
 				INFOPLIST_FILE = SpaceXApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -525,8 +546,9 @@
 				INFOPLIST_FILE = SpaceXApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

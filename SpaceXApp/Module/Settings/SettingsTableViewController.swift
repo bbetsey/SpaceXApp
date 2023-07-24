@@ -11,14 +11,22 @@ import RxCocoa
 
 final class SettingsTableViewController: UITableViewController {
 
-    private var settingsViewModel: SettingsViewModelProtocol!
+    private let settingsViewModel: SettingsViewModelProtocol
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        settingsViewModel = SettingsViewModel()
         setupUI()
         bindViewModel()
+    }
+
+    init(settingsViewModel: SettingsViewModelProtocol = SettingsViewModel()) {
+        self.settingsViewModel = settingsViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -33,17 +41,14 @@ final class SettingsTableViewController: UITableViewController {
 // MARK: - Private Methods
 private extension SettingsTableViewController {
     func setupUI() {
-        tableView.delegate = self
         tableView.dataSource = nil
         tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: SettingsTableViewCell.reuseIdentifier)
 
         navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         title = Appearance.title
 
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .black
-        tableView.rowHeight = CGFloat(Appearance.rowHeight)
+        tableView.rowHeight = Appearance.rowHeight
     }
 
     func bindViewModel() {

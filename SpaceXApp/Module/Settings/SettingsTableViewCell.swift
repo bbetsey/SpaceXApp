@@ -11,10 +11,7 @@ final class SettingsTableViewCell: UITableViewCell {
 
     private var label: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
         label.font = .systemFont(ofSize: Appearance.labelFontSize, weight: .medium)
-        label.textColor = .white
-        label.backgroundColor = .clear
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -22,9 +19,10 @@ final class SettingsTableViewCell: UITableViewCell {
     private lazy var settingControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["", ""])
         let font = UIFont.systemFont(ofSize: Appearance.controlFontSize, weight: .medium)
+        control.selectedSegmentTintColor = .white
         control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.black], for: .selected)
         control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.lightGray], for: .normal)
-        control.addTarget(self, action: #selector(didChangeSegment(_:)), for: .valueChanged)
+        control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -67,8 +65,6 @@ private extension SettingsTableViewCell {
 
 // MARK: - Public Methods
 extension SettingsTableViewCell {
-
-    static let reuseIdentifier: String = String(describing: SettingsTableViewCell.self)
 
     func configure(with setting: Setting) {
         label.text = setting.type.name

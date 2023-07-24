@@ -13,14 +13,10 @@ final class StorageService {
     private let decoder: JSONDecoder
     private let userDefaults: UserDefaults
 
-    init(
-        encoder: JSONEncoder = JSONEncoder(),
-        decoder: JSONDecoder = JSONDecoder(),
-        userDefaults: UserDefaults = .standard
-    ) {
-        self.encoder = encoder
-        self.decoder = decoder
+    init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
+        encoder = JSONEncoder()
+        decoder = JSONDecoder()
     }
 }
 
