@@ -9,51 +9,18 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SettingsTableViewController: UITableViewController {
+final class SettingsTableViewController: UITableViewController {
 
-    private let settingsViewModel: SettingsViewModelProtocol = SettingsViewModel()
-    private let disposeBag: DisposeBag = DisposeBag()
+    private var settingsViewModel: SettingsViewModelProtocol!
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        settingsViewModel = SettingsViewModel()
         setupUI()
         bindViewModel()
     }
 
-}
-
-// MARK: - Private Methods
-private extension SettingsTableViewController {
-    func setupUI() {
-        tableView.dataSource = nil
-        tableView.delegate = self
-        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: SettingsTableViewCell.reuseIdentifier)
-
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        title = "Настройки"
-
-        tableView.separatorStyle = .none
-        tableView.isScrollEnabled = false
-        tableView.rowHeight = CGFloat(Appearance.rowHeight)
-        tableView.backgroundColor = .black
-    }
-
-    func bindViewModel() {
-        settingsViewModel.settings
-            .bind(
-                to: tableView.rx.items(cellIdentifier: SettingsTableViewCell.reuseIdentifier, cellType: SettingsTableViewCell.self)
-            ) { row, setting, cell in
-                cell.configure(with: setting)
-                cell.onSegmentChanged = { index in
-                    self.settingsViewModel.updateSettings(at: row, withSelectedIndex: index)
-                }
-            }.disposed(by: disposeBag)
-    }
-}
-
-// MARK: - UITableViewDelegate
-extension SettingsTableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         UIView()
     }
@@ -63,10 +30,40 @@ extension SettingsTableViewController {
     }
 }
 
+// MARK: - Private Methods
+private extension SettingsTableViewController {
+    func setupUI() {
+        tableView.delegate = self
+        tableView.dataSource = nil
+        tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: SettingsTableViewCell.reuseIdentifier)
+
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        title = Appearance.title
+
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .black
+        tableView.rowHeight = CGFloat(Appearance.rowHeight)
+    }
+
+    func bindViewModel() {
+        settingsViewModel.settings
+            .drive(
+                tableView.rx.items(cellIdentifier: SettingsTableViewCell.reuseIdentifier, cellType: SettingsTableViewCell.self)
+            ) { row, setting, cell in
+                cell.configure(with: setting)
+                cell.onSegmentChanged = { [weak self] index in
+                    self?.settingsViewModel.updateSettings(at: setting, withSelectedIndex: index)
+                }
+            }.disposed(by: disposeBag)
+    }
+}
+
 // MARK: - Appearance
 private extension SettingsTableViewController {
     struct Appearance {
         static let headerHeight: CGFloat = 40
         static let rowHeight: CGFloat = 54
+        static let title = "Настройки"
     }
 }

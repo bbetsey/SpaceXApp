@@ -8,20 +8,17 @@
 import Foundation
 
 final class StorageService {
-
-    static let shared = StorageService()
-    private let userDefaults = UserDefaults.standard
     private let key = "settings"
-
-    private init() {}
-
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
+    private let userDefaults = UserDefaults.standard
 }
 
 // MARK: - Public Methods
 extension StorageService {
     func setSettings(settings: [Setting]) {
         do {
-            let data = try JSONEncoder().encode(settings)
+            let data = try encoder.encode(settings)
             userDefaults.set(data, forKey: key)
         } catch {
             print("Error encoding settings: \(error)")
@@ -31,7 +28,7 @@ extension StorageService {
     func fetchSettings() -> [Setting] {
         guard let data = userDefaults.data(forKey: key) else { return defaultSettings() }
         do {
-            return try JSONDecoder().decode([Setting].self, from: data)
+            return try decoder.decode([Setting].self, from: data)
         } catch {
             print("Error decoding settings: \(error)")
             return defaultSettings()

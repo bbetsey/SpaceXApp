@@ -7,11 +7,9 @@
 
 import UIKit
 
-class SettingsTableViewCell: UITableViewCell {
+final class SettingsTableViewCell: UITableViewCell {
 
-    static let reuseIdentifier: String = "settingCell"
-
-    private lazy var label: UILabel = {
+    private var label: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .systemFont(ofSize: Appearance.labelFontSize, weight: .medium)
@@ -22,8 +20,7 @@ class SettingsTableViewCell: UITableViewCell {
     }()
 
     private lazy var settingControl: UISegmentedControl = {
-        let items = ["", ""]
-        let control = UISegmentedControl(items: items)
+        let control = UISegmentedControl(items: ["", ""])
         let font = UIFont.systemFont(ofSize: Appearance.controlFontSize, weight: .medium)
         control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.black], for: .selected)
         control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.lightGray], for: .normal)
@@ -52,21 +49,27 @@ private extension SettingsTableViewCell {
         selectionStyle = .none
         contentView.isUserInteractionEnabled = false
 
-        [label, settingControl].forEach { addSubview($0) }
+        [label, settingControl].forEach(addSubview)
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.leading),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor)
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.heightAnchor.constraint(equalToConstant: Appearance.labelHeight),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.labelLeading),
+            label.trailingAnchor.constraint(equalTo: settingControl.leadingAnchor, constant: Appearance.labelTrailing)
         ])
         NSLayoutConstraint.activate([
-            settingControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.trailing),
             settingControl.centerYAnchor.constraint(equalTo: centerYAnchor),
-            settingControl.widthAnchor.constraint(equalToConstant: Appearance.controlWidth)
+            settingControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.controlTrailing),
+            settingControl.widthAnchor.constraint(equalToConstant: Appearance.controlWidth),
+            settingControl.heightAnchor.constraint(equalToConstant: Appearance.controlHeight)
         ])
     }
 }
 
 // MARK: - Public Methods
 extension SettingsTableViewCell {
+
+    static let reuseIdentifier: String = String(describing: SettingsTableViewCell.self)
+
     func configure(with setting: Setting) {
         label.text = setting.type.name
         settingControl.setTitle(setting.type.units[0].name, forSegmentAt: 0)
@@ -82,10 +85,13 @@ extension SettingsTableViewCell {
 // MARK: - Appearance
 private extension SettingsTableViewCell {
     struct Appearance {
-        static let leading: CGFloat = 28
-        static let trailing: CGFloat = -28
+        static let labelLeading: CGFloat = 28
+        static let labelTrailing: CGFloat = -16
+        static let labelHeight: CGFloat = 35
+        static let labelFontSize: CGFloat = 15
+        static let controlTrailing: CGFloat = -28
+        static let controlHeight: CGFloat = 35
         static let controlWidth: CGFloat = 115
         static let controlFontSize: CGFloat = 15
-        static let labelFontSize: CGFloat = 15
     }
 }

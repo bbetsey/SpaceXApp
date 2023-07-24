@@ -7,54 +7,53 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 protocol SettingsViewModelProtocol {
-    var settings: BehaviorSubject<[Setting]> { get }
-    func getSettings() -> [Setting]?
-    func updateSettings(at index: Int, withSelectedIndex selectedIndex: Int)
+    var settings: Driver<[Setting]> { get }
+    func updateSettings(at setting: Setting, withSelectedIndex selectedIndex: Int)
 }
 
 final class SettingsViewModel: SettingsViewModelProtocol {
 
     private let storageService: StorageService
     private let disposeBag: DisposeBag = DisposeBag()
-    lazy var settings: BehaviorSubject<[Setting]> = {
-        BehaviorSubject<[Setting]>(value: storageService.fetchSettings())
-    }()
+    private let settinsgSubject: BehaviorSubject<[Setting]>
 
-    init(storageService: StorageService = .shared) {
+    var settings: Driver<[Setting]> {
+        settinsgSubject.asDriver(onErrorJustReturn: [])
+    }
+
+    init(storageService: StorageService = StorageService()) {
         self.storageService = storageService
+        settinsgSubject = BehaviorSubject<[Setting]>(value: storageService.fetchSettings())
         bindSettings()
     }
 
+    func updateSettings(at setting: Setting, withSelectedIndex selectedIndex: Int) {
+        var currentSettings = getSettings()
+        for (index, currentSetting) in currentSettings.enumerated() {
+            if currentSetting.type == setting.type {
+                currentSettings[index].selectedIndex = selectedIndex
+                settinsgSubject.onNext(currentSettings)
+                break
+            }
+        }
+    }
 }
 
 // MARK: - Private Methods
 private extension SettingsViewModel {
     func bindSettings() {
-        settings.subscribe { newValue in
-            self.storageService.setSettings(settings: newValue)
-        }.disposed(by: disposeBag)
+        settings.drive(onNext: self.storageService.setSettings).disposed(by: disposeBag)
     }
-}
 
-// MARK: - SettingsViewModelProtocol
-extension SettingsViewModel {
-    func getSettings() -> [Setting]? {
+    func getSettings() -> [Setting] {
         do {
-            return try settings.value()
+            return try settinsgSubject.value()
         } catch {
             print("Error getting settings: \(error)")
-            return nil
+            return []
         }
-    }
-
-    func updateSettings(at index: Int, withSelectedIndex selectedIndex: Int) {
-        guard var curSettings = getSettings(), curSettings.indices.contains(index) else {
-            print("Invalid index")
-            return
-        }
-        curSettings[index].selectedIndex = selectedIndex
-        settings.onNext(curSettings)
     }
 }
