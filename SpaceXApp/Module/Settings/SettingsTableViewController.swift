@@ -14,12 +14,6 @@ final class SettingsTableViewController: UITableViewController {
     private let settingsViewModel: SettingsViewModelProtocol
     private let disposeBag = DisposeBag()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        bindViewModel()
-    }
-
     init(settingsViewModel: SettingsViewModelProtocol = SettingsViewModel()) {
         self.settingsViewModel = settingsViewModel
         super.init(nibName: nil, bundle: nil)
@@ -27,6 +21,12 @@ final class SettingsTableViewController: UITableViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        bindViewModel()
     }
 
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -57,8 +57,8 @@ private extension SettingsTableViewController {
                 tableView.rx.items(cellIdentifier: SettingsTableViewCell.reuseIdentifier, cellType: SettingsTableViewCell.self)
             ) { row, setting, cell in
                 cell.configure(with: setting)
-                cell.onSegmentChanged = { [unowned self] index in
-                    self.settingsViewModel.updateSettings(at: setting, withSelectedIndex: index)
+                cell.onSegmentChanged = { [weak self] index in
+                    self?.settingsViewModel.updateSettings(at: setting, withSelectedIndex: index)
                 }
             }.disposed(by: disposeBag)
     }
