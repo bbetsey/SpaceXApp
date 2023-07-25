@@ -27,7 +27,7 @@ enum Unit {
     }
 }
 
-enum SettingType: Encodable {
+enum SettingType: Codable {
     case height
     case diameter
     case weight
@@ -56,7 +56,7 @@ enum SettingType: Encodable {
     }
 }
 
-struct Setting: Encodable {
+struct Setting: Codable {
     let type: SettingType
-    let selectedIndex: Int
+    var selectedIndex: Int
 }

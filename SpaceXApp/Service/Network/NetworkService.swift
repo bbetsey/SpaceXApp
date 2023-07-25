@@ -11,7 +11,7 @@ import RxSwift
 final class NetworkService {
 
     private let decoder: JSONDecoder
-    private let baseURL: String = "https://api.spacexdata.com/v3/"
+    private let baseURL = "https://api.spacexdata.com/v3/"
 
     init() {
         decoder = JSONDecoder()
