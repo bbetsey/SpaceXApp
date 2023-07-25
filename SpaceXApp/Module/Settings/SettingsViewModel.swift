@@ -31,12 +31,8 @@ final class SettingsViewModel: SettingsViewModelProtocol {
 
     func updateSettings(at setting: Setting, withSelectedIndex selectedIndex: Int) {
         var currentSettings = storageService.fetchSettings()
-        for (index, currentSetting) in currentSettings.enumerated() {
-            if currentSetting.type == setting.type {
-                currentSettings[index].selectedIndex = selectedIndex
-                storageService.setSettings(settings: currentSettings)
-                break
-            }
-        }
+        guard let index = currentSettings.firstIndex(where: { $0.type == setting.type }) else { return }
+        currentSettings[index].selectedIndex = selectedIndex
+        storageService.setSettings(settings: currentSettings)
     }
 }
