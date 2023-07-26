@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A11250A2A717862008B8FCA /* UIColor + appColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1125092A717862008B8FCA /* UIColor + appColor.swift */; };
 		3A5D194B2A644D9C00017053 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194A2A644D9C00017053 /* Error.swift */; };
 		3A5D194D2A644DF100017053 /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194C2A644DF100017053 /* LaunchRequest.swift */; };
 		3A5D194F2A644F2400017053 /* RocketsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194E2A644F2400017053 /* RocketsRequest.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		03C5865C5D62F486A47D31D9 /* Pods-SpaceXApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceXApp.release.xcconfig"; path = "Target Support Files/Pods-SpaceXApp/Pods-SpaceXApp.release.xcconfig"; sourceTree = "<group>"; };
+		3A1125092A717862008B8FCA /* UIColor + appColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + appColor.swift"; sourceTree = "<group>"; };
 		3A5D194A2A644D9C00017053 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		3A5D194C2A644DF100017053 /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
 		3A5D194E2A644F2400017053 /* RocketsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsRequest.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				3ADB329F2A6ED3A600035166 /* UITableViewCell + reuseIdentifier.swift */,
 				3ADB32A92A6FD95B00035166 /* UICollectionViewCell + reuseIdentifier.swift */,
+				3A1125092A717862008B8FCA /* UIColor + appColor.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				3A713CEA2A6C02C0003F371C /* SettingsTableViewCell.swift in Sources */,
 				3A5D194B2A644D9C00017053 /* Error.swift in Sources */,
 				3AC5CA8A2A694B3100CABAA1 /* SettingsTableViewController.swift in Sources */,
+				3A11250A2A717862008B8FCA /* UIColor + appColor.swift in Sources */,
 				3ADB32A62A6FD91B00035166 /* LaunchCollectionViewController.swift in Sources */,
 				3AC5CA872A6857AF00CABAA1 /* StorageService.swift in Sources */,
 				3A5D194F2A644F2400017053 /* RocketsRequest.swift in Sources */,

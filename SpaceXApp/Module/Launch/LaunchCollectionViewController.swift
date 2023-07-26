@@ -65,8 +65,8 @@ private extension LaunchCollectionViewController {
                     cellIdentifier: LaunchCollectionViewCell.reuseIdentifier,
                     cellType: LaunchCollectionViewCell.self
                 )
-            ) { row, launch, cell in
-                cell.configure(with: launch)
+            ) { [weak self] row, launch, cell in
+                cell.configure(with: self?.launchViewModel.prepareLaunchForCell(launch: launch))
             }.disposed(by: disposeBag)
     }
 }
