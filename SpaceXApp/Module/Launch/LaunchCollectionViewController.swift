@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class LaunchCollectionViewController: UICollectionViewController {
+final class LaunchCollectionViewController: UICollectionViewController {
 
     private let launchViewModel: LaunchViewModelProtocol
     private let rocketTitle: String

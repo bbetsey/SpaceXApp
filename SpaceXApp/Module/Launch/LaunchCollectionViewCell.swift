@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LaunchCollectionViewCell: UICollectionViewCell {
+final class LaunchCollectionViewCell: UICollectionViewCell {
 
     private var missionNameLabel: UILabel = {
         let label = UILabel()
