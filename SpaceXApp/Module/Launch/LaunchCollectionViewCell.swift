@@ -87,7 +87,7 @@ private extension LaunchCollectionViewCell {
     func setupUI() {
 
         contentView.backgroundColor = .systemGray5
-        contentView.layer.cornerRadius = 24
+        contentView.layer.cornerRadius = Appearance.cornerRadius
         [labelStackView, rocketImageView, circleImageView, statusImageView].forEach(addSubview)
 
         circleImageView.image = UIImage(systemName: "circle.fill")
@@ -143,5 +143,6 @@ private extension LaunchCollectionViewCell {
         static let rocketTrailing: CGFloat = -24
         static let rocketSize: CGFloat = 30
         static let statusSize: CGFloat = 12
+        static let cornerRadius: CGFloat = 24
     }
 }
