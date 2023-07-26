@@ -16,11 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
 //        window?.rootViewController = UINavigationController(rootViewController: RocketsPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: .none))
-        window?.rootViewController = UINavigationController(rootViewController: SettingsTableViewController())
+        window?.rootViewController = UINavigationController(
+            rootViewController: LaunchCollectionViewController(
+                launchViewModel: LaunchViewModel(rocketID: "falcon9"),
+                rocketTitle: "Falcon 9"
+            )
+        )
         window?.makeKeyAndVisible()
         
         return true
     }
     
 }
-
