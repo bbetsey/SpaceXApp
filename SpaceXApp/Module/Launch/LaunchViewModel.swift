@@ -15,21 +15,34 @@ protocol LaunchViewModelProtocol {
 final class LaunchViewModel: LaunchViewModelProtocol {
     
     private let networkService: NetworkService
-    let launches: Driver<[LaunchModel]>
+    private let rocketID: String
+
+    private var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "d MMMM, yyyy"
+        return formatter
+    }()
+
+    lazy var launches: Driver<[LaunchModel]> = {
+        return networkService.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID))
+            .asDriver(onErrorJustReturn: [])
+            .map { [weak self] launches in
+                launches.compactMap { self?.getLaunchModel(from: $0) }
+            }
+    }()
     
     init(rocketID: String, networkService: NetworkService = NetworkService()) {
         self.networkService = networkService
-        launches = networkService.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID))
-            .asDriver(onErrorJustReturn: [])
-            .map { launches in
-                launches.compactMap { LaunchViewModel.getLaunchModel(from: $0) }
-            }
+        self.rocketID = rocketID
     }
+
+
 }
 
-// MARK: - Static Methods
+// MARK: - Private Methods
 extension LaunchViewModel {
-    static func getLaunchModel(from launch: Launch) -> LaunchModel {
+    private func getLaunchModel(from launch: Launch) -> LaunchModel {
         let missionName = launch.missionName
         let launchDate = formatDate(fromUnixTime: launch.launchDateUnix)
 
@@ -42,11 +55,8 @@ extension LaunchViewModel {
         return LaunchModel(missionName: missionName, launchDate: launchDate, rocketImage: rocketImage)
     }
 
-    static func formatDate(fromUnixTime unixTime: Int) -> String {
+    private func formatDate(fromUnixTime unixTime: Int) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ru_RU")
-        formatter.dateFormat = "d MMMM, yyyy"
-        return formatter.string(from: date)
+        return dateFormatter.string(from: date)
     }
 }
