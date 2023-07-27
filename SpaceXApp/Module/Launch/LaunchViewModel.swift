@@ -36,8 +36,6 @@ final class LaunchViewModel: LaunchViewModelProtocol {
         self.networkService = networkService
         self.rocketID = rocketID
     }
-
-
 }
 
 // MARK: - Private Methods
