@@ -23,6 +23,13 @@ final class LaunchCollectionViewController: UICollectionViewController {
         return layout
     }()
 
+    private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .systemGray
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+
     init(launchViewModel: LaunchViewModelProtocol, rocketTitle: String) {
         self.rocketTitle = rocketTitle
         self.launchViewModel = launchViewModel
@@ -56,15 +63,23 @@ private extension LaunchCollectionViewController {
         collectionView.alwaysBounceVertical = true
         navigationController?.navigationBar.prefersLargeTitles = false
         title = rocketTitle
+
+        collectionView.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        activityIndicator.startAnimating()
     }
 
     func bindViewModel() {
         launchViewModel.launches
+            .do(onNext: { [weak self] _ in
+                self?.activityIndicator.stopAnimating()
+            })
             .drive(
-                collectionView.rx.items(
-                    cellIdentifier: LaunchCollectionViewCell.reuseIdentifier,
-                    cellType: LaunchCollectionViewCell.self
-                )
+                collectionView.rx.items(cellIdentifier: LaunchCollectionViewCell.reuseIdentifier,
+                                        cellType: LaunchCollectionViewCell.self)
             ) { [weak self] row, launch, cell in
                 cell.configure(with: self?.launchViewModel.prepareLaunchForCell(launch: launch))
             }.disposed(by: disposeBag)
