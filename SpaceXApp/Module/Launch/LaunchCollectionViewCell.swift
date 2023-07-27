@@ -12,7 +12,6 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
     private var missionNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: Appearance.missionNameLabelFontSize, weight: .regular)
-        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -21,7 +20,6 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: Appearance.dateLabelFontSize, weight: .regular)
         label.textColor = .systemGray
-        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -40,12 +38,6 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
 
-    private var statusImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -58,12 +50,10 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Public Methods
 extension LaunchCollectionViewCell {
-    func configure(with launch: LaunchModel?) {
-        guard let launch = launch else { return }
+    func configure(with launch: LaunchModel) {
         missionNameLabel.text = launch.missionName
         dateLabel.text = launch.launchDate
         rocketImageView.image = launch.rocketImage
-        statusImageView.image = launch.statusImage
     }
 }
 
@@ -72,7 +62,7 @@ private extension LaunchCollectionViewCell {
     func setupUI() {
         contentView.backgroundColor = .systemGray5
         contentView.layer.cornerRadius = Appearance.cornerRadius
-        [labelStackView, rocketImageView, statusImageView].forEach(addSubview)
+        [labelStackView, rocketImageView].forEach(addSubview)
 
         NSLayoutConstraint.activate([
             labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
@@ -87,13 +77,6 @@ private extension LaunchCollectionViewCell {
             rocketImageView.heightAnchor.constraint(equalToConstant: Appearance.rocketSize),
             rocketImageView.widthAnchor.constraint(equalToConstant: Appearance.rocketSize)
         ])
-
-        NSLayoutConstraint.activate([
-            statusImageView.trailingAnchor.constraint(equalTo: rocketImageView.trailingAnchor),
-            statusImageView.bottomAnchor.constraint(equalTo: rocketImageView.bottomAnchor),
-            statusImageView.widthAnchor.constraint(equalToConstant: Appearance.statusSize),
-            statusImageView.heightAnchor.constraint(equalToConstant: Appearance.statusSize)
-        ])
     }
 }
 
@@ -107,7 +90,6 @@ private extension LaunchCollectionViewCell {
         static let stackHeight: CGFloat = 52
         static let rocketTrailing: CGFloat = -24
         static let rocketSize: CGFloat = 30
-        static let statusSize: CGFloat = 12
         static let cornerRadius: CGFloat = 24
     }
 }

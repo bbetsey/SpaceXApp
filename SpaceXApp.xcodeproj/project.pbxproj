@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A11250C2A72843E008B8FCA /* LaunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A11250B2A72843E008B8FCA /* LaunchModel.swift */; };
 		3A5D194B2A644D9C00017053 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194A2A644D9C00017053 /* Error.swift */; };
 		3A5D194D2A644DF100017053 /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194C2A644DF100017053 /* LaunchRequest.swift */; };
 		3A5D194F2A644F2400017053 /* RocketsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D194E2A644F2400017053 /* RocketsRequest.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		03C5865C5D62F486A47D31D9 /* Pods-SpaceXApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceXApp.release.xcconfig"; path = "Target Support Files/Pods-SpaceXApp/Pods-SpaceXApp.release.xcconfig"; sourceTree = "<group>"; };
+		3A11250B2A72843E008B8FCA /* LaunchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchModel.swift; sourceTree = "<group>"; };
 		3A5D194A2A644D9C00017053 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		3A5D194C2A644DF100017053 /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
 		3A5D194E2A644F2400017053 /* RocketsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsRequest.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				3ADB32A32A6FD83C00035166 /* LaunchViewModel.swift */,
 				3ADB32A52A6FD91B00035166 /* LaunchCollectionViewController.swift */,
 				3ADB32A72A6FD92D00035166 /* LaunchCollectionViewCell.swift */,
+				3A11250B2A72843E008B8FCA /* LaunchModel.swift */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				3ADB32AA2A6FD95B00035166 /* UICollectionViewCell + reuseIdentifier.swift in Sources */,
 				3A84A9B12A63F40A0050EAF4 /* Rocket.swift in Sources */,
 				3A84A9B92A6418D20050EAF4 /* APIRequest.swift in Sources */,
+				3A11250C2A72843E008B8FCA /* LaunchModel.swift in Sources */,
 				3ADB32A42A6FD83C00035166 /* LaunchViewModel.swift in Sources */,
 				3ADEB1912A5DAB9F00537A58 /* RocketsPageViewController.swift in Sources */,
 				3A84A9B32A63FF9C0050EAF4 /* Launch.swift in Sources */,

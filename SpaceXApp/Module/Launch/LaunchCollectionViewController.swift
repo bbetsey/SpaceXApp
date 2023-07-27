@@ -80,9 +80,10 @@ private extension LaunchCollectionViewController {
             .drive(
                 collectionView.rx.items(cellIdentifier: LaunchCollectionViewCell.reuseIdentifier,
                                         cellType: LaunchCollectionViewCell.self)
-            ) { [weak self] row, launch, cell in
-                cell.configure(with: self?.launchViewModel.prepareLaunchForCell(launch: launch))
-            }.disposed(by: disposeBag)
+            ) { row, launch, cell in
+                cell.configure(with: launch)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
