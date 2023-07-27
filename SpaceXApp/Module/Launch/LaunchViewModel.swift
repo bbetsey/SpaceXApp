@@ -21,8 +21,32 @@ final class LaunchViewModel: LaunchViewModelProtocol {
         self.networkService = networkService
         launches = networkService.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID))
             .asDriver(onErrorJustReturn: [])
-            .map({ launches in
-                launches.compactMap { LaunchModel.getLaunchModel(from: $0) }
-            })
+            .map { launches in
+                launches.compactMap { LaunchViewModel.getLaunchModel(from: $0) }
+            }
+    }
+}
+
+// MARK: - Static Methods
+extension LaunchViewModel {
+    static func getLaunchModel(from launch: Launch) -> LaunchModel {
+        let missionName = launch.missionName
+        let launchDate = formatDate(fromUnixTime: launch.launchDateUnix)
+
+        guard let launchStatus = launch.launchSuccess else {
+            let rocketImage = UIImage(named: "unknown")
+            return LaunchModel(missionName: missionName, launchDate: launchDate, rocketImage: rocketImage)
+        }
+
+        let rocketImage = UIImage(named: launchStatus ? "success" : "cancel")
+        return LaunchModel(missionName: missionName, launchDate: launchDate, rocketImage: rocketImage)
+    }
+
+    static func formatDate(fromUnixTime unixTime: Int) -> String {
+        let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "d MMMM, yyyy"
+        return formatter.string(from: date)
     }
 }
