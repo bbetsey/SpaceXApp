@@ -55,7 +55,7 @@ extension LaunchCollectionViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Private Methods
 private extension LaunchCollectionViewController {
     func setupUI() {
-        collectionView!.register(LaunchCollectionViewCell.self, forCellWithReuseIdentifier: LaunchCollectionViewCell.reuseIdentifier)
+        collectionView.register(LaunchCollectionViewCell.self, forCellWithReuseIdentifier: LaunchCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = nil
         collectionView.contentInset = Appearance.contentInset
         collectionView.alwaysBounceVertical = true
