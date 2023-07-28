@@ -43,16 +43,11 @@ final class LaunchViewModel: LaunchViewModelProtocol {
 // MARK: - Private Methods
 extension LaunchViewModel {
     private func getLaunchModel(from launch: Launch) -> LaunchModel {
-        let missionName = launch.missionName
         let launchDate = formatDate(fromUnixTime: launch.launchDateUnix)
-
-        guard let launchStatus = launch.launchSuccess else {
-            let rocketImage = UIImage(named: "unknown")
-            return LaunchModel(missionName: missionName, launchDate: launchDate, rocketImage: rocketImage)
-        }
-
-        let rocketImage = UIImage(named: launchStatus ? "success" : "cancel")
-        return LaunchModel(missionName: missionName, launchDate: launchDate, rocketImage: rocketImage)
+        let rocketImage = launch.launchSuccess == nil
+            ? UIImage(named: "unknown")
+            : UIImage(named: launch.launchSuccess == true ? "success" : "cancel")
+        return LaunchModel(missionName: launch.missionName, launchDate: launchDate, rocketImage: rocketImage)
     }
 
     private func formatDate(fromUnixTime unixTime: Int) -> String {
