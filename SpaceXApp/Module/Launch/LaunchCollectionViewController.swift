@@ -12,7 +12,6 @@ import RxCocoa
 final class LaunchCollectionViewController: UICollectionViewController {
 
     private let launchViewModel: LaunchViewModelProtocol
-    private let rocketTitle: String
     private let disposeBag = DisposeBag()
 
     private var layout: UICollectionViewFlowLayout = {
@@ -30,8 +29,7 @@ final class LaunchCollectionViewController: UICollectionViewController {
         return indicator
     }()
 
-    init(launchViewModel: LaunchViewModelProtocol, rocketTitle: String) {
-        self.rocketTitle = rocketTitle
+    init(launchViewModel: LaunchViewModelProtocol) {
         self.launchViewModel = launchViewModel
         super.init(collectionViewLayout: layout)
     }
@@ -62,7 +60,7 @@ private extension LaunchCollectionViewController {
         collectionView.contentInset = Appearance.contentInset
         collectionView.alwaysBounceVertical = true
         navigationController?.navigationBar.prefersLargeTitles = false
-        title = rocketTitle
+        title = launchViewModel.rocketTitle
 
         collectionView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([

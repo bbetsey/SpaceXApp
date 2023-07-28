@@ -8,7 +8,7 @@
 import UIKit
 
 struct LaunchModel {
-    let missionName: String?
+    let missionName: String
     let launchDate: String
     let rocketImage: UIImage?
 }

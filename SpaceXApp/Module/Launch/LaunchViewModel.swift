@@ -10,16 +10,17 @@ import RxCocoa
 
 protocol LaunchViewModelProtocol {
     var launches: Driver<[LaunchModel]> { get }
+    var rocketTitle: String { get }
 }
 
 final class LaunchViewModel: LaunchViewModelProtocol {
     
     private let networkService: NetworkService
     private let rocketID: String
+    let rocketTitle: String
 
     private var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ru_RU")
         formatter.dateFormat = "d MMMM, yyyy"
         return formatter
     }()
@@ -32,8 +33,9 @@ final class LaunchViewModel: LaunchViewModelProtocol {
             }
     }()
     
-    init(rocketID: String, networkService: NetworkService = NetworkService()) {
+    init(rocketID: String, rocketTitle: String, networkService: NetworkService = NetworkService()) {
         self.networkService = networkService
+        self.rocketTitle = rocketTitle
         self.rocketID = rocketID
     }
 }
