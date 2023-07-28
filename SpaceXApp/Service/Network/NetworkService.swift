@@ -12,10 +12,16 @@ final class NetworkService {
 
     private let decoder: JSONDecoder
     private let baseURL = "https://api.spacexdata.com/v3/"
+    private var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter
+    }()
 
     init() {
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
     }
     
     func get<T: Decodable>(dataType: T.Type, apiRequest: APIRequest) -> Single<T> {

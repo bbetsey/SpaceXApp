@@ -10,6 +10,6 @@ import Foundation
 
 struct Launch: Decodable {
     let missionName: String
-    let launchDateUnix: Int
+    let launchDateUtc: Date
     let launchSuccess: Bool?
 }

@@ -26,7 +26,7 @@ final class LaunchViewModel: LaunchViewModelProtocol {
     }()
 
     lazy var launches: Driver<[LaunchModel]> = {
-        return networkService.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID))
+        networkService.get(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID))
             .asDriver(onErrorJustReturn: [])
             .map { [weak self] launches in
                 launches.compactMap { self?.getLaunchModel(from: $0) }
@@ -41,17 +41,18 @@ final class LaunchViewModel: LaunchViewModelProtocol {
 }
 
 // MARK: - Private Methods
-extension LaunchViewModel {
-    private func getLaunchModel(from launch: Launch) -> LaunchModel {
-        let launchDate = formatDate(fromUnixTime: launch.launchDateUnix)
-        let rocketImage = launch.launchSuccess == nil
-            ? UIImage(named: "unknown")
-            : UIImage(named: launch.launchSuccess == true ? "success" : "cancel")
-        return LaunchModel(missionName: launch.missionName, launchDate: launchDate, rocketImage: rocketImage)
-    }
+private extension LaunchViewModel {
+    func getLaunchModel(from launch: Launch) -> LaunchModel {
+        let launchDate = dateFormatter.string(from: launch.launchDateUtc)
+        let rocketImage: UIImage?
 
-    private func formatDate(fromUnixTime unixTime: Int) -> String {
-        let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
-        return dateFormatter.string(from: date)
+        if launch.launchSuccess == nil {
+            rocketImage = UIImage(named: "unknown")
+        } else if launch.launchSuccess == true {
+            rocketImage = UIImage(named: "success")
+        } else {
+            rocketImage = UIImage(named: "cancel")
+        }
+        return LaunchModel(missionName: launch.missionName, launchDate: launchDate, rocketImage: rocketImage)
     }
 }
