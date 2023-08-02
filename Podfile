@@ -9,5 +9,6 @@ target 'SpaceXApp' do
   pod 'SwiftLint'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'Kingfisher', '~> 7.0'
 
 end

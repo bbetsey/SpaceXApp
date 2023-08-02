@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import Kingfisher
 
 final class NetworkService {
 
@@ -24,9 +25,9 @@ final class NetworkService {
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
     }
     
-    func get<T: Decodable>(dataType: T.Type, apiRequest: APIRequest) -> Single<T> {
-        .create { single in
-            guard let url = URL(string: self.baseURL) else {
+    func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest) -> Single<T> {
+        .create { [weak self] single in
+            guard let self = self, let url = URL(string: self.baseURL) else {
                 single(.failure(NetworkError.invalidURL))
                 return Disposables.create()
             }
@@ -52,6 +53,28 @@ final class NetworkService {
             
             return Disposables.create {
                 task.cancel()
+            }
+        }
+    }
+
+    func fetchImage(from url: String?) -> Single<UIImage?> {
+        .create { single in
+            guard let url = url, let url = URL(string: url) else {
+                single(.failure(NetworkError.invalidURL))
+                return Disposables.create()
+            }
+
+            let resource = KF.ImageResource(downloadURL: url)
+            let task = KingfisherManager.shared.retrieveImage(with: resource) { result in
+                switch result {
+                case .success(let value):
+                    return single(.success(value.image))
+                case .failure(let error):
+                    return single(.failure(error))
+                }
+            }
+            return Disposables.create {
+                task?.cancel()
             }
         }
     }

@@ -18,6 +18,8 @@ struct Rocket: Decodable {
     let costPerLaunch: Int?
     let firstStage: Stage?
     let secondStage: Stage?
+    let flickrImages: [String]?
+    let rocketName: String?
 }
 
 
@@ -43,7 +45,7 @@ extension Rocket {
         let id: String?
         let name: String?
         let kg: Float?
-        let lb: Float??
+        let lb: Float?
     }
 
 }

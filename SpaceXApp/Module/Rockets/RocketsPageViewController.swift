@@ -10,31 +10,24 @@ import RxSwift
 
 final class RocketsPageViewController: UIPageViewController {
 
-    //MARK: - Subviews
-    private var viewOne: RocketViewController = {
-        let vc = RocketViewController()
-        vc.view.backgroundColor = .cyan
-        return vc
-    }()
-
-    private var viewTwo: RocketViewController = {
-        let vc = RocketViewController()
-        vc.view.backgroundColor = .green
-        return vc
-    }()
-
-    private var viewThree: RocketViewController = {
-        let vc = RocketViewController()
-        vc.view?.backgroundColor = .blue
-        return vc
-    }()
-
     // MARK: - Private Properties
     private var views = [RocketViewController]()
+    private let disposeBag = DisposeBag()
+    private let viewModel: RocketsViewModelProtocol
+
+    init(viewModel: RocketsViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        bindViewModel()
     }
 }
 
@@ -42,8 +35,18 @@ final class RocketsPageViewController: UIPageViewController {
 private extension RocketsPageViewController {
     func setup() {
         dataSource = self
-        views = [viewOne, viewTwo, viewThree]
-        setViewControllers([views[0]], direction: .forward, animated: true)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+
+    func bindViewModel() {
+        viewModel.rockets
+            .drive { [weak self] rocketViewControllers in
+                self?.views = rocketViewControllers
+                if let firstVC = self?.views.first {
+                    self?.setViewControllers([firstVC], direction: .forward, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
 
