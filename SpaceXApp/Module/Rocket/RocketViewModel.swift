@@ -59,7 +59,7 @@ extension RocketViewModel {
                 ]
             ),
             RocketSection(
-                title: nil,
+                title: "Data",
                 type: .horizontal,
                 items: [
                     .info(value: "221", description: "Высота"),

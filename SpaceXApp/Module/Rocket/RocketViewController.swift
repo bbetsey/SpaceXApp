@@ -58,10 +58,15 @@ private extension RocketViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
-        collectionView.register(HorizontalCollectionViewCell.self, forCellWithReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier)
-        collectionView.register(HeaderCollectionViewCell.self, forCellWithReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier)
-        collectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: InfoCollectionViewCell.reuseIdentifier)
-        collectionView.register(ButtonCollectionViewCell.self, forCellWithReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier)
+        let cellTypes = [
+            HorizontalCollectionViewCell.self,
+            HeaderCollectionViewCell.self,
+            InfoCollectionViewCell.self,
+            ButtonCollectionViewCell.self
+        ]
+        cellTypes.forEach { collectionView.register($0, forCellWithReuseIdentifier: $0.reuseIdentifier) }
+
+        collectionView.register(HeaderSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
     }
 
     func bindViewModel() {}
@@ -118,11 +123,14 @@ private extension RocketViewController {
     }
 
     func createInfoSection() -> NSCollectionLayoutSection {
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(60))
+        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(26))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [headerElement]
         return section
     }
 

@@ -13,7 +13,7 @@ final class HeaderSupplementaryView: UICollectionReusableView {
 
     private var sectionTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: 22, weight: .medium)
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -40,9 +40,9 @@ private extension HeaderSupplementaryView {
 
         NSLayoutConstraint.activate([
             sectionTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
-            sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            sectionTitle.heightAnchor.constraint(equalToConstant: 36),
+            sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            sectionTitle.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }
