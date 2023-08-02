@@ -166,17 +166,17 @@ private extension RocketViewController {
 
     func setupDataSource() {
         dataSource = UICollectionViewDiffableDataSource<RocketSection, RocketItem>(collectionView: collectionView) {
-            collectionView, indexPath, rocketItem in
+            [weak self] collectionView, indexPath, rocketItem in
 
             let sectionKind = RocketSectionType.allCases[indexPath.section]
 
             switch sectionKind {
             case .header:
-                return self.configure(cellType: HeaderCollectionViewCell.self, at: indexPath, using: rocketItem)
+                return self?.configure(cellType: HeaderCollectionViewCell.self, at: indexPath, using: rocketItem)
             case .horizontal:
-                return self.configure(cellType: HorizontalCollectionViewCell.self, at: indexPath, using: rocketItem)
+                return self?.configure(cellType: HorizontalCollectionViewCell.self, at: indexPath, using: rocketItem)
             case .info:
-                return self.configure(cellType: InfoCollectionViewCell.self, at: indexPath, using: rocketItem)
+                return self?.configure(cellType: InfoCollectionViewCell.self, at: indexPath, using: rocketItem)
             case .button:
                 return collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? ButtonCollectionViewCell ?? UICollectionViewCell()
             }
