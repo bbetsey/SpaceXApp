@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HorizontalCollectionViewCell: UICollectionViewCell {
+final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell {
 
     private var valueLabel: UILabel = {
         let label = UILabel()
@@ -48,7 +48,8 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Public Methods
 extension HorizontalCollectionViewCell {
-    func configure(withValue value: String, andDescription description: String) {
+    func configure(with item: RocketItem) {
+        guard case .info(let value, let description, let uuid) = item else { return}
         valueLabel.text = value
         descriptionLabel.text = description
     }

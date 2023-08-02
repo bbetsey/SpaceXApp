@@ -57,6 +57,16 @@ extension RocketViewModel {
                 items: [
                     .header(title: "Falcon 9", image: UIImage(named: "rocket"))
                 ]
+            ),
+            RocketSection(
+                title: nil,
+                type: .horizontal,
+                items: [
+                    .info(value: "221", description: "Высота"),
+                    .info(value: "237", description: "Длина"),
+                    .info(value: "249", description: "Ширина"),
+                    .info(value: "245", description: "Масса")
+                ]
             )
         ]
     }

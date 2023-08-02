@@ -16,8 +16,7 @@ enum RocketSectionType: Int, CaseIterable {
 
 enum RocketItem: Hashable {
     case header(title: String, image: UIImage?)
-    case horizontal(value: String, description: String)
-    case info(value: String, description: String)
+    case info(value: String, description: String, uuid: UUID = UUID())
     case button
 }
 

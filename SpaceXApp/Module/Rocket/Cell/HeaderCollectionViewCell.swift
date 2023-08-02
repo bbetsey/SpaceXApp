@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HeaderCollectionViewCell: UICollectionViewCell {
+final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
 
     private var rocketImage: UIImageView = {
         let imageView = UIImageView()
@@ -95,7 +95,8 @@ private extension HeaderCollectionViewCell {
 
 // MARK: - Public Methods
 extension HeaderCollectionViewCell {
-    func configure(withTitle title: String, andImage image: UIImage?) {
+    func configure(with item: RocketItem) {
+        guard case .header(let title, let image) = item else { return }
         headerTitle.text = title
         rocketImage.image = image
     }
