@@ -160,7 +160,6 @@ private extension RocketViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         if withHeader {
-            let headerSize = Appearance.sectionHeaderSize
             let headerElement = Appearance.sectionHeaderElement
             section.boundarySupplementaryItems = [headerElement]
         }
