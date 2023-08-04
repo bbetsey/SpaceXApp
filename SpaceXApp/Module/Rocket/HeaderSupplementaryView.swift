@@ -13,7 +13,7 @@ final class HeaderSupplementaryView: UICollectionReusableView {
 
     private var sectionTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -28,7 +28,7 @@ final class HeaderSupplementaryView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure(withTitle title: String) {
+    func configure(withTitle title: String?) {
         sectionTitle.text = title
     }
 }
@@ -40,9 +40,8 @@ private extension HeaderSupplementaryView {
 
         NSLayoutConstraint.activate([
             sectionTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
-            sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
-            sectionTitle.bottomAnchor.constraint(equalTo: bottomAnchor),
+            sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
         ])
     }
 }

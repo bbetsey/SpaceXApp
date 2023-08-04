@@ -13,19 +13,24 @@ final class NetworkService {
 
     private let decoder: JSONDecoder
     private let baseURL = "https://api.spacexdata.com/v3/"
-    private var dateFormatter: DateFormatter = {
+    private var dateFormatterLong: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter
+    }()
+    private var dateFormatterShort: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter
     }()
 
     init() {
         decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        decoder.dateDecodingStrategy = .formatted(dateFormatterLong)
     }
     
-    func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest) -> Single<T> {
+    func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest, dateFormatterType: DateFormatterType) -> Single<T> {
         .create { [weak self] single in
             guard let self = self, let url = URL(string: self.baseURL) else {
                 single(.failure(NetworkError.invalidURL))
@@ -43,6 +48,12 @@ final class NetworkService {
                     return
                 }
                 do {
+                    switch dateFormatterType {
+                    case .long:
+                        self.decoder.dateDecodingStrategy = .formatted(self.dateFormatterLong)
+                    case .short:
+                        self.decoder.dateDecodingStrategy = .formatted(self.dateFormatterShort)
+                    }
                     let dataResponse = try self.decoder.decode(T.self, from: data)
                     single(.success(dataResponse))
                 } catch let error {
@@ -77,5 +88,13 @@ final class NetworkService {
                 task?.cancel()
             }
         }
+    }
+}
+
+// MARK: - Public Methods
+extension NetworkService {
+    enum DateFormatterType {
+        case long
+        case short
     }
 }

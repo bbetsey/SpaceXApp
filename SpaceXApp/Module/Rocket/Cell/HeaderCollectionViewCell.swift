@@ -2,7 +2,7 @@
 //  HeaderCollectionViewCell.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 01.08.23.
+//  Created by Anton Tropin on 01.08.23.
 //
 
 import UIKit
@@ -27,7 +27,7 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
 
     private var headerTitle: UILabel = {
         let title = UILabel()
-        title.font = .systemFont(ofSize: 28, weight: .medium)
+        title.font = .systemFont(ofSize: 24, weight: .medium)
         title.textColor = .label
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
@@ -37,7 +37,7 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
         let configuration = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
         let image = UIImage(systemName: "gearshape", withConfiguration: configuration)
         let button = UIButton()
-        button.tintColor = .label
+        button.tintColor = .secondaryLabel
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -74,13 +74,13 @@ private extension HeaderCollectionViewCell {
             rocketImage.topAnchor.constraint(equalTo: topAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: trailingAnchor),
             rocketImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            rocketImage.heightAnchor.constraint(equalToConstant: contentView.frame.height - 70),
+            rocketImage.heightAnchor.constraint(equalToConstant: contentView.frame.height - 54),
         ])
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 48),
             stackView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 32),
             stackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32),
+            stackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
             stackView.heightAnchor.constraint(equalToConstant: 34)
         ])
 

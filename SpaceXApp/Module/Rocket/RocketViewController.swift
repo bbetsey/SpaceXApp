@@ -10,9 +10,12 @@ import RxSwift
 
 final class RocketViewController: UIViewController {
 
+    typealias RocketDataSource = UICollectionViewDiffableDataSource<RocketSection, RocketItem>
+
     private let viewModel: RocketViewModelProtocol
     private let disposeBag = DisposeBag()
-    private var dataSource: UICollectionViewDiffableDataSource<RocketSection, RocketItem>!
+    private var dataSource: RocketDataSource!
+    private var sections = [RocketSection]()
 
     private lazy var collectionView: UICollectionView = {
         let layout = createCollectionViewLayout()
@@ -24,8 +27,11 @@ final class RocketViewController: UIViewController {
         return collectionView
     }()
 
-    private lazy var sections: [RocketSection] = {
-        viewModel.getSections()
+    private var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .systemGray4
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
     }()
 
     init(viewModel: RocketViewModelProtocol) {
@@ -41,15 +47,31 @@ final class RocketViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupDataSource()
-        applySnapshot()
+        bindViewModel()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.updateSettings()
     }
 }
 
 // MARK: - Private Methods
 private extension RocketViewController {
+
+    func bindViewModel() {
+        viewModel.sections
+            .drive(onNext: { [weak self] sections in
+                self?.sections = sections
+                self?.activityIndicator.stopAnimating()
+                self?.applySnapshot()
+            })
+            .disposed(by: disposeBag)
+    }
+
     func setupUI() {
         view.backgroundColor = .systemBackground
-        view.addSubview(collectionView)
+        [collectionView, activityIndicator].forEach(view.addSubview)
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -58,6 +80,12 @@ private extension RocketViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
 
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        activityIndicator.startAnimating()
+
         let cellTypes = [
             HorizontalCollectionViewCell.self,
             HeaderCollectionViewCell.self,
@@ -65,11 +93,8 @@ private extension RocketViewController {
             ButtonCollectionViewCell.self
         ]
         cellTypes.forEach { collectionView.register($0, forCellWithReuseIdentifier: $0.reuseIdentifier) }
-
         collectionView.register(HeaderSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
     }
-
-    func bindViewModel() {}
 
     @objc func openSettings() {}
 
@@ -80,41 +105,43 @@ private extension RocketViewController {
     func createCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout {
             [weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let self = self else { return nil }
 
-            let sectionKind = RocketSectionType.allCases[sectionIndex]
+            let sectionKind = self.sections[sectionIndex].type
             switch sectionKind {
             case .header:
-                return self?.createHeaderViewLayout()
+                return self.createHeaderViewLayout()
             case .horizontal:
-                return self?.createHorizontalSection()
+                return self.createHorizontalSection()
             case .info:
-                return self?.createInfoSection()
+                guard self.sections[sectionIndex].title != nil else {
+                    return self.createInfoSection(withHeader: false)
+                }
+                return self.createInfoSection(withHeader: true)
             case .button:
-                return self?.createButtonSection()
+                return self.createButtonSection()
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 16
+        config.interSectionSpacing = Appearance.interSectionSpacing
         layout.configuration = config
         return layout
     }
 
     func createHeaderViewLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 0, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(view.frame.height / 2))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height / 2))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         return section
     }
 
     func createHorizontalSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(108), heightDimension: .absolute(96))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 12, bottom: 0, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(3.2), heightDimension: .absolute(96))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(108), heightDimension: .absolute(96))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 20, bottom: 0, trailing: 0)
@@ -122,26 +149,26 @@ private extension RocketViewController {
         return section
     }
 
-    func createInfoSection() -> NSCollectionLayoutSection {
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(60))
-        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+    func createInfoSection(withHeader: Bool) -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(26))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(46))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.boundarySupplementaryItems = [headerElement]
+        if withHeader {
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
+            let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+            section.boundarySupplementaryItems = [headerElement]
+        }
         return section
     }
 
     func createButtonSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 0, bottom: 0, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(view.frame.height / 2))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(88))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         return section
     }
 
@@ -165,20 +192,26 @@ private extension RocketViewController {
     }
 
     func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<RocketSection, RocketItem>(collectionView: collectionView) {
+        dataSource = RocketDataSource(collectionView: collectionView) {
             [weak self] collectionView, indexPath, rocketItem in
+            guard let self = self else { return UICollectionViewCell() }
 
-            let sectionKind = RocketSectionType.allCases[indexPath.section]
-
+            let sectionKind = self.sections[indexPath.section].type
             switch sectionKind {
             case .header:
-                return self?.configure(cellType: HeaderCollectionViewCell.self, at: indexPath, using: rocketItem)
+                return self.configure(cellType: HeaderCollectionViewCell.self, at: indexPath, using: rocketItem)
             case .horizontal:
-                return self?.configure(cellType: HorizontalCollectionViewCell.self, at: indexPath, using: rocketItem)
+                return self.configure(cellType: HorizontalCollectionViewCell.self, at: indexPath, using: rocketItem)
             case .info:
-                return self?.configure(cellType: InfoCollectionViewCell.self, at: indexPath, using: rocketItem)
+                return self.configure(cellType: InfoCollectionViewCell.self, at: indexPath, using: rocketItem)
             case .button:
-                return collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath) as? ButtonCollectionViewCell ?? UICollectionViewCell()
+                return collectionView.dequeueReusableCell(
+                    withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier,
+                    for: indexPath
+                ) as? ButtonCollectionViewCell ?? {
+                    print("Ошибка при создании ButtonCollectionViewCell")
+                    return UICollectionViewCell()
+                }()
             }
         }
 
@@ -187,11 +220,17 @@ private extension RocketViewController {
                 return nil
             }
             let section = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
-            guard let title = section?.title else { return nil }
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HeaderSupplementaryView
-            view?.configure(withTitle: title)
+            view?.configure(withTitle: section?.title)
             return view
         }
         collectionView.dataSource = dataSource
+    }
+}
+
+// MARK: Private Structure
+extension RocketViewController {
+    struct Appearance {
+        static let interSectionSpacing: CGFloat = 32
     }
 }

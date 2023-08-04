@@ -18,7 +18,7 @@ final class RocketsViewModel: RocketsViewModelProtocol {
     private let networkService: NetworkService
 
     lazy var rockets: Driver<[RocketViewController]> = {
-        networkService.fetchData(dataType: [Rocket].self, apiRequest: RocketsRequest())
+        networkService.fetchData(dataType: [Rocket].self, apiRequest: RocketsRequest(), dateFormatterType: .short)
             .asDriver(onErrorJustReturn: [])
             .map { [weak self] rockets in
                 rockets.compactMap { self?.getRocketViewController(from: $0) }

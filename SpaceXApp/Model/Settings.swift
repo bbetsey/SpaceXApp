@@ -42,7 +42,7 @@ enum SettingType: Codable {
         case .weight:
             return "Масса"
         case .payloadWieght:
-            return "Полезная нагрузка"
+            return "Нагрузка"
         }
     }
     

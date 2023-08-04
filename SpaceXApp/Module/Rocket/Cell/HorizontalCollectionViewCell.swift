@@ -2,7 +2,7 @@
 //  ParametersCollectionViewCell.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 30.07.23.
+//  Created by Anton Tropin on 30.07.23.
 //
 
 import UIKit
@@ -20,7 +20,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
 
     private var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .light)
+        label.font = .systemFont(ofSize: 12, weight: .light)
         label.textColor = .secondaryLabel
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
 // MARK: - Public Methods
 extension HorizontalCollectionViewCell {
     func configure(with item: RocketItem) {
-        guard case .info(let value, let description, let uuid) = item else { return}
+        guard case .info(let value, let description, _) = item else { return}
         valueLabel.text = value
         descriptionLabel.text = description
     }
@@ -63,7 +63,7 @@ private extension HorizontalCollectionViewCell {
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 3),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 2),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),

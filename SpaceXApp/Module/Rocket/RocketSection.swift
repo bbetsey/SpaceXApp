@@ -2,7 +2,7 @@
 //  RocketModel.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 31.07.23.
+//  Created by Anton Tropin on 31.07.23.
 //
 
 import UIKit
@@ -16,7 +16,7 @@ enum RocketSectionType: Int, CaseIterable {
 
 enum RocketItem: Hashable {
     case header(title: String, image: UIImage?)
-    case info(value: String, description: String, uuid: UUID = UUID())
+    case info(value: String?, description: String?, uuid: UUID = UUID())
     case button
 }
 
