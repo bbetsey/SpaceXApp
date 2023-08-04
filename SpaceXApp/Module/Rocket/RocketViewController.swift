@@ -93,11 +93,12 @@ private extension RocketViewController {
             ButtonCollectionViewCell.self
         ]
         cellTypes.forEach { collectionView.register($0, forCellWithReuseIdentifier: $0.reuseIdentifier) }
-        collectionView.register(HeaderSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
+        collectionView.register(
+            HeaderSupplementaryView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier
+        )
     }
-
-    @objc func openSettings() {}
-
 }
 
 // MARK: - CollectionViewCompositionalLayout
@@ -129,44 +130,47 @@ private extension RocketViewController {
     }
 
     func createHeaderViewLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = Appearance.headerItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(view.frame.height / 2))
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(view.frame.height / 2)
+        )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
 
     func createHorizontalSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = Appearance.horizontalItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 12, bottom: 0, trailing: 0)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(108), heightDimension: .absolute(96))
+        item.contentInsets = Appearance.horizontalItemInsets
+        let groupSize = Appearance.horizontalGroupSize
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets.init(top: 0, leading: 20, bottom: 0, trailing: 0)
+        section.contentInsets = Appearance.horizontalSectionInsets
         section.orthogonalScrollingBehavior = .continuous
         return section
     }
 
     func createInfoSection(withHeader: Bool) -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = Appearance.infoItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(46))
+        let groupSize = Appearance.infoGroupSize
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         if withHeader {
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50))
-            let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+            let headerSize = Appearance.sectionHeaderSize
+            let headerElement = Appearance.sectionHeaderElement
             section.boundarySupplementaryItems = [headerElement]
         }
         return section
     }
 
     func createButtonSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let itemSize = Appearance.buttonItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(88))
+        let groupSize = Appearance.buttonGroupSize
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         return section
@@ -215,12 +219,14 @@ private extension RocketViewController {
             }
         }
 
-        dataSource?.supplementaryViewProvider = { (collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
-            guard kind == UICollectionView.elementKindSectionHeader else {
-                return nil
-            }
+        dataSource?.supplementaryViewProvider = {
+            (collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
+            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
             let section = self.dataSource?.snapshot().sectionIdentifiers[indexPath.section]
-            let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier, for: indexPath) as? HeaderSupplementaryView
+            let view = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
+                for: indexPath) as? HeaderSupplementaryView
             view?.configure(withTitle: section?.title)
             return view
         }
@@ -228,9 +234,60 @@ private extension RocketViewController {
     }
 }
 
-// MARK: Private Structure
-extension RocketViewController {
+// MARK: Appearance Structure
+private extension RocketViewController {
     struct Appearance {
         static let interSectionSpacing: CGFloat = 32
+
+        // HEADER Section
+        static let headerItemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+
+        // HORIZONTAL Section
+        static let horizontalItemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        static let horizontalGroupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(108),
+            heightDimension: .absolute(96)
+        )
+        static let horizontalItemInsets = NSDirectionalEdgeInsets
+            .init(top: 0, leading: 12, bottom: 0, trailing: 0)
+        static let horizontalSectionInsets = NSDirectionalEdgeInsets
+            .init(top: 0, leading: 20, bottom: 0, trailing: 0)
+
+        // INFO Section
+        static let infoItemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        static let infoGroupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(46)
+        )
+
+        // BUTTON Section
+        static let buttonItemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        static let buttonGroupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(88)
+        )
+
+        // SECTION HEADER
+        static let sectionHeaderSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(50)
+        )
+        static let sectionHeaderElement = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: Appearance.sectionHeaderSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .topLeading
+        )
     }
 }

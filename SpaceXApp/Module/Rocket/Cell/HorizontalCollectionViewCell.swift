@@ -11,8 +11,8 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
 
     private var valueLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .label
+        label.font = Appearance.valueLabelFont
+        label.textColor = Appearance.valueTextColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -20,8 +20,8 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
 
     private var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 12, weight: .light)
-        label.textColor = .secondaryLabel
+        label.font = Appearance.descriptionLabelFont
+        label.textColor = Appearance.descriptionTextColor
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -31,7 +31,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
         let stackView = UIStackView(arrangedSubviews: [valueLabel, descriptionLabel])
         stackView.distribution = .fill
         stackView.axis = .vertical
-        stackView.spacing = 3
+        stackView.spacing = Appearance.stackSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -58,15 +58,31 @@ extension HorizontalCollectionViewCell {
 // MARK: - Private Methods
 private extension HorizontalCollectionViewCell {
     func setupUI() {
-        contentView.backgroundColor = .systemGray6
-        contentView.layer.cornerRadius = 28
+        contentView.backgroundColor = Appearance.contentViewColor
+        contentView.layer.cornerRadius = Appearance.contentViewCornerRadius
         addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 2),
+            stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Appearance.stackCenterY),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.stackTrailing),
         ])
+    }
+}
+
+// MARK: - Appearance Structure
+private extension HorizontalCollectionViewCell {
+    struct Appearance {
+        static let valueLabelFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
+        static let valueTextColor: UIColor = .label
+        static let descriptionLabelFont: UIFont = .systemFont(ofSize: 12, weight: .light)
+        static let descriptionTextColor: UIColor = .secondaryLabel
+        static let stackSpacing: CGFloat = 3
+        static let stackCenterY: CGFloat = 2
+        static let stackLeading: CGFloat = 8
+        static let stackTrailing: CGFloat = -8
+        static let contentViewCornerRadius: CGFloat = 28
+        static let contentViewColor: UIColor = .systemGray6
     }
 }

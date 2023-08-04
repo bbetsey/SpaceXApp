@@ -13,8 +13,8 @@ final class HeaderSupplementaryView: UICollectionReusableView {
 
     private var sectionTitle: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .label
+        label.font = Appearance.titleFont
+        label.textColor = Appearance.titleColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,21 +27,33 @@ final class HeaderSupplementaryView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func configure(withTitle title: String?) {
-        sectionTitle.text = title
-    }
 }
 
 // MARK: - Private Methods
 private extension HeaderSupplementaryView {
     func setupUI() {
         addSubview(sectionTitle)
-
         NSLayoutConstraint.activate([
             sectionTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
-            sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.titleLeading),
+            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.titleTrailing),
         ])
+    }
+}
+
+// MARK: - Public Methods
+extension HeaderSupplementaryView {
+    func configure(withTitle title: String?) {
+        sectionTitle.text = title
+    }
+}
+
+// MARK: - Appearance Structure
+private extension HeaderSupplementaryView {
+    struct Appearance {
+        static let titleFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
+        static let titleColor: UIColor = .label
+        static let titleLeading: CGFloat = 32
+        static let titleTrailing: CGFloat = -32
     }
 }

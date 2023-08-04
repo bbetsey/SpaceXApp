@@ -40,6 +40,7 @@
 		3ADEB1832A5DAAD200537A58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ADEB1812A5DAAD200537A58 /* LaunchScreen.storyboard */; };
 		3ADEB1912A5DAB9F00537A58 /* RocketsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADEB1902A5DAB9F00537A58 /* RocketsPageViewController.swift */; };
 		3AED9B3F2A7D327D00961CAA /* Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AED9B3E2A7D327D00961CAA /* Measure.swift */; };
+		3AED9B412A7D7F4100961CAA /* Rocket + Measure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AED9B402A7D7F4100961CAA /* Rocket + Measure.swift */; };
 		70262EC783E400FF55BF42A6 /* Pods_SpaceXApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2998C77EE6322E63A121EF1 /* Pods_SpaceXApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		3ADEB1842A5DAAD200537A58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3ADEB1902A5DAB9F00537A58 /* RocketsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketsPageViewController.swift; sourceTree = "<group>"; };
 		3AED9B3E2A7D327D00961CAA /* Measure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measure.swift; sourceTree = "<group>"; };
+		3AED9B402A7D7F4100961CAA /* Rocket + Measure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rocket + Measure.swift"; sourceTree = "<group>"; };
 		61E973B7454AA391F7EF5D27 /* Pods-SpaceXApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpaceXApp.debug.xcconfig"; path = "Target Support Files/Pods-SpaceXApp/Pods-SpaceXApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E2998C77EE6322E63A121EF1 /* Pods_SpaceXApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpaceXApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -112,7 +114,6 @@
 				3A0E6F952A76F13E004F6BC3 /* HorizontalCollectionViewCell.swift */,
 				3A2D657D2A7A9DF000310543 /* InfoCollectionViewCell.swift */,
 				3A35A9952A7AE7D4009F4490 /* ButtonCollectionViewCell.swift */,
-				3A35A9972A7AEA60009F4490 /* ConfigurableCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -161,6 +162,7 @@
 			children = (
 				3ADB329F2A6ED3A600035166 /* UITableViewCell + reuseIdentifier.swift */,
 				3ADB32A92A6FD95B00035166 /* UICollectionViewCell + reuseIdentifier.swift */,
+				3AED9B402A7D7F4100961CAA /* Rocket + Measure.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -279,6 +281,7 @@
 		3AED9B3D2A7D326900961CAA /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				3A35A9972A7AEA60009F4490 /* ConfigurableCell.swift */,
 				3AED9B3E2A7D327D00961CAA /* Measure.swift */,
 			);
 			path = Protocol;
@@ -447,6 +450,7 @@
 				3A84A9B32A63FF9C0050EAF4 /* Launch.swift in Sources */,
 				3ADEB1772A5DAAD100537A58 /* AppDelegate.swift in Sources */,
 				3ADB32A82A6FD92D00035166 /* LaunchCollectionViewCell.swift in Sources */,
+				3AED9B412A7D7F4100961CAA /* Rocket + Measure.swift in Sources */,
 				3AC5CA842A66E1E400CABAA1 /* RocketViewController.swift in Sources */,
 				3A5D194D2A644DF100017053 /* LaunchRequest.swift in Sources */,
 				3A0E6F962A76F13E004F6BC3 /* HorizontalCollectionViewCell.swift in Sources */,

@@ -21,7 +21,7 @@ final class LaunchViewModel: LaunchViewModelProtocol {
 
     private var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMMM, yyyy"
+        formatter.dateFormat = Appearance.dateFormat
         return formatter
     }()
 
@@ -47,12 +47,22 @@ private extension LaunchViewModel {
         let rocketImage: UIImage?
 
         if launch.launchSuccess == nil {
-            rocketImage = UIImage(named: "unknown")
+            rocketImage = UIImage(named: Appearance.unknownResultImageName)
         } else if launch.launchSuccess == true {
-            rocketImage = UIImage(named: "success")
+            rocketImage = UIImage(named: Appearance.successResultImageName)
         } else {
-            rocketImage = UIImage(named: "cancel")
+            rocketImage = UIImage(named: Appearance.cancelResultImageName)
         }
         return LaunchModel(missionName: launch.missionName, launchDate: launchDate, rocketImage: rocketImage)
+    }
+}
+
+// MARK: - Appearance Structure
+private extension LaunchViewModel {
+    struct Appearance {
+        static let dateFormat = "d MMMM, yyyy"
+        static let unknownResultImageName = "unknown"
+        static let successResultImageName = "success"
+        static let cancelResultImageName = "cancel"
     }
 }

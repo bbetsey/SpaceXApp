@@ -11,11 +11,11 @@ final class ButtonCollectionViewCell: UICollectionViewCell {
 
     private var launchButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .systemGray6
-        button.setTitleColor(.label, for: .normal)
-        button.setTitle("Посмотреть запуски", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
-        button.layer.cornerRadius = 12
+        button.backgroundColor = Appearance.buttonColor
+        button.setTitleColor(Appearance.buttonTitleColor, for: .normal)
+        button.setTitle(Appearance.buttonTitle, for: .normal)
+        button.titleLabel?.font = Appearance.buttonTitleFont
+        button.layer.cornerRadius = Appearance.buttonCornerRadius
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -37,9 +37,23 @@ private extension ButtonCollectionViewCell {
 
         NSLayoutConstraint.activate([
             launchButton.topAnchor.constraint(equalTo: topAnchor),
-            launchButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32),
-            launchButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            launchButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            launchButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Appearance.buttonBottom),
+            launchButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.buttonLeading),
+            launchButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.buttonTrailing),
         ])
+    }
+}
+
+// MARK: - Appearance Structure
+private extension ButtonCollectionViewCell {
+    struct Appearance {
+        static let buttonTitle = "Посмотреть запуски"
+        static let buttonTitleColor: UIColor = .label
+        static let buttonTitleFont: UIFont = .systemFont(ofSize: 18, weight: .medium)
+        static let buttonColor: UIColor = .systemGray6
+        static let buttonCornerRadius: CGFloat = 12
+        static let buttonBottom: CGFloat = -32
+        static let buttonLeading: CGFloat = 32
+        static let buttonTrailing: CGFloat = -32
     }
 }

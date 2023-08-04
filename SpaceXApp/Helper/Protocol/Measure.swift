@@ -13,18 +13,3 @@ protocol Measure {
     var meters: Float { get }
     var feet: Float { get }
 }
-
-extension Rocket.Mass: Measure {
-    var meters: Float { 0 }
-    var feet: Float { 0 }
-}
-
-extension Rocket.Size: Measure {
-    var kg: Float { 0 }
-    var lb: Float { 0 }
-}
-
-extension Rocket.PayloadWeight: Measure {
-    var meters: Float { 0 }
-    var feet: Float { 0 }
-}

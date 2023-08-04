@@ -24,7 +24,7 @@ final class RocketViewModel: RocketViewModelProtocol {
 
     private var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = Constants.dateFormat
+        formatter.dateFormat = Appearance.dateFormat
         return formatter
     }()
 
@@ -87,10 +87,14 @@ private extension RocketViewModel {
 
     func addStages(to sections: inout [RocketSection]) {
         if let firstStage = rocket.firstStage {
-            sections.append(RocketSection(title: Constants.firstStageTitle, type: .info, items: getStage(stage: firstStage)))
+            sections.append(
+                RocketSection(title: Appearance.firstStageTitle, type: .info, items: getStage(stage: firstStage))
+            )
         }
         if let secondStage = rocket.secondStage {
-            sections.append(RocketSection(title: Constants.secondStageTitle, type: .info, items: getStage(stage: secondStage)))
+            sections.append(
+                RocketSection(title: Appearance.secondStageTitle, type: .info, items: getStage(stage: secondStage))
+            )
         }
     }
 
@@ -132,34 +136,40 @@ private extension RocketViewModel {
 
     func getGeneralInfo() -> [RocketItem] {
         [
-            .info(value: dateFormatter.string(from: rocket.firstFlight), description: "Первый запуск"),
-            .info(value: rocket.country, description: "Страна"),
-            .info(value: formatCost(rocket.costPerLaunch), description: "Стоимость запуска"),
+            .info(value: dateFormatter.string(from: rocket.firstFlight), description: Appearance.generalTitle1),
+            .info(value: rocket.country, description: Appearance.generalTitle2),
+            .info(value: formatCost(rocket.costPerLaunch), description: Appearance.generalTitle3),
         ]
     }
 
     func getStage(stage: Rocket.Stage) -> [RocketItem] {
         [
-            .info(value: "\(stage.engines)", description: "Количество двигателей"),
-            .info(value: "\(stage.fuelAmountTons) \(Constants.fuelUnit)", description: "Количество топлива"),
-            .info(value: "\(stage.burnTimeSec ?? 0) \(Constants.timeUnit)", description: "Время сгорания"),
+            .info(value: "\(stage.engines)", description: Appearance.stageTitle1),
+            .info(value: "\(stage.fuelAmountTons) \(Appearance.fuelUnit)", description: Appearance.stageTitle2),
+            .info(value: "\(stage.burnTimeSec ?? 0) \(Appearance.timeUnit)", description: Appearance.stageTitle3),
         ]
     }
 
     private func formatCost(_ cost: Int) -> String {
-        return "$\(cost / Constants.millionMultiplier) млн"
+        return "$\(cost / Appearance.millionMultiplier) млн"
     }
 
 }
 
 // MARK: - Private Methods
 private extension RocketViewModel {
-    struct Constants {
+    struct Appearance {
         static let dateFormat = "d MMMM, yyyy"
         static let millionMultiplier = 1000000
         static let firstStageTitle = "ПЕРВАЯ СТУПЕНЬ"
         static let secondStageTitle = "ВТОРАЯ СТУПЕНЬ"
         static let fuelUnit = "ton"
         static let timeUnit = "sec"
+        static let generalTitle1 = "Первый запуск"
+        static let generalTitle2 = "Страна"
+        static let generalTitle3 = "Стоимость запуска"
+        static let stageTitle1 = "Количество двигателей"
+        static let stageTitle2 = "Количество топлива"
+        static let stageTitle3 = "Время сгорания"
     }
 }

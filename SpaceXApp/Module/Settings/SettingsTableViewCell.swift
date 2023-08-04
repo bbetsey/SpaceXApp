@@ -11,17 +11,16 @@ final class SettingsTableViewCell: UITableViewCell {
 
     private var label: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Appearance.labelFontSize, weight: .medium)
+        label.font = Appearance.labelFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private lazy var settingControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["", ""])
-        let font = UIFont.systemFont(ofSize: Appearance.controlFontSize, weight: .medium)
         control.selectedSegmentTintColor = .white
-        control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.black], for: .selected)
-        control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.lightGray], for: .normal)
+        control.setTitleTextAttributes(Appearance.controlSelected, for: .selected)
+        control.setTitleTextAttributes(Appearance.controlNormal, for: .normal)
         control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
@@ -78,16 +77,24 @@ extension SettingsTableViewCell {
     }
 }
 
-// MARK: - Appearance
+// MARK: - Appearance Structure
 private extension SettingsTableViewCell {
     struct Appearance {
+        static let labelFont: UIFont = .systemFont(ofSize: 15, weight: .medium)
         static let labelLeading: CGFloat = 28
         static let labelTrailing: CGFloat = -16
         static let labelHeight: CGFloat = 35
-        static let labelFontSize: CGFloat = 15
         static let controlTrailing: CGFloat = -28
         static let controlHeight: CGFloat = 35
         static let controlWidth: CGFloat = 115
-        static let controlFontSize: CGFloat = 15
+        static let controlFont: UIFont = .systemFont(ofSize: 15, weight: .medium)
+        static let controlSelected: [NSAttributedString.Key: Any] = [
+            .font: Appearance.controlFont,
+            .foregroundColor: UIColor.black
+        ]
+        static let controlNormal: [NSAttributedString.Key: Any] = [
+            .font: Appearance.controlFont,
+            .foregroundColor: UIColor.black
+        ]
     }
 }

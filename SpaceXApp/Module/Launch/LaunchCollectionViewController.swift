@@ -17,8 +17,8 @@ final class LaunchCollectionViewController: UICollectionViewController {
     private var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 64
-        layout.minimumLineSpacing = 16
+        layout.minimumInteritemSpacing = Appearance.minimumInteritemSpacing
+        layout.minimumLineSpacing = Appearance.minimumLineSpacing
         return layout
     }()
 
@@ -85,9 +85,11 @@ private extension LaunchCollectionViewController {
     }
 }
 
-// MARK: - Appearance
+// MARK: - Appearance Structure
 private extension LaunchCollectionViewController {
     struct Appearance {
+        static let minimumInteritemSpacing: CGFloat = 64
+        static let minimumLineSpacing: CGFloat = 16
         static let rowHeight: CGFloat = 100
         static let rowLeftMargin: CGFloat = 32
         static let contentInset = UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)

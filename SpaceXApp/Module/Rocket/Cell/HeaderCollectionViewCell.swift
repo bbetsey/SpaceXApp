@@ -19,25 +19,25 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
 
     private var headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.layer.cornerRadius = 32
+        view.backgroundColor = Appearance.headerColor
+        view.layer.cornerRadius = Appearance.headerCornerRadius
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private var headerTitle: UILabel = {
         let title = UILabel()
-        title.font = .systemFont(ofSize: 24, weight: .medium)
-        title.textColor = .label
+        title.font = Appearance.headerTitleFont
+        title.textColor = Appearance.headerTitleColor
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
     }()
 
     private var settingsButton: UIButton = {
-        let configuration = UIImage.SymbolConfiguration(pointSize: 24, weight: .medium)
-        let image = UIImage(systemName: "gearshape", withConfiguration: configuration)
+        let configuration = UIImage.SymbolConfiguration(pointSize: Appearance.settingImagePointSize, weight: .medium)
+        let image = UIImage(systemName: Appearance.settingImageName, withConfiguration: configuration)
         let button = UIButton()
-        button.tintColor = .secondaryLabel
+        button.tintColor = Appearance.settingButtonTintColor
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -48,7 +48,7 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
         stack.axis = .horizontal
         stack.distribution = .fill
         stack.alignment = .fill
-        stack.spacing = 16
+        stack.spacing = Appearance.stackSpacing
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -74,18 +74,18 @@ private extension HeaderCollectionViewCell {
             rocketImage.topAnchor.constraint(equalTo: topAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: trailingAnchor),
             rocketImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            rocketImage.heightAnchor.constraint(equalToConstant: contentView.frame.height - 54),
+            rocketImage.heightAnchor.constraint(equalToConstant: contentView.frame.height - Appearance.imageHightDifference),
         ])
 
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 32),
-            stackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -32),
+            stackView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: Appearance.stackLeading),
+            stackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: Appearance.stackTrailing),
             stackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor),
-            stackView.heightAnchor.constraint(equalToConstant: 34)
+            stackView.heightAnchor.constraint(equalToConstant: Appearance.stackHeight)
         ])
 
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: -30),
+            headerView.topAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: Appearance.headerViewTop),
             headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -100,4 +100,24 @@ extension HeaderCollectionViewCell {
         headerTitle.text = title
         rocketImage.image = image
     }
+}
+
+// MARK: - Appearance Structure
+private extension HeaderCollectionViewCell {
+    struct Appearance {
+        static let imageHightDifference: CGFloat = 54
+        static let headerViewTop: CGFloat = -30
+        static let headerCornerRadius: CGFloat = 32
+        static let headerTitleFont: UIFont = .systemFont(ofSize: 24, weight: .medium)
+        static let headerTitleColor: UIColor = .label
+        static let headerColor: UIColor = .systemBackground
+        static let settingImagePointSize: CGFloat = 24
+        static let settingImageName = "gearshape"
+        static let settingButtonTintColor: UIColor = .secondaryLabel
+        static let stackSpacing: CGFloat = 16
+        static let stackLeading: CGFloat = 32
+        static let stackTrailing: CGFloat = -32
+        static let stackHeight: CGFloat = 34
+    }
+
 }

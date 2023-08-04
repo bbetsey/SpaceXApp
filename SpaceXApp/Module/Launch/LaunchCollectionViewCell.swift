@@ -11,15 +11,15 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
 
     private var missionNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Appearance.missionNameLabelFontSize, weight: .regular)
+        label.font = Appearance.missionLabelFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Appearance.dateLabelFontSize, weight: .regular)
-        label.textColor = .systemGray
+        label.font = Appearance.dateLabelFont
+        label.textColor = Appearance.dateLabelColor
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -80,11 +80,12 @@ private extension LaunchCollectionViewCell {
     }
 }
 
-// MARK: - Appearance
+// MARK: - Appearance Structure
 private extension LaunchCollectionViewCell {
     struct Appearance {
-        static let missionNameLabelFontSize: CGFloat = 20
-        static let dateLabelFontSize: CGFloat = 16
+        static let missionLabelFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
+        static let dateLabelFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
+        static let dateLabelColor: UIColor = .systemGray
         static let stackLeading: CGFloat = 24
         static let stackTraling: CGFloat = -16
         static let stackHeight: CGFloat = 52
