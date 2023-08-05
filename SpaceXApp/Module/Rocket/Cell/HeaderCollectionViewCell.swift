@@ -105,7 +105,7 @@ extension HeaderCollectionViewCell {
 // MARK: - Appearance Structure
 private extension HeaderCollectionViewCell {
     struct Appearance {
-        static let imageHightDifference: CGFloat = 54
+        static let imageHightDifference: CGFloat = 40
         static let headerViewTop: CGFloat = -30
         static let headerCornerRadius: CGFloat = 32
         static let headerTitleFont: UIFont = .systemFont(ofSize: 24, weight: .medium)

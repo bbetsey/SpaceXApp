@@ -23,6 +23,7 @@ final class RocketViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.contentInsetAdjustmentBehavior = .never
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -254,9 +255,9 @@ private extension RocketViewController {
             heightDimension: .absolute(96)
         )
         static let horizontalItemInsets = NSDirectionalEdgeInsets
-            .init(top: 0, leading: 12, bottom: 0, trailing: 0)
+            .init(top: 0, leading: 0, bottom: 0, trailing: 12)
         static let horizontalSectionInsets = NSDirectionalEdgeInsets
-            .init(top: 0, leading: 20, bottom: 0, trailing: 0)
+            .init(top: 0, leading: 32, bottom: 0, trailing: 0)
 
         // INFO Section
         static let infoItemSize = NSCollectionLayoutSize(
