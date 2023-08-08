@@ -21,13 +21,11 @@ final class RocketViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = .systemGray4
-        indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
     
@@ -68,6 +66,7 @@ private extension RocketViewController {
     func setupUI() {
         view.backgroundColor = .systemBackground
         [collectionView, activityIndicator].forEach(view.addSubview)
+        [collectionView, activityIndicator].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -75,13 +74,11 @@ private extension RocketViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
         activityIndicator.startAnimating()
-
         let cellTypes = [
             HorizontalCollectionViewCell.self,
             HeaderCollectionViewCell.self,

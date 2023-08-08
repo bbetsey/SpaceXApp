@@ -13,21 +13,18 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     private var headerView: UIView = {
         let view = UIView()
         view.backgroundColor = Appearance.headerColor
         view.layer.cornerRadius = Appearance.headerCornerRadius
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     private var headerTitle: UILabel = {
         let title = UILabel()
         title.font = Appearance.headerTitleFont
         title.textColor = Appearance.headerTitleColor
-        title.translatesAutoresizingMaskIntoConstraints = false
         return title
     }()
     private var settingsButton: UIButton = {
@@ -36,7 +33,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.tintColor = Appearance.settingButtonTintColor
         button.setImage(image, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     private lazy var stackView: UIStackView = {
@@ -45,7 +41,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         stack.distribution = .fill
         stack.alignment = .fill
         stack.spacing = Appearance.stackSpacing
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
@@ -65,6 +60,8 @@ private extension HeaderCollectionViewCell {
         [rocketImage, headerView].forEach(addSubview)
         headerView.addSubview(stackView)
         headerView.backgroundColor = .systemBackground
+        [rocketImage, headerView, headerTitle, settingsButton, stackView]
+            .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             rocketImage.topAnchor.constraint(equalTo: topAnchor),

@@ -14,7 +14,6 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
         label.font = Appearance.valueLabelFont
         label.textColor = Appearance.valueTextColor
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private var descriptionLabel: UILabel = {
@@ -22,7 +21,6 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
         label.font = Appearance.descriptionLabelFont
         label.textColor = Appearance.descriptionTextColor
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private lazy var stackView: UIStackView = {
@@ -30,7 +28,6 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
         stackView.distribution = .fill
         stackView.axis = .vertical
         stackView.spacing = Appearance.stackSpacing
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
 
@@ -58,6 +55,7 @@ private extension HorizontalCollectionViewCell {
         contentView.backgroundColor = Appearance.contentViewColor
         contentView.layer.cornerRadius = Appearance.contentViewCornerRadius
         addSubview(stackView)
+        [valueLabel, descriptionLabel, stackView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Appearance.stackCenterY),

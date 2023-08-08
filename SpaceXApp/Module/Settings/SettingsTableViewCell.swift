@@ -44,8 +44,9 @@ private extension SettingsTableViewCell {
         backgroundColor = .clear
         selectionStyle = .none
         contentView.isUserInteractionEnabled = false
-
+        [label, settingControl].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
         [label, settingControl].forEach(addSubview)
+
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: centerYAnchor),
             label.heightAnchor.constraint(equalToConstant: Appearance.labelHeight),

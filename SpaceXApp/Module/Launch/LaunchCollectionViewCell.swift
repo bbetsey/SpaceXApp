@@ -12,26 +12,22 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
     private var missionNameLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.missionLabelFont
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.dateLabelFont
         label.textColor = Appearance.dateLabelColor
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [missionNameLabel, dateLabel])
         stackView.distribution = .fill
         stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     private var rocketImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
@@ -60,6 +56,8 @@ private extension LaunchCollectionViewCell {
         contentView.backgroundColor = .systemGray5
         contentView.layer.cornerRadius = Appearance.cornerRadius
         [labelStackView, rocketImageView].forEach(addSubview)
+        [missionNameLabel, dateLabel, labelStackView, rocketImageView]
+            .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),

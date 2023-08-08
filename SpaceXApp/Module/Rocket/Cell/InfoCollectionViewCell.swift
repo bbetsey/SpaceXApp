@@ -13,7 +13,6 @@ final class InfoCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = Appearance.descriptionLabelFont
         label.textColor = Appearance.descriptionTextColor
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private var valueLabel: UILabel = {
@@ -21,7 +20,6 @@ final class InfoCollectionViewCell: UICollectionViewCell {
         label.font = Appearance.valueLabelFont
         label.textColor = Appearance.valueTextColor
         label.textAlignment = .right
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private lazy var stackView: UIStackView = {
@@ -29,7 +27,6 @@ final class InfoCollectionViewCell: UICollectionViewCell {
         stack.distribution = .fill
         stack.axis = .horizontal
         stack.spacing = Appearance.stackSpacing
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
 
@@ -55,6 +52,7 @@ extension InfoCollectionViewCell {
 private extension InfoCollectionViewCell {
     func setupUI() {
         addSubview(stackView)
+        [valueLabel, descriptionLabel, stackView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: Appearance.stackTop),
