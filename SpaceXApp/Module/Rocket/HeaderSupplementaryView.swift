@@ -2,14 +2,12 @@
 //  HeaderSupplementaryView.swift
 //  SpaceXApp
 //
-//  Created by Антон Тропин on 02.08.23.
+//  Created by Anton Tropin on 02.08.23.
 //
 
 import UIKit
 
 final class HeaderSupplementaryView: UICollectionReusableView {
-
-    static let reuseIdentifier = String(describing: HeaderSupplementaryView.self)
 
     private var sectionTitle: UILabel = {
         let label = UILabel()

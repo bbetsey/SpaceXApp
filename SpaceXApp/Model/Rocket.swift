@@ -16,9 +16,9 @@ struct Rocket: Decodable {
     let firstFlight: Date
     let country: String
     let costPerLaunch: Int
-    let firstStage: Stage?
-    let secondStage: Stage?
-    let flickrImages: [String]?
+    let firstStage: Stage
+    let secondStage: Stage
+    let flickrImages: [String]
     let rocketName: String
 }
 
@@ -27,25 +27,28 @@ extension Rocket {
 
     struct Stage: Decodable {
         let engines: Int
-        let fuelAmountTons: Float
+        let fuelAmountTons: Double
         let burnTimeSec: Int?
     }
 
     struct Size: Decodable {
-        let meters: Float
-        let feet: Float
+        let meters: Double
+        let feet: Double
     }
 
     struct Mass: Decodable {
-        let kg: Float
-        let lb: Float
+        let kg: Double
+        let lb: Double
     }
 
     struct PayloadWeight: Decodable {
         let id: String
         let name: String
-        let kg: Float
-        let lb: Float
+        let kg: Double
+        let lb: Double
     }
 
 }
+
+
+

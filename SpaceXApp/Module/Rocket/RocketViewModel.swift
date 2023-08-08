@@ -21,21 +21,16 @@ final class RocketViewModel: RocketViewModelProtocol {
     private let storageService: StorageService
     private let sectionsSubject: BehaviorSubject<[RocketSection]>
     private let disposeBag = DisposeBag()
-
+    private var settings: [Setting]
     private var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = Appearance.dateFormat
         return formatter
     }()
-
     private var numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         return formatter
-    }()
-
-    private lazy var settings: [Setting] = {
-        storageService.fetchSettings()
     }()
 
     var sections: Driver<[RocketSection]> {
@@ -51,12 +46,13 @@ final class RocketViewModel: RocketViewModelProtocol {
         self.networkService = networkService
         self.storageService = storageService
         self.sectionsSubject = BehaviorSubject(value: [])
-        setup()
+        self.settings = storageService.fetchSettings()
+        setupSections()
     }
 
     func updateSettings() {
         settings = storageService.fetchSettings()
-        setup()
+        setupSections()
     }
 
 }
@@ -64,96 +60,92 @@ final class RocketViewModel: RocketViewModelProtocol {
 // MARK: - Private Methods
 private extension RocketViewModel {
 
-    func setup() {
-        if let images = rocket.flickrImages, !images.isEmpty {
-            networkService.fetchImage(from: images.last)
-                .asDriver(onErrorJustReturn: nil)
-                .drive { [weak self] image in
-                    self?.setupSections(withImage: image)
-                }
-                .disposed(by: disposeBag)
-        }
-    }
-
-    func setupSections(withImage image: UIImage?) {
-        var rocketSections = [RocketSection]()
-        rocketSections.append(RocketSection(title: nil, type: .header, items: [.header(title: self.rocket.rocketName, image: image)]))
-        rocketSections.append(RocketSection(title: nil, type: .horizontal, items: getParameters()))
-        rocketSections.append(RocketSection(title: nil, type: .info, items: getGeneralInfo()))
-        addStages(to: &rocketSections)
-        rocketSections.append(RocketSection(title: nil, type: .button, items: [.button]))
+    func setupSections() {
+        let rocketSections = [
+            makeHeaderSection(),
+            makeHorizonralSection(),
+            makeGeneralInfoSection(),
+            makeInfoSection(forStage: rocket.firstStage, title: Appearance.firstStageTitle),
+            makeInfoSection(forStage: rocket.secondStage, title: Appearance.secondStageTitle),
+            makeButtonSection()
+        ]
         sectionsSubject.onNext(rocketSections)
     }
 
-    func addStages(to sections: inout [RocketSection]) {
-        if let firstStage = rocket.firstStage {
-            sections.append(
-                RocketSection(title: Appearance.firstStageTitle, type: .info, items: getStage(stage: firstStage))
-            )
-        }
-        if let secondStage = rocket.secondStage {
-            sections.append(
-                RocketSection(title: Appearance.secondStageTitle, type: .info, items: getStage(stage: secondStage))
-            )
-        }
+    func makeHeaderSection() -> RocketSection {
+        let lastIndex = rocket.flickrImages.count - 1
+        return RocketSection(
+            type: .header,
+            items: [
+                .header(title: rocket.rocketName, imageURL: rocket.flickrImages[lastIndex])
+            ]
+        )
     }
 
-    func getParameters() -> [RocketItem] {
-        var parameters = [RocketItem]()
-        settings.forEach { setting in
-            switch setting.type {
-            case .height:
-                parameters.append(getParameterItem(setting: setting, measureValue: rocket.height))
-            case .diameter:
-                parameters.append(getParameterItem(setting: setting, measureValue: rocket.diameter))
-            case .weight:
-                parameters.append(getParameterItem(setting: setting, measureValue: rocket.mass))
-            case .payloadWieght:
-                if let payloadWeight = rocket.payloadWeights.first {
-                    parameters.append(getParameterItem(setting: setting, measureValue: payloadWeight))
-                }
-            }
-        }
-        return parameters
+    func makeHorizonralSection() -> RocketSection {
+        RocketSection(type: .horizontal, items: getHorizontalItems())
     }
 
-    func getParameterItem<M: Measure>(setting: Setting, measureValue: M) -> RocketItem {
+    func makeGeneralInfoSection() -> RocketSection {
+        RocketSection(
+            type: .info(title: nil),
+            items: [
+                .info(value: dateFormatter.string(from: rocket.firstFlight), description: Appearance.generalTitle1),
+                .info(value: rocket.country, description: Appearance.generalTitle2),
+                .info(value: formatCost(rocket.costPerLaunch), description: Appearance.generalTitle3),
+            ]
+        )
+    }
+
+    func makeInfoSection(forStage stage: Rocket.Stage, title: String) -> RocketSection {
+        RocketSection(
+            type: .info(title: title),
+            items: [
+                .info(value: "\(stage.engines)", description: Appearance.stageTitle1),
+                .info(value: "\(stage.fuelAmountTons) \(Appearance.fuelUnit)", description: Appearance.stageTitle2),
+                .info(value: "\(stage.burnTimeSec ?? 0) \(Appearance.timeUnit)", description: Appearance.stageTitle3),
+            ]
+        )
+    }
+
+    func makeButtonSection() -> RocketSection {
+        RocketSection(type: .button, items: [.button])
+    }
+
+    func getHorizontalItems() -> [RocketItem] {
+        let heightSetting = storageService.fetchSetting(type: .height)
+        let diameterSetting = storageService.fetchSetting(type: .diameter)
+        let weightSetting = storageService.fetchSetting(type: .weight)
+        let payloadSetting = storageService.fetchSetting(type: .payloadWieght)
+
+        let hightValue: Double
+        let diameterValue: Double
+        let weightValue: Double
+        let payloadValue: Double
+
+        hightValue = heightSetting.selectedUnit == .meter ? rocket.height.meters : rocket.height.feet
+        diameterValue = diameterSetting.selectedUnit == .meter ? rocket.diameter.meters : rocket.diameter.feet
+        weightValue = weightSetting.selectedUnit == .pound ? rocket.mass.lb : rocket.mass.kg
+        payloadValue = payloadSetting.selectedUnit == .pound ? rocket.payloadWeights[0].lb : rocket.payloadWeights[0].kg
+
+        return [
+            getItem(setting: heightSetting, value: hightValue),
+            getItem(setting: diameterSetting, value: diameterValue),
+            getItem(setting: weightSetting, value: weightValue),
+            getItem(setting: payloadSetting, value: payloadValue),
+        ]
+    }
+
+    func getItem(setting: Setting, value: Double) -> RocketItem {
         let unit = setting.type.units[setting.selectedIndex]
-        let value: String?
-        switch unit {
-        case .meter:
-            value = numberFormatter.string(from: NSNumber(value: measureValue.meters))
-        case .feet:
-            value = numberFormatter.string(from: NSNumber(value: measureValue.feet))
-        case .kilogram:
-            value = numberFormatter.string(from: NSNumber(value: measureValue.kg))
-        case .pound:
-            value = numberFormatter.string(from: NSNumber(value: measureValue.lb))
-        }
+        let value = numberFormatter.string(from: NSNumber(value: value))
         let description = "\(setting.type.name), \(unit.name)"
-        return .info(value: value, description: description)
+        return .info(value: value ?? "nil", description: description)
     }
 
-    func getGeneralInfo() -> [RocketItem] {
-        [
-            .info(value: dateFormatter.string(from: rocket.firstFlight), description: Appearance.generalTitle1),
-            .info(value: rocket.country, description: Appearance.generalTitle2),
-            .info(value: formatCost(rocket.costPerLaunch), description: Appearance.generalTitle3),
-        ]
-    }
-
-    func getStage(stage: Rocket.Stage) -> [RocketItem] {
-        [
-            .info(value: "\(stage.engines)", description: Appearance.stageTitle1),
-            .info(value: "\(stage.fuelAmountTons) \(Appearance.fuelUnit)", description: Appearance.stageTitle2),
-            .info(value: "\(stage.burnTimeSec ?? 0) \(Appearance.timeUnit)", description: Appearance.stageTitle3),
-        ]
-    }
-
-    private func formatCost(_ cost: Int) -> String {
+    func formatCost(_ cost: Int) -> String {
         return "$\(cost / Appearance.millionMultiplier) млн"
     }
-
 }
 
 // MARK: - Private Methods

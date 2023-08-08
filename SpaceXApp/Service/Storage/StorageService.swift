@@ -22,34 +22,64 @@ final class StorageService {
 
 // MARK: - Public Methods
 extension StorageService {
-    func setSettings(settings: [Setting]) {
+
+    func setSetting(setting: Setting) {
         do {
-            let data = try encoder.encode(settings)
-            userDefaults.set(data, forKey: key)
+            let data = try encoder.encode(setting)
+            userDefaults.set(data, forKey: setting.type.name)
         } catch {
             print("Error encoding settings: \(error)")
         }
     }
 
-    func fetchSettings() -> [Setting] {
-        guard let data = userDefaults.data(forKey: key) else { return defaultSettings() }
+    func fetchSetting(type: SettingType) -> Setting {
+        guard let setting = userDefaults.data(forKey: type.name) else {
+            return getDefaultSetting(type: type)
+        }
         do {
-            return try decoder.decode([Setting].self, from: data)
+            return try decoder.decode(Setting.self, from: setting)
         } catch {
             print("Error decoding settings: \(error)")
-            return defaultSettings()
+            return getDefaultSetting(type: type)
+        }
+
+    }
+
+    func fetchSettings() -> [Setting] {
+        guard let height = userDefaults.data(forKey: SettingType.height.name),
+              let diameter = userDefaults.data(forKey: SettingType.diameter.name),
+              let weight = userDefaults.data(forKey: SettingType.weight.name),
+              let payloadWeight = userDefaults.data(forKey: SettingType.payloadWieght.name) else {
+            return setDefaultSettings()
+        }
+        do {
+            return [
+                try decoder.decode(Setting.self, from: height),
+                try decoder.decode(Setting.self, from: diameter),
+                try decoder.decode(Setting.self, from: weight),
+                try decoder.decode(Setting.self, from: payloadWeight),
+            ]
+        } catch {
+            print("Error decoding settings: \(error)")
+            return setDefaultSettings()
         }
     }
 }
 
 // MARK: - Private Methods
 private extension StorageService {
-    func defaultSettings() -> [Setting] {
-        [
-            Setting(type: .height, selectedIndex: 1),
-            Setting(type: .diameter, selectedIndex: 1),
-            Setting(type: .weight, selectedIndex: 0),
-            Setting(type: .payloadWieght, selectedIndex: 1)
+    func setDefaultSettings() -> [Setting] {
+        let defaultSettings = [
+            getDefaultSetting(type: .height),
+            getDefaultSetting(type: .diameter),
+            getDefaultSetting(type: .weight),
+            getDefaultSetting(type: .payloadWieght),
         ]
+        defaultSettings.forEach(setSetting)
+        return defaultSettings
+    }
+
+    func getDefaultSetting(type: SettingType) -> Setting {
+        Setting(type: type, selectedIndex: 1)
     }
 }

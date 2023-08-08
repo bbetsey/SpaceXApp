@@ -15,7 +15,6 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.dateLabelFont
@@ -23,7 +22,6 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [missionNameLabel, dateLabel])
         stackView.distribution = .fill
@@ -31,7 +29,6 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
     private var rocketImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

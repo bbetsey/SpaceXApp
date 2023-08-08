@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell {
+final class HorizontalCollectionViewCell: UICollectionViewCell {
 
     private var valueLabel: UILabel = {
         let label = UILabel()
@@ -17,7 +17,6 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.descriptionLabelFont
@@ -26,7 +25,6 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [valueLabel, descriptionLabel])
         stackView.distribution = .fill
@@ -48,8 +46,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell, ConfigurableCell
 
 // MARK: - Public Methods
 extension HorizontalCollectionViewCell {
-    func configure(with item: RocketItem) {
-        guard case .info(let value, let description, _) = item else { return}
+    func configure(withValue value: String?, andDescription description: String?) {
         valueLabel.text = value
         descriptionLabel.text = description
     }

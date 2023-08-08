@@ -26,7 +26,7 @@ final class LaunchViewModel: LaunchViewModelProtocol {
     }()
 
     lazy var launches: Driver<[LaunchModel]> = {
-        networkService.fetchData(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID), dateFormatterType: .long)
+        networkService.fetchLaunch(rocketID: rocketID)
             .asDriver(onErrorJustReturn: [])
             .map { [weak self] launches in
                 launches.compactMap { self?.getLaunchModel(from: $0) }

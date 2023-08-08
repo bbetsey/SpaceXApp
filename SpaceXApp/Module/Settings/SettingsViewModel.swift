@@ -30,9 +30,8 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     }
 
     func updateSettings(at setting: Setting, withSelectedIndex selectedIndex: Int) {
-        var currentSettings = storageService.fetchSettings()
-        guard let index = currentSettings.firstIndex(where: { $0.type == setting.type }) else { return }
-        currentSettings[index].selectedIndex = selectedIndex
-        storageService.setSettings(settings: currentSettings)
+        var currentSetting = setting
+        currentSetting.selectedIndex = selectedIndex
+        storageService.setSetting(setting: currentSetting)
     }
 }

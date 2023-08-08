@@ -13,7 +13,6 @@ final class LaunchCollectionViewController: UICollectionViewController {
 
     private let launchViewModel: LaunchViewModelProtocol
     private let disposeBag = DisposeBag()
-
     private var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -21,7 +20,6 @@ final class LaunchCollectionViewController: UICollectionViewController {
         layout.minimumLineSpacing = Appearance.minimumLineSpacing
         return layout
     }()
-
     private var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = .systemGray

@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
+final class HeaderCollectionViewCell: UICollectionViewCell {
 
     private var rocketImage: UIImageView = {
         let imageView = UIImageView()
@@ -16,7 +16,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
     private var headerView: UIView = {
         let view = UIView()
         view.backgroundColor = Appearance.headerColor
@@ -24,7 +23,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
     private var headerTitle: UILabel = {
         let title = UILabel()
         title.font = Appearance.headerTitleFont
@@ -32,7 +30,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
         title.translatesAutoresizingMaskIntoConstraints = false
         return title
     }()
-
     private var settingsButton: UIButton = {
         let configuration = UIImage.SymbolConfiguration(pointSize: Appearance.settingImagePointSize, weight: .medium)
         let image = UIImage(systemName: Appearance.settingImageName, withConfiguration: configuration)
@@ -42,7 +39,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell, ConfigurableCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
     private lazy var stackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [headerTitle, settingsButton])
         stack.axis = .horizontal
@@ -95,10 +91,10 @@ private extension HeaderCollectionViewCell {
 
 // MARK: - Public Methods
 extension HeaderCollectionViewCell {
-    func configure(with item: RocketItem) {
-        guard case .header(let title, let image) = item else { return }
+    func configure(withTitle title: String?, andImageURL imageURL: String?) {
+        guard let imageURL = imageURL, let url = URL(string: imageURL) else { return }
         headerTitle.text = title
-        rocketImage.image = image
+        rocketImage.kf.setImage(with: url)
     }
 }
 

@@ -7,21 +7,20 @@
 
 import UIKit
 
-enum RocketSectionType: Int, CaseIterable {
+enum RocketSectionType: Hashable {
     case header
     case horizontal
-    case info
+    case info(title: String?)
     case button
 }
 
 enum RocketItem: Hashable {
-    case header(title: String, image: UIImage?)
-    case info(value: String?, description: String?, uuid: UUID = UUID())
+    case header(title: String, imageURL: String)
+    case info(value: String, description: String, uuid: UUID = UUID())
     case button
 }
 
 struct RocketSection: Hashable {
-    let title: String?
     let type: RocketSectionType
     let items: [RocketItem]
 }

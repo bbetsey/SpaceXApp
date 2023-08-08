@@ -12,7 +12,3 @@ enum NetworkError: Error {
     case noData
     case decodingError
 }
-
-enum UnexpectedNilError: Error {
-    case instanceDeallocated
-}

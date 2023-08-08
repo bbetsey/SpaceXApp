@@ -11,7 +11,8 @@ import Kingfisher
 
 final class NetworkService {
 
-    private let decoder: JSONDecoder
+    private let decoderWithShortDate: JSONDecoder
+    private let decoderWithLongDate: JSONDecoder
     private let baseURL = "https://api.spacexdata.com/v3/"
     private var dateFormatterLong: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -25,47 +26,21 @@ final class NetworkService {
     }()
 
     init() {
-        decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .formatted(dateFormatterLong)
+        decoderWithShortDate = JSONDecoder()
+        decoderWithShortDate.keyDecodingStrategy = .convertFromSnakeCase
+        decoderWithShortDate.dateDecodingStrategy = .formatted(dateFormatterShort)
+
+        decoderWithLongDate = JSONDecoder()
+        decoderWithLongDate.keyDecodingStrategy = .convertFromSnakeCase
+        decoderWithLongDate.dateDecodingStrategy = .formatted(dateFormatterLong)
     }
-    
-    func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest, dateFormatterType: DateFormatterType) -> Single<T> {
-        .create { [weak self] single in
-            guard let self = self, let url = URL(string: self.baseURL) else {
-                single(.failure(NetworkError.invalidURL))
-                return Disposables.create()
-            }
-            
-            let request = apiRequest.request(with: url)
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    single(.failure(error))
-                    return
-                }
-                guard let data = data else {
-                    single(.failure(NetworkError.noData))
-                    return
-                }
-                do {
-                    switch dateFormatterType {
-                    case .long:
-                        self.decoder.dateDecodingStrategy = .formatted(self.dateFormatterLong)
-                    case .short:
-                        self.decoder.dateDecodingStrategy = .formatted(self.dateFormatterShort)
-                    }
-                    let dataResponse = try self.decoder.decode(T.self, from: data)
-                    single(.success(dataResponse))
-                } catch let error {
-                    single(.failure(error))
-                }
-            }
-            task.resume()
-            
-            return Disposables.create {
-                task.cancel()
-            }
-        }
+
+    func fetchRocket() -> Single<[Rocket]> {
+        fetchData(dataType: [Rocket].self, apiRequest: RocketsRequest(), decoder: decoderWithShortDate)
+    }
+
+    func fetchLaunch(rocketID: String) -> Single<[Launch]> {
+        fetchData(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID), decoder: decoderWithLongDate)
     }
 
     func fetchImage(from url: String?) -> Single<UIImage?> {
@@ -91,10 +66,38 @@ final class NetworkService {
     }
 }
 
-// MARK: - Public Methods
-extension NetworkService {
-    enum DateFormatterType {
-        case long
-        case short
+// MARK: - Private Methods
+private extension NetworkService {
+    func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest, decoder: JSONDecoder) -> Single<T> {
+        .create { [weak self] single in
+            guard let self = self, let url = URL(string: self.baseURL) else {
+                single(.failure(NetworkError.invalidURL))
+                return Disposables.create()
+            }
+
+            let request = apiRequest.request(with: url)
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    single(.failure(error))
+                    return
+                }
+                guard let data = data else {
+                    single(.failure(NetworkError.noData))
+                    return
+                }
+                do {
+                    let dataResponse = try decoder.decode(T.self, from: data)
+                    single(.success(dataResponse))
+                } catch let error {
+                    single(.failure(error))
+                }
+            }
+            task.resume()
+
+            return Disposables.create {
+                task.cancel()
+            }
+        }
     }
+
 }

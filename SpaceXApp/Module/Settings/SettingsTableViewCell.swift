@@ -15,7 +15,6 @@ final class SettingsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private lazy var settingControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["", ""])
         control.selectedSegmentTintColor = .white

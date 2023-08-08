@@ -60,3 +60,9 @@ struct Setting: Codable {
     let type: SettingType
     var selectedIndex: Int
 }
+
+extension Setting {
+    var selectedUnit: Unit {
+        type.units[selectedIndex]
+    }
+}
