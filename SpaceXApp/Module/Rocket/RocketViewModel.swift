@@ -11,7 +11,7 @@ import RxSwift
 
 protocol RocketViewModelProtocol {
     var sections: Driver<[RocketSection]> { get }
-    func updateSettings()
+    var settingsChanged: PublishRelay<Void> { get }
 }
 
 final class RocketViewModel: RocketViewModelProtocol {
@@ -36,6 +36,7 @@ final class RocketViewModel: RocketViewModelProtocol {
     var sections: Driver<[RocketSection]> {
         sectionsSubject.asDriver(onErrorJustReturn: [])
     }
+    let settingsChanged = PublishRelay<Void>()
 
     init(
         rocket: Rocket,
@@ -48,20 +49,24 @@ final class RocketViewModel: RocketViewModelProtocol {
         self.sectionsSubject = BehaviorSubject(value: [])
         self.settings = storageService.fetchSettings()
         setupSections()
+        bindSettings()
     }
-
-    func updateSettings() {
-        settings = storageService.fetchSettings()
-        setupSections()
-    }
-
 }
 
 // MARK: - Private Methods
 private extension RocketViewModel {
 
-    func setupSections() {
-        let rocketSections = [
+    func bindSettings() {
+        settingsChanged.map { [unowned self] _ in
+            settings = storageService.fetchSettings()
+            return getSections()
+        }
+        .bind(to: sectionsSubject)
+        .disposed(by: disposeBag)
+    }
+
+    func getSections() -> [RocketSection] {
+        [
             makeHeaderSection(),
             makeHorizonralSection(),
             makeGeneralInfoSection(),
@@ -69,7 +74,10 @@ private extension RocketViewModel {
             makeInfoSection(forStage: rocket.secondStage, title: Appearance.secondStageTitle),
             makeButtonSection()
         ]
-        sectionsSubject.onNext(rocketSections)
+    }
+
+    func setupSections() {
+        sectionsSubject.onNext(getSections())
     }
 
     func makeHeaderSection() -> RocketSection {

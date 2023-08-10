@@ -16,13 +16,24 @@ protocol RocketsViewModelProtocol {
 final class RocketsViewModel: RocketsViewModelProtocol {
 
     private let networkService: NetworkService
+    private let rocketSubject = BehaviorSubject<[Rocket]>(value: [])
+    private let disposeBag = DisposeBag()
 
-    lazy var rockets: Driver<[Rocket]> = {
-        networkService.fetchRocket()
-            .asDriver(onErrorJustReturn: [])
-    }()
+    var rockets: Driver<[Rocket]> { rocketSubject.asDriver(onErrorJustReturn: []) }
 
     init(networkService: NetworkService = NetworkService()) {
         self.networkService = networkService
+        getRockets()
+    }
+}
+
+// MARK: - Private Methods
+private extension RocketsViewModel {
+    func getRockets() {
+        networkService.fetchRocket()
+            .subscribe { [weak self] rockets in
+                self?.rocketSubject.onNext(rockets)
+            }
+            .disposed(by: disposeBag)
     }
 }

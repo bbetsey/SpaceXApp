@@ -35,13 +35,12 @@ final class RocketsPageViewController: UIPageViewController {
 private extension RocketsPageViewController {
     func setup() {
         dataSource = self
-        self.navigationController?.isNavigationBarHidden = true
     }
 
     func bindViewModel() {
         viewModel.rockets
             .drive { [weak self] rockets in
-                guard let self = self else { return }
+                guard let self = self, rockets.count > 0 else { return }
                 self.views = rockets.compactMap { self.getRocketViewController(from: $0) }
                 self.setViewControllers([self.views[0]], direction: .forward, animated: true)
             }

@@ -7,7 +7,6 @@
 
 import Foundation
 import RxSwift
-import Kingfisher
 
 final class NetworkService {
 
@@ -41,28 +40,6 @@ final class NetworkService {
 
     func fetchLaunch(rocketID: String) -> Single<[Launch]> {
         fetchData(dataType: [Launch].self, apiRequest: LaunchRequest(rocketID: rocketID), decoder: decoderWithLongDate)
-    }
-
-    func fetchImage(from url: String?) -> Single<UIImage?> {
-        .create { single in
-            guard let url = url, let url = URL(string: url) else {
-                single(.failure(NetworkError.invalidURL))
-                return Disposables.create()
-            }
-
-            let resource = KF.ImageResource(downloadURL: url)
-            let task = KingfisherManager.shared.retrieveImage(with: resource) { result in
-                switch result {
-                case .success(let value):
-                    return single(.success(value.image))
-                case .failure(let error):
-                    return single(.failure(error))
-                }
-            }
-            return Disposables.create {
-                task?.cancel()
-            }
-        }
     }
 }
 

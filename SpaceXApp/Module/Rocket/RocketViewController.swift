@@ -47,7 +47,7 @@ final class RocketViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.updateSettings()
+        viewModel.settingsChanged.accept(())
     }
 }
 
@@ -79,13 +79,16 @@ private extension RocketViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
         activityIndicator.startAnimating()
-        let cellTypes = [
-            HorizontalCollectionViewCell.self,
-            HeaderCollectionViewCell.self,
-            InfoCollectionViewCell.self,
-            ButtonCollectionViewCell.self
-        ]
-        cellTypes.forEach { collectionView.register($0, forCellWithReuseIdentifier: $0.reuseIdentifier) }
+
+        collectionView.register(HorizontalCollectionViewCell.self,
+                                forCellWithReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier)
+        collectionView.register(HeaderCollectionViewCell.self,
+                                forCellWithReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier)
+        collectionView.register(InfoCollectionViewCell.self,
+                                forCellWithReuseIdentifier: InfoCollectionViewCell.reuseIdentifier)
+        collectionView.register(ButtonCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier)
+
         collectionView.register(
             HeaderSupplementaryView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
