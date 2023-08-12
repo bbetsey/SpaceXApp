@@ -1,5 +1,5 @@
 //
-//  UICollectionReusableView + reuseIdentifier.swift
+//  UICollectionReusableView+reuseIdentifier.swift
 //  SpaceXApp
 //
 //  Created by Anton Tropin on 08.08.23.

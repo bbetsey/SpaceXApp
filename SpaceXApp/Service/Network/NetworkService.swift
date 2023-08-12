@@ -13,12 +13,7 @@ final class NetworkService {
     private let decoderWithShortDate: JSONDecoder
     private let decoderWithLongDate: JSONDecoder
     private let baseURL = "https://api.spacexdata.com/v3/"
-    private var dateFormatterLong: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        return dateFormatter
-    }()
-    private var dateFormatterShort: DateFormatter = {
+    private var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter
@@ -27,11 +22,11 @@ final class NetworkService {
     init() {
         decoderWithShortDate = JSONDecoder()
         decoderWithShortDate.keyDecodingStrategy = .convertFromSnakeCase
-        decoderWithShortDate.dateDecodingStrategy = .formatted(dateFormatterShort)
+        decoderWithShortDate.dateDecodingStrategy = .formatted(dateFormatter)
 
         decoderWithLongDate = JSONDecoder()
         decoderWithLongDate.keyDecodingStrategy = .convertFromSnakeCase
-        decoderWithLongDate.dateDecodingStrategy = .formatted(dateFormatterLong)
+        decoderWithLongDate.dateDecodingStrategy = .iso8601
     }
 
     func fetchRocket() -> Single<[Rocket]> {

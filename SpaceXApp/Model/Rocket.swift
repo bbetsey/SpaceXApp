@@ -22,7 +22,6 @@ struct Rocket: Decodable {
     let rocketName: String
 }
 
-
 extension Rocket {
 
     struct Stage: Decodable {
@@ -49,6 +48,3 @@ extension Rocket {
     }
 
 }
-
-
-

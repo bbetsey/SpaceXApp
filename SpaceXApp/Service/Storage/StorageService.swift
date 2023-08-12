@@ -46,19 +46,14 @@ extension StorageService {
     }
 
     func fetchSettings() -> [Setting] {
-        guard let height = userDefaults.data(forKey: SettingType.height.name),
-              let diameter = userDefaults.data(forKey: SettingType.diameter.name),
-              let weight = userDefaults.data(forKey: SettingType.weight.name),
-              let payloadWeight = userDefaults.data(forKey: SettingType.payloadWieght.name) else {
-            return setDefaultSettings()
-        }
+        let data = [
+            SettingType.height.name,
+            SettingType.diameter.name,
+            SettingType.weight.name,
+            SettingType.payloadWeight.name
+        ].compactMap { userDefaults.data(forKey: $0) }
         do {
-            return [
-                try decoder.decode(Setting.self, from: height),
-                try decoder.decode(Setting.self, from: diameter),
-                try decoder.decode(Setting.self, from: weight),
-                try decoder.decode(Setting.self, from: payloadWeight),
-            ]
+            return try data.compactMap { try decoder.decode(Setting.self, from: $0) }
         } catch {
             print("Error decoding settings: \(error)")
             return setDefaultSettings()
@@ -73,7 +68,7 @@ private extension StorageService {
             getDefaultSetting(type: .height),
             getDefaultSetting(type: .diameter),
             getDefaultSetting(type: .weight),
-            getDefaultSetting(type: .payloadWieght),
+            getDefaultSetting(type: .payloadWeight),
         ]
         defaultSettings.forEach(setSetting)
         return defaultSettings

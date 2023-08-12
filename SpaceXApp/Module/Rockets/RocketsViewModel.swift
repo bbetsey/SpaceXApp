@@ -31,9 +31,9 @@ final class RocketsViewModel: RocketsViewModelProtocol {
 private extension RocketsViewModel {
     func getRockets() {
         networkService.fetchRocket()
-            .subscribe { [weak self] rockets in
-                self?.rocketSubject.onNext(rockets)
-            }
+            .asObservable()
+            .observe(on: MainScheduler.instance)
+            .bind(to: rocketSubject)
             .disposed(by: disposeBag)
     }
 }

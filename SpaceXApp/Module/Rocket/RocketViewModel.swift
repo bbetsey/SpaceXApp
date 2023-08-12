@@ -19,9 +19,8 @@ final class RocketViewModel: RocketViewModelProtocol {
     private let rocket: Rocket
     private let networkService: NetworkService
     private let storageService: StorageService
-    private let sectionsSubject: BehaviorSubject<[RocketSection]>
+    private let sectionsSubject = BehaviorSubject<[RocketSection]>(value: [])
     private let disposeBag = DisposeBag()
-    private var settings: [Setting]
     private var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = Appearance.dateFormat
@@ -46,8 +45,6 @@ final class RocketViewModel: RocketViewModelProtocol {
         self.rocket = rocket
         self.networkService = networkService
         self.storageService = storageService
-        self.sectionsSubject = BehaviorSubject(value: [])
-        self.settings = storageService.fetchSettings()
         setupSections()
         bindSettings()
     }
@@ -57,41 +54,36 @@ final class RocketViewModel: RocketViewModelProtocol {
 private extension RocketViewModel {
 
     func bindSettings() {
-        settingsChanged.map { [unowned self] _ in
-            settings = storageService.fetchSettings()
-            return getSections()
+        settingsChanged.map { [weak self] _ in
+            guard let self = self else { return [] }
+            return self.makeSections()
         }
         .bind(to: sectionsSubject)
         .disposed(by: disposeBag)
     }
 
-    func getSections() -> [RocketSection] {
+    func makeSections() -> [RocketSection] {
         [
             makeHeaderSection(),
-            makeHorizonralSection(),
+            RocketSection(type: .horizontal, items: getHorizontalItems()),
             makeGeneralInfoSection(),
             makeInfoSection(forStage: rocket.firstStage, title: Appearance.firstStageTitle),
             makeInfoSection(forStage: rocket.secondStage, title: Appearance.secondStageTitle),
-            makeButtonSection()
+            RocketSection(type: .button, items: [.button])
         ]
     }
 
     func setupSections() {
-        sectionsSubject.onNext(getSections())
+        sectionsSubject.onNext(makeSections())
     }
 
     func makeHeaderSection() -> RocketSection {
-        let lastIndex = rocket.flickrImages.count - 1
         return RocketSection(
             type: .header,
             items: [
-                .header(title: rocket.rocketName, imageURL: rocket.flickrImages[lastIndex])
+                .header(title: rocket.rocketName, imageURL: rocket.flickrImages[0])
             ]
         )
-    }
-
-    func makeHorizonralSection() -> RocketSection {
-        RocketSection(type: .horizontal, items: getHorizontalItems())
     }
 
     func makeGeneralInfoSection() -> RocketSection {
@@ -116,25 +108,16 @@ private extension RocketViewModel {
         )
     }
 
-    func makeButtonSection() -> RocketSection {
-        RocketSection(type: .button, items: [.button])
-    }
-
     func getHorizontalItems() -> [RocketItem] {
         let heightSetting = storageService.fetchSetting(type: .height)
         let diameterSetting = storageService.fetchSetting(type: .diameter)
         let weightSetting = storageService.fetchSetting(type: .weight)
-        let payloadSetting = storageService.fetchSetting(type: .payloadWieght)
+        let payloadSetting = storageService.fetchSetting(type: .payloadWeight)
 
-        let hightValue: Double
-        let diameterValue: Double
-        let weightValue: Double
-        let payloadValue: Double
-
-        hightValue = heightSetting.selectedUnit == .meter ? rocket.height.meters : rocket.height.feet
-        diameterValue = diameterSetting.selectedUnit == .meter ? rocket.diameter.meters : rocket.diameter.feet
-        weightValue = weightSetting.selectedUnit == .pound ? rocket.mass.lb : rocket.mass.kg
-        payloadValue = payloadSetting.selectedUnit == .pound ? rocket.payloadWeights[0].lb : rocket.payloadWeights[0].kg
+        let hightValue = heightSetting.selectedUnit == .meter ? rocket.height.meters : rocket.height.feet
+        let diameterValue = diameterSetting.selectedUnit == .meter ? rocket.diameter.meters : rocket.diameter.feet
+        let weightValue = weightSetting.selectedUnit == .pound ? rocket.mass.lb : rocket.mass.kg
+        let payloadValue = payloadSetting.selectedUnit == .pound ? rocket.payloadWeights[0].lb : rocket.payloadWeights[0].kg
 
         return [
             getItem(setting: heightSetting, value: hightValue),

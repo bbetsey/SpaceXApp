@@ -41,15 +41,13 @@ private extension RocketsPageViewController {
         viewModel.rockets
             .drive { [weak self] rockets in
                 guard let self = self, rockets.count > 0 else { return }
-                self.views = rockets.compactMap { self.getRocketViewController(from: $0) }
+                self.views = rockets.compactMap { rocket in
+                    let rocketViewModel = RocketViewModel(rocket: rocket)
+                    return RocketViewController(viewModel: rocketViewModel)
+                }
                 self.setViewControllers([self.views[0]], direction: .forward, animated: true)
             }
             .disposed(by: disposeBag)
-    }
-
-    func getRocketViewController(from rocket: Rocket) -> RocketViewController {
-        let rocketViewModel = RocketViewModel(rocket: rocket)
-        return RocketViewController(viewModel: rocketViewModel)
     }
 }
 

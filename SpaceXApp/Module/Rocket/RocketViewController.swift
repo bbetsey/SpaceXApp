@@ -18,7 +18,6 @@ final class RocketViewController: UIViewController {
         let layout = createCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
@@ -101,7 +100,7 @@ private extension RocketViewController {
 private extension RocketViewController {
     func createCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout {
-            [weak self] (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
 
             guard let self = self else { return nil }
             guard let dataSource = self.collectionView.dataSource as? RocketDataSource else { return nil }
@@ -231,12 +230,8 @@ private extension RocketViewController {
                 withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
                 for: indexPath) as? HeaderSupplementaryView
 
-            switch section.type {
-            case .info(title: let title):
-                view?.configure(withTitle: title)
-            default:
-                return nil
-            }
+            guard case let .info(title) = section.type else { return nil }
+            view?.configure(withTitle: title)
             return view
         }
     }
@@ -246,14 +241,10 @@ private extension RocketViewController {
 private extension RocketViewController {
     struct Appearance {
         static let interSectionSpacing: CGFloat = 32
-
-        // HEADER Section
         static let headerItemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
         )
-
-        // HORIZONTAL Section
         static let horizontalItemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -267,7 +258,6 @@ private extension RocketViewController {
         static let horizontalSectionInsets = NSDirectionalEdgeInsets
             .init(top: 0, leading: 32, bottom: 0, trailing: 0)
 
-        // INFO Section
         static let infoItemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -276,8 +266,6 @@ private extension RocketViewController {
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(46)
         )
-
-        // BUTTON Section
         static let buttonItemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
@@ -286,8 +274,6 @@ private extension RocketViewController {
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(88)
         )
-
-        // SECTION HEADER
         static let sectionHeaderSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(50)
