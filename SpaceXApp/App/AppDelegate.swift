@@ -22,13 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController: rocketsViewController
         )
 
-        // Settings View
-//        let settingViewModel = SettingsViewModel()
-//        let settingViewController = SettingsTableViewController()
-//        window?.rootViewController = UINavigationController(
-//            rootViewController: settingViewController
-//        )
-
         window?.makeKeyAndVisible()
         
         return true
