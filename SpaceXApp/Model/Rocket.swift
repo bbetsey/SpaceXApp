@@ -23,7 +23,6 @@ struct Rocket: Decodable {
 }
 
 extension Rocket {
-
     struct Stage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
@@ -46,5 +45,4 @@ extension Rocket {
         let kg: Double
         let lb: Double
     }
-
 }

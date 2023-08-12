@@ -5,7 +5,6 @@
 //  Created by Anton Tropin on 16.07.23.
 //
 
-import Foundation
 import RxSwift
 
 final class NetworkService {
