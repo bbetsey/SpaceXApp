@@ -11,7 +11,6 @@ import RxSwift
 
 protocol RocketViewModelProtocol {
     var sections: Driver<[RocketSection]> { get }
-    var settingsChanged: PublishRelay<Void> { get }
 }
 
 final class RocketViewModel: RocketViewModelProtocol {
@@ -35,12 +34,11 @@ final class RocketViewModel: RocketViewModelProtocol {
     var sections: Driver<[RocketSection]> {
         sectionsSubject.asDriver(onErrorJustReturn: [])
     }
-    let settingsChanged = PublishRelay<Void>()
 
     init(
         rocket: Rocket,
         networkService: NetworkService = NetworkService(),
-        storageService: StorageService = StorageService()
+        storageService: StorageService = StorageService.shared
     ) {
         self.rocket = rocket
         self.networkService = networkService
@@ -54,7 +52,7 @@ final class RocketViewModel: RocketViewModelProtocol {
 private extension RocketViewModel {
 
     func bindSettings() {
-        settingsChanged.map { [weak self] _ in
+        storageService.settingsChanged.map { [weak self] _ in
             self?.makeSections() ?? []
         }
         .bind(to: sectionsSubject)

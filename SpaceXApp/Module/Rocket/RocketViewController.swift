@@ -32,7 +32,7 @@ final class RocketViewController: UIViewController {
         dataSource.supplementaryViewProvider = makeSupplementaryViewProvider()
         return dataSource
     }()
-    
+
     init(viewModel: RocketViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -46,11 +46,6 @@ final class RocketViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         bindViewModel()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.settingsChanged.accept(())
     }
 }
 
@@ -197,6 +192,14 @@ private extension RocketViewController {
                     withReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier, for: indexPath
                 ) as? HeaderCollectionViewCell else { return UICollectionViewCell() }
                 cell.configure(withTitle: title, andImageURL: imageURL)
+                cell.settingsButtonTapped
+                    .asDriver(onErrorJustReturn: ())
+                    .drive { _ in
+                        let settingsViewModel = SettingsViewModel()
+                        let settingsViewController = SettingsTableViewController(settingsViewModel: settingsViewModel)
+                        let navigationController = UINavigationController(rootViewController: settingsViewController)
+                        self.present(navigationController, animated: true, completion: nil)
+                    }.disposed(by: disposeBag)
                 return cell
             case let .info(value, description, _):
                 if section.type == .horizontal {

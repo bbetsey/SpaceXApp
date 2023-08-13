@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import RxCocoa
 
 final class HeaderCollectionViewCell: UICollectionViewCell {
 
@@ -45,6 +46,8 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         return stack
     }()
 
+    var settingsButtonTapped = PublishRelay<Void>()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -67,11 +70,13 @@ extension HeaderCollectionViewCell {
 // MARK: - Private Methods
 private extension HeaderCollectionViewCell {
     func setupUI() {
-        [rocketImage, headerView].forEach(addSubview)
         headerView.addSubview(stackView)
         headerView.backgroundColor = .systemBackground
+        [rocketImage, headerView].forEach(addSubview)
         [rocketImage, headerView, headerTitle, settingsButton, stackView]
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        settingsButton.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
+        contentView.isUserInteractionEnabled = false
 
         NSLayoutConstraint.activate([
             rocketImage.topAnchor.constraint(equalTo: topAnchor),
@@ -93,6 +98,10 @@ private extension HeaderCollectionViewCell {
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+    }
+
+    @IBAction func openSettings() {
+        settingsButtonTapped.accept(())
     }
 }
 

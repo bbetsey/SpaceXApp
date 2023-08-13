@@ -24,7 +24,7 @@ final class SettingsViewModel: SettingsViewModelProtocol {
         settingsSubject.asDriver(onErrorJustReturn: [])
     }
 
-    init(storageService: StorageService = StorageService()) {
+    init(storageService: StorageService = StorageService.shared) {
         self.storageService = storageService
         settingsSubject = BehaviorSubject<[Setting]>(value: storageService.fetchSettings())
     }

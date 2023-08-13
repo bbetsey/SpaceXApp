@@ -60,6 +60,10 @@ extension RocketsPageViewController: UIPageViewControllerDataSource {
 private extension RocketsPageViewController {
     func setup() {
         dataSource = self
+        view.backgroundColor = .systemBackground
+        let appearance = UIPageControl.appearance(whenContainedInInstancesOf: [RocketsPageViewController.self])
+        appearance.pageIndicatorTintColor = .systemGray2
+        appearance.currentPageIndicatorTintColor = .label
     }
 
     func bindViewModel() {

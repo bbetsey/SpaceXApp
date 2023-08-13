@@ -94,7 +94,7 @@ private extension SettingsTableViewCell {
         ]
         static let controlNormal: [NSAttributedString.Key: Any] = [
             .font: Appearance.controlFont,
-            .foregroundColor: UIColor.black
+            .foregroundColor: UIColor.secondaryLabel
         ]
     }
 }
