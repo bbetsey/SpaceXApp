@@ -31,26 +31,6 @@ final class RocketsPageViewController: UIPageViewController {
     }
 }
 
-// MARK: - Private Methods
-private extension RocketsPageViewController {
-    func setup() {
-        dataSource = self
-    }
-
-    func bindViewModel() {
-        viewModel.rockets
-            .drive { [weak self] rockets in
-                guard let self = self, rockets.count > 0 else { return }
-                self.views = rockets.compactMap { rocket in
-                    let rocketViewModel = RocketViewModel(rocket: rocket)
-                    return RocketViewController(viewModel: rocketViewModel)
-                }
-                self.setViewControllers([self.views[0]], direction: .forward, animated: true)
-            }
-            .disposed(by: disposeBag)
-    }
-}
-
 // MARK: - UIPageViewControllerDataSource
 extension RocketsPageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -73,5 +53,25 @@ extension RocketsPageViewController: UIPageViewControllerDataSource {
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         0
+    }
+}
+
+// MARK: - Private Methods
+private extension RocketsPageViewController {
+    func setup() {
+        dataSource = self
+    }
+
+    func bindViewModel() {
+        viewModel.rockets
+            .drive { [weak self] rockets in
+                guard let self, rockets.count > 0 else { return }
+                self.views = rockets.compactMap { rocket in
+                    let rocketViewModel = RocketViewModel(rocket: rocket)
+                    return RocketViewController(viewModel: rocketViewModel)
+                }
+                self.setViewControllers([self.views[0]], direction: .forward, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }

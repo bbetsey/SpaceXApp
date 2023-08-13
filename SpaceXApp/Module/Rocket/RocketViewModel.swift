@@ -55,8 +55,7 @@ private extension RocketViewModel {
 
     func bindSettings() {
         settingsChanged.map { [weak self] _ in
-            guard let self = self else { return [] }
-            return self.makeSections()
+            self?.makeSections() ?? []
         }
         .bind(to: sectionsSubject)
         .disposed(by: disposeBag)
@@ -78,7 +77,7 @@ private extension RocketViewModel {
     }
 
     func makeHeaderSection() -> RocketSection {
-        return RocketSection(
+        RocketSection(
             type: .header,
             items: [
                 .header(title: rocket.rocketName, imageURL: rocket.flickrImages[0])
@@ -135,7 +134,7 @@ private extension RocketViewModel {
     }
 
     func formatCost(_ cost: Int) -> String {
-        return "$\(cost / Appearance.millionMultiplier) млн"
+        "$\(cost / Appearance.millionMultiplier) млн"
     }
 }
 

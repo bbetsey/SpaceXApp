@@ -38,6 +38,21 @@ final class SettingsTableViewCell: UITableViewCell {
 
 }
 
+// MARK: - Public Methods
+extension SettingsTableViewCell {
+
+    func configure(with setting: Setting) {
+        label.text = setting.type.name
+        settingControl.setTitle(setting.type.units[0].name, forSegmentAt: 0)
+        settingControl.setTitle(setting.type.units[1].name, forSegmentAt: 1)
+        settingControl.selectedSegmentIndex = setting.selectedIndex
+    }
+
+    @objc func didChangeSegment(_ sender: UISegmentedControl) {
+        onSegmentChanged?(sender.selectedSegmentIndex)
+    }
+}
+
 // MARK: - Private Methods
 private extension SettingsTableViewCell {
     func setupUI() {
@@ -59,21 +74,6 @@ private extension SettingsTableViewCell {
             settingControl.widthAnchor.constraint(equalToConstant: Appearance.controlWidth),
             settingControl.heightAnchor.constraint(equalToConstant: Appearance.controlHeight)
         ])
-    }
-}
-
-// MARK: - Public Methods
-extension SettingsTableViewCell {
-
-    func configure(with setting: Setting) {
-        label.text = setting.type.name
-        settingControl.setTitle(setting.type.units[0].name, forSegmentAt: 0)
-        settingControl.setTitle(setting.type.units[1].name, forSegmentAt: 1)
-        settingControl.selectedSegmentIndex = setting.selectedIndex
-    }
-
-    @objc func didChangeSegment(_ sender: UISegmentedControl) {
-        onSegmentChanged?(sender.selectedSegmentIndex)
     }
 }
 

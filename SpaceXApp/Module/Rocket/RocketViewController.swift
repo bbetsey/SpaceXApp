@@ -15,7 +15,7 @@ final class RocketViewController: UIViewController {
     private let viewModel: RocketViewModelProtocol
     private let disposeBag = DisposeBag()
     private lazy var collectionView: UICollectionView = {
-        let layout = createCollectionViewLayout()
+        let layout = makeCollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.contentInsetAdjustmentBehavior = .never
@@ -26,6 +26,11 @@ final class RocketViewController: UIViewController {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = .systemGray4
         return indicator
+    }()
+    private lazy var dataSource: RocketDataSource = {
+        let dataSource = makeDataSource()
+        dataSource.supplementaryViewProvider = makeSupplementaryViewProvider()
+        return dataSource
     }()
     
     init(viewModel: RocketViewModelProtocol) {
@@ -40,7 +45,6 @@ final class RocketViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupDataSource()
         bindViewModel()
     }
 
@@ -98,24 +102,23 @@ private extension RocketViewController {
 
 // MARK: - CollectionViewCompositionalLayout
 private extension RocketViewController {
-    func createCollectionViewLayout() -> UICollectionViewCompositionalLayout {
+    func makeCollectionViewLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout {
-            [weak self] sectionIndex, _ -> NSCollectionLayoutSection? in
+            [weak self] sectionIndex, _  in
 
-            guard let self = self else { return nil }
-            guard let dataSource = self.collectionView.dataSource as? RocketDataSource else { return nil }
-            let section = dataSource.snapshot().sectionIdentifiers[sectionIndex]
+            guard let self else { return nil }
+            let section = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
 
             switch section.type {
             case .header:
-                return self.createHeaderViewLayout()
+                return self.makeHeaderViewLayout()
             case .horizontal:
-                return self.createHorizontalSection()
+                return self.makeHorizontalSection()
             case .info(title: let title):
-                guard title != nil else { return self.createInfoSection(withHeader: false) }
-                return self.createInfoSection(withHeader: true)
+                guard title != nil else { return self.makeInfoSection(withHeader: false) }
+                return self.makeInfoSection(withHeader: true)
             case .button:
-                return self.createButtonSection()
+                return self.makeButtonSection()
             }
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -124,7 +127,7 @@ private extension RocketViewController {
         return layout
     }
 
-    func createHeaderViewLayout() -> NSCollectionLayoutSection {
+    func makeHeaderViewLayout() -> NSCollectionLayoutSection {
         let itemSize = Appearance.headerItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
@@ -136,7 +139,7 @@ private extension RocketViewController {
         return section
     }
 
-    func createHorizontalSection() -> NSCollectionLayoutSection {
+    func makeHorizontalSection() -> NSCollectionLayoutSection {
         let itemSize = Appearance.horizontalItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = Appearance.horizontalItemInsets
@@ -148,7 +151,7 @@ private extension RocketViewController {
         return section
     }
 
-    func createInfoSection(withHeader: Bool) -> NSCollectionLayoutSection {
+    func makeInfoSection(withHeader: Bool) -> NSCollectionLayoutSection {
         let itemSize = Appearance.infoItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = Appearance.infoGroupSize
@@ -161,7 +164,7 @@ private extension RocketViewController {
         return section
     }
 
-    func createButtonSection() -> NSCollectionLayoutSection {
+    func makeButtonSection() -> NSCollectionLayoutSection {
         let itemSize = Appearance.buttonItemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = Appearance.buttonGroupSize
@@ -180,50 +183,46 @@ private extension RocketViewController {
             snapshot.appendSections([section])
             snapshot.appendItems(section.items, toSection: section)
         }
-        if let dataSource = collectionView.dataSource as? RocketDataSource {
-            dataSource.apply(snapshot, animatingDifferences: false)
-        }
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
 
-    func setupDataSource() {
-        let dataSource = RocketDataSource(collectionView: collectionView) { collectionView, indexPath, rocketItem in
-            guard let dataSource = collectionView.dataSource as? RocketDataSource else { return nil }
-            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+    func makeDataSource() -> RocketDataSource {
+        .init(collectionView: collectionView) { [weak self] collectionView, indexPath, rocketItem in
+            guard let self else { return nil }
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
 
             switch rocketItem {
-            case .header(let title, let imageURL):
-                guard let cell = collectionView
-                    .dequeueReusableCell(withReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier, for: indexPath)
-                        as? HeaderCollectionViewCell else { return UICollectionViewCell() }
+            case let .header(title, imageURL):
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier, for: indexPath
+                ) as? HeaderCollectionViewCell else { return UICollectionViewCell() }
                 cell.configure(withTitle: title, andImageURL: imageURL)
                 return cell
-            case .info(let value, let description, _):
+            case let .info(value, description, _):
                 if section.type == .horizontal {
-                    guard let cell = collectionView
-                        .dequeueReusableCell(withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier,
-                                             for: indexPath)
-                            as? HorizontalCollectionViewCell else { return UICollectionViewCell() }
+                    guard let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier, for: indexPath
+                    ) as? HorizontalCollectionViewCell else { return UICollectionViewCell() }
                     cell.configure(withValue: value, andDescription: description)
                     return cell
                 }
-                guard let cell = collectionView
-                    .dequeueReusableCell(withReuseIdentifier: InfoCollectionViewCell.reuseIdentifier, for: indexPath)
-                        as? InfoCollectionViewCell else { return UICollectionViewCell() }
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: InfoCollectionViewCell.reuseIdentifier, for: indexPath
+                ) as? InfoCollectionViewCell else { return UICollectionViewCell() }
                 cell.configure(withValue: value, andDescription: description)
                 return cell
             case .button:
-                return collectionView
-                    .dequeueReusableCell(withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath)
+                return collectionView.dequeueReusableCell(
+                    withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath
+                )
             }
         }
-        setupSupplementaryViewProvider(for: dataSource)
-        collectionView.dataSource = dataSource
     }
 
-    func setupSupplementaryViewProvider(for dataSource: RocketDataSource) {
-        dataSource.supplementaryViewProvider = { (collectionView, kind, indexPath) -> UICollectionReusableView? in
-            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
-            let sectionIdentifiers = dataSource.snapshot().sectionIdentifiers
+    func makeSupplementaryViewProvider() -> RocketDataSource.SupplementaryViewProvider {
+         { [weak self] collectionView, kind, indexPath in
+            guard let self, kind == UICollectionView.elementKindSectionHeader else { return nil }
+            let sectionIdentifiers = self.dataSource.snapshot().sectionIdentifiers
             let section = sectionIdentifiers[indexPath.section]
             let view = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,

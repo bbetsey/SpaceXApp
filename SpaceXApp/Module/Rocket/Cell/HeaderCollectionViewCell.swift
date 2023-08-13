@@ -55,6 +55,15 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Public Methods
+extension HeaderCollectionViewCell {
+    func configure(withTitle title: String?, andImageURL imageURL: String?) {
+        guard let imageURL = imageURL, let url = URL(string: imageURL) else { return }
+        headerTitle.text = title
+        rocketImage.kf.setImage(with: url)
+    }
+}
+
 // MARK: - Private Methods
 private extension HeaderCollectionViewCell {
     func setupUI() {
@@ -84,15 +93,6 @@ private extension HeaderCollectionViewCell {
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
-    }
-}
-
-// MARK: - Public Methods
-extension HeaderCollectionViewCell {
-    func configure(withTitle title: String?, andImageURL imageURL: String?) {
-        guard let imageURL = imageURL, let url = URL(string: imageURL) else { return }
-        headerTitle.text = title
-        rocketImage.kf.setImage(with: url)
     }
 }
 

@@ -27,6 +27,13 @@ final class HeaderSupplementaryView: UICollectionReusableView {
     }
 }
 
+// MARK: - Public Methods
+extension HeaderSupplementaryView {
+    func configure(withTitle title: String?) {
+        sectionTitle.text = title
+    }
+}
+
 // MARK: - Private Methods
 private extension HeaderSupplementaryView {
     func setupUI() {
@@ -36,13 +43,6 @@ private extension HeaderSupplementaryView {
             sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.titleLeading),
             sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.titleTrailing),
         ])
-    }
-}
-
-// MARK: - Public Methods
-extension HeaderSupplementaryView {
-    func configure(withTitle title: String?) {
-        sectionTitle.text = title
     }
 }
 

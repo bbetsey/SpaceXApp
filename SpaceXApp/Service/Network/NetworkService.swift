@@ -41,7 +41,7 @@ final class NetworkService {
 private extension NetworkService {
     func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest, decoder: JSONDecoder) -> Single<T> {
         .create { [weak self] single in
-            guard let self = self, let url = URL(string: self.baseURL) else {
+            guard let self, let url = URL(string: self.baseURL) else {
                 single(.failure(NetworkError.invalidURL))
                 return Disposables.create()
             }
