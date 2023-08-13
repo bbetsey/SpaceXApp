@@ -11,8 +11,8 @@ final class ButtonCollectionViewCell: UICollectionViewCell {
 
     private var launchButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Appearance.buttonColor
-        button.setTitleColor(Appearance.buttonTitleColor, for: .normal)
+        button.backgroundColor = .systemGray6
+        button.setTitleColor(.label, for: .normal)
         button.setTitle(Appearance.buttonTitle, for: .normal)
         button.titleLabel?.font = Appearance.buttonTitleFont
         button.layer.cornerRadius = Appearance.buttonCornerRadius
@@ -48,9 +48,7 @@ private extension ButtonCollectionViewCell {
 private extension ButtonCollectionViewCell {
     struct Appearance {
         static let buttonTitle = "Посмотреть запуски"
-        static let buttonTitleColor: UIColor = .label
         static let buttonTitleFont: UIFont = .systemFont(ofSize: 18, weight: .medium)
-        static let buttonColor: UIColor = .systemGray6
         static let buttonCornerRadius: CGFloat = 12
         static let buttonBottom: CGFloat = -32
         static let buttonLeading: CGFloat = 32

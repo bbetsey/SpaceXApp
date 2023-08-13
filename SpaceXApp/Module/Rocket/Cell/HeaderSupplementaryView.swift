@@ -12,7 +12,7 @@ final class HeaderSupplementaryView: UICollectionReusableView {
     private var sectionTitle: UILabel = {
         let label = UILabel()
         label.font = Appearance.titleFont
-        label.textColor = Appearance.titleColor
+        label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,7 +50,6 @@ private extension HeaderSupplementaryView {
 private extension HeaderSupplementaryView {
     struct Appearance {
         static let titleFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
-        static let titleColor: UIColor = .label
         static let titleLeading: CGFloat = 32
         static let titleTrailing: CGFloat = -32
     }

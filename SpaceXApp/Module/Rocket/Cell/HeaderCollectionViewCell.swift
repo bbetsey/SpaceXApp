@@ -18,21 +18,21 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
     }()
     private var headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Appearance.headerColor
+        view.backgroundColor = .systemBackground
         view.layer.cornerRadius = Appearance.headerCornerRadius
         return view
     }()
     private var headerTitle: UILabel = {
         let title = UILabel()
         title.font = Appearance.headerTitleFont
-        title.textColor = Appearance.headerTitleColor
+        title.textColor = .label
         return title
     }()
     private var settingsButton: UIButton = {
         let configuration = UIImage.SymbolConfiguration(pointSize: Appearance.settingImagePointSize, weight: .medium)
         let image = UIImage(systemName: Appearance.settingImageName, withConfiguration: configuration)
         let button = UIButton()
-        button.tintColor = Appearance.settingButtonTintColor
+        button.tintColor = .secondaryLabel
         button.setImage(image, for: .normal)
         return button
     }()
@@ -103,11 +103,8 @@ private extension HeaderCollectionViewCell {
         static let headerViewTop: CGFloat = -30
         static let headerCornerRadius: CGFloat = 32
         static let headerTitleFont: UIFont = .systemFont(ofSize: 24, weight: .medium)
-        static let headerTitleColor: UIColor = .label
-        static let headerColor: UIColor = .systemBackground
         static let settingImagePointSize: CGFloat = 24
         static let settingImageName = "gearshape"
-        static let settingButtonTintColor: UIColor = .secondaryLabel
         static let stackSpacing: CGFloat = 16
         static let stackLeading: CGFloat = 32
         static let stackTrailing: CGFloat = -32

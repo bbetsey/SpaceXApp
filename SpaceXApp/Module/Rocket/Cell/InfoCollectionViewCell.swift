@@ -12,13 +12,13 @@ final class InfoCollectionViewCell: UICollectionViewCell {
     private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.descriptionLabelFont
-        label.textColor = Appearance.descriptionTextColor
+        label.textColor = .secondaryLabel
         return label
     }()
     private var valueLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.valueLabelFont
-        label.textColor = Appearance.valueTextColor
+        label.textColor = .label
         label.textAlignment = .right
         return label
     }()
@@ -67,9 +67,7 @@ private extension InfoCollectionViewCell {
 private extension InfoCollectionViewCell {
     struct Appearance {
         static let valueLabelFont: UIFont = .systemFont(ofSize: 16, weight: .medium)
-        static let valueTextColor: UIColor = .label
         static let descriptionLabelFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
-        static let descriptionTextColor: UIColor = .secondaryLabel
         static let stackSpacing: CGFloat = 16
         static let stackTop: CGFloat = 12
         static let stackBottom: CGFloat = -12

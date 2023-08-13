@@ -114,7 +114,7 @@ private extension RocketViewController {
                 return self.makeHeaderViewLayout()
             case .horizontal:
                 return self.makeHorizontalSection()
-            case .info(title: let title):
+            case let .info(title):
                 guard title != nil else { return self.makeInfoSection(withHeader: false) }
                 return self.makeInfoSection(withHeader: true)
             case .button:

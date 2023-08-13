@@ -12,14 +12,14 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
     private var valueLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.valueLabelFont
-        label.textColor = Appearance.valueTextColor
+        label.textColor = .label
         label.textAlignment = .center
         return label
     }()
     private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.descriptionLabelFont
-        label.textColor = Appearance.descriptionTextColor
+        label.textColor = .secondaryLabel
         label.textAlignment = .center
         return label
     }()
@@ -52,7 +52,7 @@ extension HorizontalCollectionViewCell {
 // MARK: - Private Methods
 private extension HorizontalCollectionViewCell {
     func setupUI() {
-        contentView.backgroundColor = Appearance.contentViewColor
+        contentView.backgroundColor = .systemGray6
         contentView.layer.cornerRadius = Appearance.contentViewCornerRadius
         addSubview(stackView)
         [valueLabel, descriptionLabel, stackView].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
@@ -70,14 +70,11 @@ private extension HorizontalCollectionViewCell {
 private extension HorizontalCollectionViewCell {
     struct Appearance {
         static let valueLabelFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
-        static let valueTextColor: UIColor = .label
         static let descriptionLabelFont: UIFont = .systemFont(ofSize: 12, weight: .light)
-        static let descriptionTextColor: UIColor = .secondaryLabel
         static let stackSpacing: CGFloat = 3
         static let stackCenterY: CGFloat = 2
         static let stackLeading: CGFloat = 8
         static let stackTrailing: CGFloat = -8
         static let contentViewCornerRadius: CGFloat = 28
-        static let contentViewColor: UIColor = .systemGray6
     }
 }

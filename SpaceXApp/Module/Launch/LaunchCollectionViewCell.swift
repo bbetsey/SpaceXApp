@@ -17,7 +17,7 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.font = Appearance.dateLabelFont
-        label.textColor = Appearance.dateLabelColor
+        label.textColor = .systemGray
         return label
     }()
     private lazy var labelStackView: UIStackView = {
@@ -80,7 +80,6 @@ private extension LaunchCollectionViewCell {
     struct Appearance {
         static let missionLabelFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
         static let dateLabelFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
-        static let dateLabelColor: UIColor = .systemGray
         static let stackLeading: CGFloat = 24
         static let stackTraling: CGFloat = -16
         static let stackHeight: CGFloat = 52
