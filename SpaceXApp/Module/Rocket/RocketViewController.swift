@@ -86,12 +86,9 @@ private extension RocketViewController {
                                 forCellWithReuseIdentifier: InfoCollectionViewCell.reuseIdentifier)
         collectionView.register(ButtonCollectionViewCell.self,
                                 forCellWithReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier)
-
-        collectionView.register(
-            HeaderSupplementaryView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier
-        )
+        collectionView.register(HeaderSupplementaryView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier)
     }
 }
 

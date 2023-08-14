@@ -49,7 +49,6 @@ extension StorageService {
             print("Error decoding settings: \(error)")
             return getDefaultSetting(type: type)
         }
-
     }
 
     func fetchSettings() -> [Setting] {
