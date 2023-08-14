@@ -193,7 +193,6 @@ private extension RocketViewController {
                 ) as? HeaderCollectionViewCell else { return UICollectionViewCell() }
                 cell.configure(withTitle: title, andImageURL: imageURL)
                 cell.settingsButtonTapped
-                    .asDriver(onErrorJustReturn: ())
                     .drive { _ in
                         let settingsViewModel = SettingsViewModel()
                         let settingsViewController = SettingsTableViewController(settingsViewModel: settingsViewModel)

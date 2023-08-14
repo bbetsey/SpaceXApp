@@ -45,8 +45,9 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         stack.spacing = Appearance.stackSpacing
         return stack
     }()
+    private var buttonTapped = PublishRelay<Void>()
 
-    var settingsButtonTapped = PublishRelay<Void>()
+    var settingsButtonTapped: Driver<Void> { buttonTapped.asDriver(onErrorJustReturn: ()) }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -101,7 +102,7 @@ private extension HeaderCollectionViewCell {
     }
 
     @IBAction func openSettings() {
-        settingsButtonTapped.accept(())
+        buttonTapped.accept(())
     }
 }
 
