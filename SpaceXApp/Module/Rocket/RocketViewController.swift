@@ -54,10 +54,10 @@ private extension RocketViewController {
 
     func bindViewModel() {
         viewModel.sections
-            .drive(onNext: { [weak self] sections in
+            .drive { [weak self] sections in
                 self?.activityIndicator.stopAnimating()
                 self?.applySnapshot(sections: sections)
-            })
+            }
             .disposed(by: disposeBag)
     }
 
@@ -98,12 +98,9 @@ private extension RocketViewController {
 // MARK: - CollectionViewCompositionalLayout
 private extension RocketViewController {
     func makeCollectionViewLayout() -> UICollectionViewCompositionalLayout {
-        let layout = UICollectionViewCompositionalLayout {
-            [weak self] sectionIndex, _  in
-
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _  in
             guard let self else { return nil }
             let section = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
-
             switch section.type {
             case .header:
                 return self.makeHeaderViewLayout()
@@ -222,7 +219,7 @@ private extension RocketViewController {
     }
 
     func makeSupplementaryViewProvider() -> RocketDataSource.SupplementaryViewProvider {
-         { [weak self] collectionView, kind, indexPath in
+        { [weak self] collectionView, kind, indexPath in
             guard let self, kind == UICollectionView.elementKindSectionHeader else { return nil }
             let sectionIdentifiers = self.dataSource.snapshot().sectionIdentifiers
             let section = sectionIdentifiers[indexPath.section]
@@ -230,7 +227,6 @@ private extension RocketViewController {
                 ofKind: kind,
                 withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
                 for: indexPath) as? HeaderSupplementaryView
-
             guard case let .info(title) = section.type else { return nil }
             view?.configure(withTitle: title)
             return view
@@ -258,7 +254,6 @@ private extension RocketViewController {
             .init(top: 0, leading: 0, bottom: 0, trailing: 12)
         static let horizontalSectionInsets = NSDirectionalEdgeInsets
             .init(top: 0, leading: 32, bottom: 0, trailing: 0)
-
         static let infoItemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
