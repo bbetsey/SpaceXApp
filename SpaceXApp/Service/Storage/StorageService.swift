@@ -28,7 +28,6 @@ final class StorageService {
 
 // MARK: - Public Methods
 extension StorageService {
-
     func setSetting(setting: Setting) {
         do {
             let data = try encoder.encode(setting)
@@ -39,48 +38,15 @@ extension StorageService {
         }
     }
 
-    func fetchSetting(type: SettingType) -> Setting {
+    func fetchSetting(type: SettingType) -> Setting? {
         guard let setting = userDefaults.data(forKey: type.name) else {
-            return getDefaultSetting(type: type)
+            return nil
         }
         do {
             return try decoder.decode(Setting.self, from: setting)
         } catch {
             print("Error decoding settings: \(error)")
-            return getDefaultSetting(type: type)
+            return nil
         }
-    }
-
-    func fetchSettings() -> [Setting] {
-        let data = [
-            SettingType.height.name,
-            SettingType.diameter.name,
-            SettingType.weight.name,
-            SettingType.payloadWeight.name
-        ].compactMap { userDefaults.data(forKey: $0) }
-        do {
-            return try data.compactMap { try decoder.decode(Setting.self, from: $0) }
-        } catch {
-            print("Error decoding settings: \(error)")
-            return setDefaultSettings()
-        }
-    }
-}
-
-// MARK: - Private Methods
-private extension StorageService {
-    func setDefaultSettings() -> [Setting] {
-        let defaultSettings = [
-            getDefaultSetting(type: .height),
-            getDefaultSetting(type: .diameter),
-            getDefaultSetting(type: .weight),
-            getDefaultSetting(type: .payloadWeight),
-        ]
-        defaultSettings.forEach(setSetting)
-        return defaultSettings
-    }
-
-    func getDefaultSetting(type: SettingType) -> Setting {
-        Setting(type: type, selectedIndex: 1)
     }
 }

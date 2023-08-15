@@ -24,7 +24,7 @@ struct Rocket: Decodable {
 
 extension Rocket {
     var imageURL: URL? {
-        URL(string: flickrImages[Int.random(in: 0..<flickrImages.count)])
+        URL(string: flickrImages[0])
     }
 
     struct Stage: Decodable {
