@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 import RxCocoa
+import RxSwift
 
 final class HeaderCollectionViewCell: UICollectionViewCell {
 
@@ -45,9 +46,6 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         stack.spacing = Appearance.stackSpacing
         return stack
     }()
-    private var buttonTapped = PublishRelay<Void>()
-
-    var settingsButtonTapped: Driver<Void> { buttonTapped.asDriver(onErrorJustReturn: ()) }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -61,10 +59,13 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Public Methods
 extension HeaderCollectionViewCell {
-    func configure(withTitle title: String?, andImageURL imageURL: String?) {
-        guard let imageURL = imageURL, let url = URL(string: imageURL) else { return }
+    func configure(title: String, imageURL: URL?, disposeBag: DisposeBag, closure: @escaping () -> Void) {
+        guard let imageURL else { return }
         headerTitle.text = title
-        rocketImage.kf.setImage(with: url)
+        rocketImage.kf.setImage(with: imageURL)
+        settingsButton.rx.tap
+            .bind(onNext: closure)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -76,7 +77,6 @@ private extension HeaderCollectionViewCell {
         [rocketImage, headerView].forEach(addSubview)
         [rocketImage, headerView, headerTitle, settingsButton, stackView]
             .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        settingsButton.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         contentView.isUserInteractionEnabled = false
 
         NSLayoutConstraint.activate([
@@ -99,10 +99,6 @@ private extension HeaderCollectionViewCell {
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
-    }
-
-    @IBAction func openSettings() {
-        buttonTapped.accept(())
     }
 }
 

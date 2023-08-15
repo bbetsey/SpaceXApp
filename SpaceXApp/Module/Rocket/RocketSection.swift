@@ -15,7 +15,7 @@ enum RocketSectionType: Hashable {
 }
 
 enum RocketItem: Hashable {
-    case header(title: String, imageURL: String)
+    case header(title: String, imageURL: URL?)
     case info(value: String, description: String, uuid: UUID = UUID())
     case button
 }

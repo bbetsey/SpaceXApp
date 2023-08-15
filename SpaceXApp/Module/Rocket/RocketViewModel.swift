@@ -52,7 +52,7 @@ final class RocketViewModel: RocketViewModelProtocol {
 private extension RocketViewModel {
 
     func bindSettings() {
-        storageService.settingsChanged.map { [weak self] _ in
+        storageService.settingsChanged.map { [weak self] in
             self?.makeSections() ?? []
         }
         .bind(to: sectionsSubject)
@@ -78,7 +78,7 @@ private extension RocketViewModel {
         RocketSection(
             type: .header,
             items: [
-                .header(title: rocket.rocketName, imageURL: rocket.flickrImages[0])
+                .header(title: rocket.rocketName, imageURL: rocket.imageURL)
             ]
         )
     }

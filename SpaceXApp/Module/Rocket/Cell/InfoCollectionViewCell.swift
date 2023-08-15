@@ -42,7 +42,7 @@ final class InfoCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Public Methods
 extension InfoCollectionViewCell {
-    func configure(withValue value: String?, andDescription description: String?) {
+    func configure(value: String, description: String) {
         valueLabel.text = value
         descriptionLabel.text = description
     }

@@ -43,7 +43,7 @@ final class HorizontalCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Public Methods
 extension HorizontalCollectionViewCell {
-    func configure(withValue value: String?, andDescription description: String?) {
+    func configure(value: String, description: String) {
         valueLabel.text = value
         descriptionLabel.text = description
     }

@@ -29,7 +29,7 @@ final class HeaderSupplementaryView: UICollectionReusableView {
 
 // MARK: - Public Methods
 extension HeaderSupplementaryView {
-    func configure(withTitle title: String?) {
+    func configure(title: String) {
         sectionTitle.text = title
     }
 }

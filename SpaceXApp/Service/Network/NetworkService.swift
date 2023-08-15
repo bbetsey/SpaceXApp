@@ -40,35 +40,12 @@ final class NetworkService {
 // MARK: - Private Methods
 private extension NetworkService {
     func fetchData<T: Decodable>(dataType: T.Type, apiRequest: APIRequest, decoder: JSONDecoder) -> Single<T> {
-        .create { [weak self] single in
-            guard let self, let url = URL(string: self.baseURL) else {
-                single(.failure(NetworkError.invalidURL))
-                return Disposables.create()
-            }
-
-            let request = apiRequest.request(with: url)
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    single(.failure(error))
-                    return
-                }
-                guard let data = data else {
-                    single(.failure(NetworkError.noData))
-                    return
-                }
-                do {
-                    let dataResponse = try decoder.decode(T.self, from: data)
-                    single(.success(dataResponse))
-                } catch let error {
-                    single(.failure(error))
-                }
-            }
-            task.resume()
-
-            return Disposables.create {
-                task.cancel()
-            }
+        guard let url = URL(string: baseURL) else {
+            return Single.error(NetworkError.invalidURL)
         }
+        let request = apiRequest.request(with: url)
+        return URLSession.shared.rx.data(request: request)
+            .map { return try decoder.decode(T.self, from: $0) }
+            .asSingle()
     }
-
 }

@@ -23,6 +23,10 @@ struct Rocket: Decodable {
 }
 
 extension Rocket {
+    var imageURL: URL? {
+        URL(string: flickrImages[Int.random(in: 0..<flickrImages.count)])
+    }
+
     struct Stage: Decodable {
         let engines: Int
         let fuelAmountTons: Double

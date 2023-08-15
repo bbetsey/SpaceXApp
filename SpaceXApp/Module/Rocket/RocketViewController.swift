@@ -104,7 +104,7 @@ private extension RocketViewController {
             case .horizontal:
                 return self.makeHorizontalSection()
             case let .info(title):
-                guard title != nil else { return self.makeInfoSection(withHeader: false) }
+                guard let _ = title else { return self.makeInfoSection(withHeader: false) }
                 return self.makeInfoSection(withHeader: true)
             case .button:
                 return self.makeButtonSection()
@@ -185,27 +185,25 @@ private extension RocketViewController {
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier, for: indexPath
                 ) as? HeaderCollectionViewCell else { return UICollectionViewCell() }
-                cell.configure(withTitle: title, andImageURL: imageURL)
-                cell.settingsButtonTapped
-                    .drive { _ in
-                        let settingsViewModel = SettingsViewModel()
-                        let settingsViewController = SettingsTableViewController(settingsViewModel: settingsViewModel)
-                        let navigationController = UINavigationController(rootViewController: settingsViewController)
-                        self.present(navigationController, animated: true, completion: nil)
-                    }.disposed(by: disposeBag)
+                cell.configure(title: title, imageURL: imageURL, disposeBag: disposeBag) {
+                    let settingsViewModel = SettingsViewModel()
+                    let settingsViewController = SettingsTableViewController(settingsViewModel: settingsViewModel)
+                    let navigationController = UINavigationController(rootViewController: settingsViewController)
+                    self.present(navigationController, animated: true)
+                }
                 return cell
             case let .info(value, description, _):
                 if section.type == .horizontal {
                     guard let cell = collectionView.dequeueReusableCell(
                         withReuseIdentifier: HorizontalCollectionViewCell.reuseIdentifier, for: indexPath
                     ) as? HorizontalCollectionViewCell else { return UICollectionViewCell() }
-                    cell.configure(withValue: value, andDescription: description)
+                    cell.configure(value: value, description: description)
                     return cell
                 }
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: InfoCollectionViewCell.reuseIdentifier, for: indexPath
                 ) as? InfoCollectionViewCell else { return UICollectionViewCell() }
-                cell.configure(withValue: value, andDescription: description)
+                cell.configure(value: value, description: description)
                 return cell
             case .button:
                 return collectionView.dequeueReusableCell(
@@ -224,8 +222,8 @@ private extension RocketViewController {
                 ofKind: kind,
                 withReuseIdentifier: HeaderSupplementaryView.reuseIdentifier,
                 for: indexPath) as? HeaderSupplementaryView
-            guard case let .info(title) = section.type else { return nil }
-            view?.configure(withTitle: title)
+            guard case let .info(title) = section.type, let title else { return nil }
+            view?.configure(title: title)
             return view
         }
     }
