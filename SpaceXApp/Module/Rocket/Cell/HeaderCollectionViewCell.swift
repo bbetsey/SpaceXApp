@@ -65,8 +65,7 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Public Methods
 extension HeaderCollectionViewCell {
-    func configure(title: String, imageURL: URL?, closure: @escaping () -> Void) {
-        guard let imageURL else { return }
+    func configure(title: String, imageURL: URL, closure: @escaping () -> Void) {
         headerTitle.text = title
         rocketImage.kf.setImage(with: imageURL, placeholder: UIImage(named: "placeholder"))
         settingsButton.rx.tap

@@ -78,7 +78,7 @@ private extension RocketViewModel {
         RocketSection(
             type: .header,
             items: [
-                .header(title: rocket.rocketName, imageURL: rocket.imageURL)
+                .header(title: rocket.rocketName, imageURL: rocket.flickrImages[0])
             ]
         )
     }

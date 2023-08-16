@@ -18,15 +18,11 @@ struct Rocket: Decodable {
     let costPerLaunch: Int
     let firstStage: Stage
     let secondStage: Stage
-    let flickrImages: [String]
+    let flickrImages: [URL]
     let rocketName: String
 }
 
 extension Rocket {
-    var imageURL: URL? {
-        URL(string: flickrImages[0])
-    }
-
     struct Stage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
