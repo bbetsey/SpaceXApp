@@ -13,6 +13,11 @@ final class SettingsTableViewController: UITableViewController {
 
     private let settingsViewModel: SettingsViewModelProtocol
     private let disposeBag = DisposeBag()
+    private lazy var closeButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Закрыть", style: .plain, target: self, action: #selector(closeTapped))
+        button.tintColor = .label
+        return button
+    }()
 
     init(settingsViewModel: SettingsViewModelProtocol = SettingsViewModel()) {
         self.settingsViewModel = settingsViewModel
@@ -40,10 +45,12 @@ final class SettingsTableViewController: UITableViewController {
 
 // MARK: - Private Methods
 private extension SettingsTableViewController {
+
     func setupUI() {
         tableView.dataSource = nil
         tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: SettingsTableViewCell.reuseIdentifier)
 
+        navigationItem.rightBarButtonItem = closeButton
         navigationController?.navigationBar.prefersLargeTitles = false
         title = Appearance.title
 
@@ -54,7 +61,8 @@ private extension SettingsTableViewController {
     func bindViewModel() {
         settingsViewModel.settings
             .drive(
-                tableView.rx.items(cellIdentifier: SettingsTableViewCell.reuseIdentifier, cellType: SettingsTableViewCell.self)
+                tableView.rx.items(cellIdentifier: SettingsTableViewCell.reuseIdentifier,
+                                   cellType: SettingsTableViewCell.self)
             ) { row, setting, cell in
                 cell.configure(with: setting)
                 cell.onSegmentChanged = { [weak self] index in
@@ -62,11 +70,15 @@ private extension SettingsTableViewController {
                 }
             }.disposed(by: disposeBag)
     }
+
+    @objc private func closeTapped() {
+        dismiss(animated: true)
+    }
 }
 
-// MARK: - Appearance
+// MARK: - Appearance Structure
 private extension SettingsTableViewController {
-    struct Appearance {
+    enum Appearance {
         static let headerHeight: CGFloat = 40
         static let rowHeight: CGFloat = 54
         static let title = "Настройки"

@@ -11,30 +11,23 @@ final class LaunchCollectionViewCell: UICollectionViewCell {
 
     private var missionNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Appearance.missionNameLabelFontSize, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = Appearance.missionLabelFont
         return label
     }()
-
     private var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Appearance.dateLabelFontSize, weight: .regular)
+        label.font = Appearance.dateLabelFont
         label.textColor = .systemGray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [missionNameLabel, dateLabel])
         stackView.distribution = .fill
         stackView.axis = .vertical
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-
     private var rocketImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
@@ -63,6 +56,8 @@ private extension LaunchCollectionViewCell {
         contentView.backgroundColor = .systemGray5
         contentView.layer.cornerRadius = Appearance.cornerRadius
         [labelStackView, rocketImageView].forEach(addSubview)
+        [missionNameLabel, dateLabel, labelStackView, rocketImageView]
+            .forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
 
         NSLayoutConstraint.activate([
             labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
@@ -80,11 +75,11 @@ private extension LaunchCollectionViewCell {
     }
 }
 
-// MARK: - Appearance
+// MARK: - Appearance Structure
 private extension LaunchCollectionViewCell {
-    struct Appearance {
-        static let missionNameLabelFontSize: CGFloat = 20
-        static let dateLabelFontSize: CGFloat = 16
+    enum Appearance {
+        static let missionLabelFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
+        static let dateLabelFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
         static let stackLeading: CGFloat = 24
         static let stackTraling: CGFloat = -16
         static let stackHeight: CGFloat = 52

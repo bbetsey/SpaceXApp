@@ -31,7 +31,7 @@ enum SettingType: Codable {
     case height
     case diameter
     case weight
-    case payloadWieght
+    case payloadWeight
     
     var name: String {
         switch self {
@@ -41,8 +41,8 @@ enum SettingType: Codable {
             return "Диаметр"
         case .weight:
             return "Масса"
-        case .payloadWieght:
-            return "Полезная нагрузка"
+        case .payloadWeight:
+            return "Нагрузка"
         }
     }
     
@@ -50,7 +50,7 @@ enum SettingType: Codable {
         switch self {
         case .diameter, .height:
             return [.feet, .meter]
-        case .weight, .payloadWieght:
+        case .weight, .payloadWeight:
             return [.kilogram, .pound]
         }
     }
@@ -59,4 +59,10 @@ enum SettingType: Codable {
 struct Setting: Codable {
     let type: SettingType
     var selectedIndex: Int
+}
+
+extension Setting {
+    var selectedUnit: Unit {
+        type.units[selectedIndex]
+    }
 }

@@ -5,16 +5,22 @@
 //  Created by Anton Tropin on 19.07.23.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
 
 final class StorageService {
+
+    static let shared = StorageService()
+
     private let key = "settings"
     private let encoder: JSONEncoder
     private let decoder: JSONDecoder
     private let userDefaults: UserDefaults
 
-    init(userDefaults: UserDefaults = .standard) {
-        self.userDefaults = userDefaults
+    let settingsChanged = PublishRelay<Void>()
+
+    private init() {
+        userDefaults = .standard
         encoder = JSONEncoder()
         decoder = JSONDecoder()
     }
@@ -22,34 +28,25 @@ final class StorageService {
 
 // MARK: - Public Methods
 extension StorageService {
-    func setSettings(settings: [Setting]) {
+    func setSetting(setting: Setting) {
         do {
-            let data = try encoder.encode(settings)
-            userDefaults.set(data, forKey: key)
+            let data = try encoder.encode(setting)
+            userDefaults.set(data, forKey: setting.type.name)
+            settingsChanged.accept(())
         } catch {
             print("Error encoding settings: \(error)")
         }
     }
 
-    func fetchSettings() -> [Setting] {
-        guard let data = userDefaults.data(forKey: key) else { return defaultSettings() }
+    func getSetting(type: SettingType) -> Setting? {
+        guard let setting = userDefaults.data(forKey: type.name) else {
+            return nil
+        }
         do {
-            return try decoder.decode([Setting].self, from: data)
+            return try decoder.decode(Setting.self, from: setting)
         } catch {
             print("Error decoding settings: \(error)")
-            return defaultSettings()
+            return nil
         }
-    }
-}
-
-// MARK: - Private Methods
-private extension StorageService {
-    func defaultSettings() -> [Setting] {
-        [
-            Setting(type: .height, selectedIndex: 1),
-            Setting(type: .diameter, selectedIndex: 1),
-            Setting(type: .weight, selectedIndex: 0),
-            Setting(type: .payloadWieght, selectedIndex: 1)
-        ]
     }
 }

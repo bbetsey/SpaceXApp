@@ -11,17 +11,15 @@ final class SettingsTableViewCell: UITableViewCell {
 
     private var label: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: Appearance.labelFontSize, weight: .medium)
+        label.font = Appearance.labelFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private lazy var settingControl: UISegmentedControl = {
         let control = UISegmentedControl(items: ["", ""])
-        let font = UIFont.systemFont(ofSize: Appearance.controlFontSize, weight: .medium)
         control.selectedSegmentTintColor = .white
-        control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.black], for: .selected)
-        control.setTitleTextAttributes([.font: font, .foregroundColor: UIColor.lightGray], for: .normal)
+        control.setTitleTextAttributes(Appearance.controlSelected, for: .selected)
+        control.setTitleTextAttributes(Appearance.controlNormal, for: .normal)
         control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
@@ -40,29 +38,6 @@ final class SettingsTableViewCell: UITableViewCell {
 
 }
 
-// MARK: - Private Methods
-private extension SettingsTableViewCell {
-    func setupUI() {
-        backgroundColor = .clear
-        selectionStyle = .none
-        contentView.isUserInteractionEnabled = false
-
-        [label, settingControl].forEach(addSubview)
-        NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.heightAnchor.constraint(equalToConstant: Appearance.labelHeight),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.labelLeading),
-            label.trailingAnchor.constraint(equalTo: settingControl.leadingAnchor, constant: Appearance.labelTrailing)
-        ])
-        NSLayoutConstraint.activate([
-            settingControl.centerYAnchor.constraint(equalTo: centerYAnchor),
-            settingControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.controlTrailing),
-            settingControl.widthAnchor.constraint(equalToConstant: Appearance.controlWidth),
-            settingControl.heightAnchor.constraint(equalToConstant: Appearance.controlHeight)
-        ])
-    }
-}
-
 // MARK: - Public Methods
 extension SettingsTableViewCell {
 
@@ -78,16 +53,48 @@ extension SettingsTableViewCell {
     }
 }
 
-// MARK: - Appearance
+// MARK: - Private Methods
 private extension SettingsTableViewCell {
-    struct Appearance {
+    func setupUI() {
+        backgroundColor = .clear
+        selectionStyle = .none
+        contentView.isUserInteractionEnabled = false
+        [label, settingControl].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [label, settingControl].forEach(addSubview)
+
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            label.heightAnchor.constraint(equalToConstant: Appearance.labelHeight),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.labelLeading),
+            label.trailingAnchor.constraint(equalTo: settingControl.leadingAnchor, constant: Appearance.labelTrailing)
+        ])
+        NSLayoutConstraint.activate([
+            settingControl.centerYAnchor.constraint(equalTo: centerYAnchor),
+            settingControl.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.controlTrailing),
+            settingControl.widthAnchor.constraint(equalToConstant: Appearance.controlWidth),
+            settingControl.heightAnchor.constraint(equalToConstant: Appearance.controlHeight)
+        ])
+    }
+}
+
+// MARK: - Appearance Structure
+private extension SettingsTableViewCell {
+    enum Appearance {
+        static let labelFont: UIFont = .systemFont(ofSize: 15, weight: .medium)
         static let labelLeading: CGFloat = 28
         static let labelTrailing: CGFloat = -16
         static let labelHeight: CGFloat = 35
-        static let labelFontSize: CGFloat = 15
         static let controlTrailing: CGFloat = -28
         static let controlHeight: CGFloat = 35
         static let controlWidth: CGFloat = 115
-        static let controlFontSize: CGFloat = 15
+        static let controlFont: UIFont = .systemFont(ofSize: 15, weight: .medium)
+        static var controlSelected: [NSAttributedString.Key: Any] = [
+            .font: Appearance.controlFont,
+            .foregroundColor: UIColor.black
+        ]
+        static var controlNormal: [NSAttributedString.Key: Any] = [
+            .font: Appearance.controlFont,
+            .foregroundColor: UIColor.secondaryLabel
+        ]
     }
 }

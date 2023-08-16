@@ -24,15 +24,20 @@ final class SettingsViewModel: SettingsViewModelProtocol {
         settingsSubject.asDriver(onErrorJustReturn: [])
     }
 
-    init(storageService: StorageService = StorageService()) {
+    init(storageService: StorageService = StorageService.shared) {
         self.storageService = storageService
-        settingsSubject = BehaviorSubject<[Setting]>(value: storageService.fetchSettings())
+        let settings = [
+            storageService.getSetting(type: .height) ?? Setting(type: .height, selectedIndex: 0),
+            storageService.getSetting(type: .diameter) ?? Setting(type: .diameter, selectedIndex: 0),
+            storageService.getSetting(type: .weight) ?? Setting(type: .weight, selectedIndex: 0),
+            storageService.getSetting(type: .payloadWeight) ?? Setting(type: .payloadWeight, selectedIndex: 0)
+        ]
+        settingsSubject = BehaviorSubject<[Setting]>(value: settings)
     }
 
     func updateSettings(at setting: Setting, withSelectedIndex selectedIndex: Int) {
-        var currentSettings = storageService.fetchSettings()
-        guard let index = currentSettings.firstIndex(where: { $0.type == setting.type }) else { return }
-        currentSettings[index].selectedIndex = selectedIndex
-        storageService.setSettings(settings: currentSettings)
+        var currentSetting = setting
+        currentSetting.selectedIndex = selectedIndex
+        storageService.setSetting(setting: currentSetting)
     }
 }
