@@ -68,7 +68,7 @@ extension HeaderCollectionViewCell {
     func configure(title: String, imageURL: URL?, closure: @escaping () -> Void) {
         guard let imageURL else { return }
         headerTitle.text = title
-        rocketImage.kf.setImage(with: imageURL)
+        rocketImage.kf.setImage(with: imageURL, placeholder: UIImage(named: "placeholder"))
         settingsButton.rx.tap
             .bind(onNext: closure)
             .disposed(by: disposeBag)
