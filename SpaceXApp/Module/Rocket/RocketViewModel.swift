@@ -139,7 +139,7 @@ private extension RocketViewModel {
 
 // MARK: - Private Methods
 private extension RocketViewModel {
-    struct Appearance {
+    enum Appearance {
         static let dateFormat = "d MMMM, yyyy"
         static let millionMultiplier = 1000000
         static let firstStageTitle = "ПЕРВАЯ СТУПЕНЬ"

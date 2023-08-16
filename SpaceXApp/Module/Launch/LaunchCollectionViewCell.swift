@@ -77,7 +77,7 @@ private extension LaunchCollectionViewCell {
 
 // MARK: - Appearance Structure
 private extension LaunchCollectionViewCell {
-    struct Appearance {
+    enum Appearance {
         static let missionLabelFont: UIFont = .systemFont(ofSize: 20, weight: .regular)
         static let dateLabelFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
         static let stackLeading: CGFloat = 24

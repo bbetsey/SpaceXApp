@@ -85,7 +85,7 @@ private extension LaunchCollectionViewController {
 
 // MARK: - Appearance Structure
 private extension LaunchCollectionViewController {
-    struct Appearance {
+    enum Appearance {
         static let minimumInteritemSpacing: CGFloat = 64
         static let minimumLineSpacing: CGFloat = 16
         static let rowHeight: CGFloat = 100

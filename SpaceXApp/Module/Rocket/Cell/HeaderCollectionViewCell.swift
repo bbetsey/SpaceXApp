@@ -110,7 +110,7 @@ private extension HeaderCollectionViewCell {
 
 // MARK: - Appearance Structure
 private extension HeaderCollectionViewCell {
-    struct Appearance {
+    enum Appearance {
         static let imageMargin: CGFloat = 40
         static let headerViewTop: CGFloat = -30
         static let headerCornerRadius: CGFloat = 32

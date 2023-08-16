@@ -79,7 +79,7 @@ private extension SettingsTableViewCell {
 
 // MARK: - Appearance Structure
 private extension SettingsTableViewCell {
-    struct Appearance {
+    enum Appearance {
         static let labelFont: UIFont = .systemFont(ofSize: 15, weight: .medium)
         static let labelLeading: CGFloat = 28
         static let labelTrailing: CGFloat = -16
@@ -88,11 +88,11 @@ private extension SettingsTableViewCell {
         static let controlHeight: CGFloat = 35
         static let controlWidth: CGFloat = 115
         static let controlFont: UIFont = .systemFont(ofSize: 15, weight: .medium)
-        static let controlSelected: [NSAttributedString.Key: Any] = [
+        static var controlSelected: [NSAttributedString.Key: Any] = [
             .font: Appearance.controlFont,
             .foregroundColor: UIColor.black
         ]
-        static let controlNormal: [NSAttributedString.Key: Any] = [
+        static var controlNormal: [NSAttributedString.Key: Any] = [
             .font: Appearance.controlFont,
             .foregroundColor: UIColor.secondaryLabel
         ]

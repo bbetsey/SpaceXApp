@@ -48,7 +48,7 @@ private extension HeaderSupplementaryView {
 
 // MARK: - Appearance Structure
 private extension HeaderSupplementaryView {
-    struct Appearance {
+    enum Appearance {
         static let titleFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
         static let titleLeading: CGFloat = 32
         static let titleTrailing: CGFloat = -32

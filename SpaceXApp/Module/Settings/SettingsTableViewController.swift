@@ -78,7 +78,7 @@ private extension SettingsTableViewController {
 
 // MARK: - Appearance Structure
 private extension SettingsTableViewController {
-    struct Appearance {
+    enum Appearance {
         static let headerHeight: CGFloat = 40
         static let rowHeight: CGFloat = 54
         static let title = "Настройки"

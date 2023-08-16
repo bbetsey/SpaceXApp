@@ -59,7 +59,7 @@ private extension LaunchViewModel {
 
 // MARK: - Appearance Structure
 private extension LaunchViewModel {
-    struct Appearance {
+    enum Appearance {
         static let dateFormat = "d MMMM, yyyy"
         static let unknownResultImageName = "unknown"
         static let successResultImageName = "success"

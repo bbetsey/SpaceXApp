@@ -231,7 +231,7 @@ private extension RocketViewController {
 
 // MARK: Appearance Structure
 private extension RocketViewController {
-    struct Appearance {
+    enum Appearance {
         static let interSectionSpacing: CGFloat = 32
         static let headerItemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -269,7 +269,7 @@ private extension RocketViewController {
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .absolute(50)
         )
-        static let sectionHeaderElement = NSCollectionLayoutBoundarySupplementaryItem(
+        static var sectionHeaderElement = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: Appearance.sectionHeaderSize,
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading

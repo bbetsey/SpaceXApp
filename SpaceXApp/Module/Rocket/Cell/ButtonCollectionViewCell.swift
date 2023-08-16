@@ -46,7 +46,7 @@ private extension ButtonCollectionViewCell {
 
 // MARK: - Appearance Structure
 private extension ButtonCollectionViewCell {
-    struct Appearance {
+    enum Appearance {
         static let buttonTitle = "Посмотреть запуски"
         static let buttonTitleFont: UIFont = .systemFont(ofSize: 18, weight: .medium)
         static let buttonCornerRadius: CGFloat = 12

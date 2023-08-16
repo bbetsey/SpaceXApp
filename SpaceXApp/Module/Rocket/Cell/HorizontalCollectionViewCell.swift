@@ -68,7 +68,7 @@ private extension HorizontalCollectionViewCell {
 
 // MARK: - Appearance Structure
 private extension HorizontalCollectionViewCell {
-    struct Appearance {
+    enum Appearance {
         static let valueLabelFont: UIFont = .systemFont(ofSize: 16, weight: .semibold)
         static let descriptionLabelFont: UIFont = .systemFont(ofSize: 12, weight: .light)
         static let stackSpacing: CGFloat = 3

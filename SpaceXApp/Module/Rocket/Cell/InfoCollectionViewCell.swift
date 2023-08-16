@@ -65,7 +65,7 @@ private extension InfoCollectionViewCell {
 
 // MARK: - Appearance Structure
 private extension InfoCollectionViewCell {
-    struct Appearance {
+    enum Appearance {
         static let valueLabelFont: UIFont = .systemFont(ofSize: 16, weight: .medium)
         static let descriptionLabelFont: UIFont = .systemFont(ofSize: 16, weight: .regular)
         static let stackSpacing: CGFloat = 16
