@@ -27,10 +27,10 @@ final class SettingsViewModel: SettingsViewModelProtocol {
     init(storageService: StorageService = StorageService.shared) {
         self.storageService = storageService
         let settings = [
-            storageService.fetchSetting(type: .height) ?? Setting(type: .height, selectedIndex: 0),
-            storageService.fetchSetting(type: .diameter) ?? Setting(type: .diameter, selectedIndex: 0),
-            storageService.fetchSetting(type: .weight) ?? Setting(type: .weight, selectedIndex: 0),
-            storageService.fetchSetting(type: .payloadWeight) ?? Setting(type: .payloadWeight, selectedIndex: 0)
+            storageService.getSetting(type: .height) ?? Setting(type: .height, selectedIndex: 0),
+            storageService.getSetting(type: .diameter) ?? Setting(type: .diameter, selectedIndex: 0),
+            storageService.getSetting(type: .weight) ?? Setting(type: .weight, selectedIndex: 0),
+            storageService.getSetting(type: .payloadWeight) ?? Setting(type: .payloadWeight, selectedIndex: 0)
         ]
         settingsSubject = BehaviorSubject<[Setting]>(value: settings)
     }

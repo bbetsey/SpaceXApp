@@ -45,7 +45,7 @@ private extension NetworkService {
         }
         let request = apiRequest.request(with: url)
         return URLSession.shared.rx.data(request: request)
-            .map { return try decoder.decode(T.self, from: $0) }
+            .map { try decoder.decode(T.self, from: $0) }
             .asSingle()
     }
 }

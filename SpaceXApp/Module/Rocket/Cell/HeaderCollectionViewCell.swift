@@ -46,6 +46,7 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
         stack.spacing = Appearance.stackSpacing
         return stack
     }()
+    private var disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,11 +56,16 @@ final class HeaderCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
 }
 
 // MARK: - Public Methods
 extension HeaderCollectionViewCell {
-    func configure(title: String, imageURL: URL?, disposeBag: DisposeBag, closure: @escaping () -> Void) {
+    func configure(title: String, imageURL: URL?, closure: @escaping () -> Void) {
         guard let imageURL else { return }
         headerTitle.text = title
         rocketImage.kf.setImage(with: imageURL)

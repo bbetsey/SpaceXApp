@@ -185,7 +185,7 @@ private extension RocketViewController {
                 guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HeaderCollectionViewCell.reuseIdentifier, for: indexPath
                 ) as? HeaderCollectionViewCell else { return UICollectionViewCell() }
-                cell.configure(title: title, imageURL: imageURL, disposeBag: disposeBag) {
+                cell.configure(title: title, imageURL: imageURL) {
                     let settingsViewModel = SettingsViewModel()
                     let settingsViewController = SettingsTableViewController(settingsViewModel: settingsViewModel)
                     let navigationController = UINavigationController(rootViewController: settingsViewController)

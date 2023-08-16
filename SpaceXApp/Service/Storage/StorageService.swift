@@ -38,7 +38,7 @@ extension StorageService {
         }
     }
 
-    func fetchSetting(type: SettingType) -> Setting? {
+    func getSetting(type: SettingType) -> Setting? {
         guard let setting = userDefaults.data(forKey: type.name) else {
             return nil
         }

@@ -106,10 +106,10 @@ private extension RocketViewModel {
     }
 
     func getHorizontalItems() -> [RocketItem] {
-        let heightSetting = storageService.fetchSetting(type: .height) ?? Setting(type: .height, selectedIndex: 0)
-        let diameterSetting = storageService.fetchSetting(type: .diameter) ?? Setting(type: .diameter, selectedIndex: 0)
-        let weightSetting = storageService.fetchSetting(type: .weight) ?? Setting(type: .weight, selectedIndex: 0)
-        let payloadSetting = storageService.fetchSetting(type: .payloadWeight) ?? Setting(type: .payloadWeight,
+        let heightSetting = storageService.getSetting(type: .height) ?? Setting(type: .height, selectedIndex: 0)
+        let diameterSetting = storageService.getSetting(type: .diameter) ?? Setting(type: .diameter, selectedIndex: 0)
+        let weightSetting = storageService.getSetting(type: .weight) ?? Setting(type: .weight, selectedIndex: 0)
+        let payloadSetting = storageService.getSetting(type: .payloadWeight) ?? Setting(type: .payloadWeight,
                                                                                           selectedIndex: 0)
 
         let hightValue = heightSetting.selectedUnit == .meter ? rocket.height.meters : rocket.height.feet
