@@ -58,7 +58,7 @@ private extension InfoCollectionViewCell {
             stackView.topAnchor.constraint(equalTo: topAnchor, constant: Appearance.stackTop),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.stackTrailing),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Appearance.stackBottom),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Appearance.stackBottom)
         ])
     }
 }

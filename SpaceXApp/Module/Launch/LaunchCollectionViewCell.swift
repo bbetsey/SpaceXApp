@@ -61,7 +61,8 @@ private extension LaunchCollectionViewCell {
 
         NSLayoutConstraint.activate([
             labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
-            labelStackView.trailingAnchor.constraint(equalTo: rocketImageView.leadingAnchor, constant: Appearance.stackTraling),
+            labelStackView.trailingAnchor.constraint(equalTo: rocketImageView.leadingAnchor,
+                                                     constant: Appearance.stackTraling),
             labelStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             labelStackView.heightAnchor.constraint(equalToConstant: Appearance.stackHeight)
         ])

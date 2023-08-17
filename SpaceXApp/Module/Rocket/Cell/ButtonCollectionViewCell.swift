@@ -39,7 +39,7 @@ private extension ButtonCollectionViewCell {
             launchButton.topAnchor.constraint(equalTo: topAnchor),
             launchButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Appearance.buttonBottom),
             launchButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.buttonLeading),
-            launchButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.buttonTrailing),
+            launchButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.buttonTrailing)
         ])
     }
 }

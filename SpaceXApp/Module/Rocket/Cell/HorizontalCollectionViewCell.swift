@@ -61,7 +61,7 @@ private extension HorizontalCollectionViewCell {
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: Appearance.stackCenterY),
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.stackTrailing),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.stackTrailing)
         ])
     }
 }

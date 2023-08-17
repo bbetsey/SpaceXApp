@@ -1,0 +1,27 @@
+# .swiftlint.yml
+
+disabled_rules:
+  - trailing_whitespace
+  - identifier_name
+
+opt_in_rules:
+  - empty_count
+  - missing_docs
+
+line_length:
+  warning: 120
+  error: 150
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+excluded:
+  - Carthage
+  - Pods
+  - RxCocoa-umbrella.h
+  - RxCocoaRuntime.h
+  - SomeDirectory/SomeFile.swift
+

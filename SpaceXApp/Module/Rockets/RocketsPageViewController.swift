@@ -69,7 +69,7 @@ private extension RocketsPageViewController {
     func bindViewModel() {
         viewModel.rockets
             .drive { [weak self] rockets in
-                guard let self, rockets.count > 0 else { return }
+                guard let self, !rockets.isEmpty else { return }
                 self.views = rockets.compactMap { rocket in
                     let rocketViewModel = RocketViewModel(rocket: rocket)
                     return RocketViewController(viewModel: rocketViewModel)
