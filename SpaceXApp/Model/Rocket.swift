@@ -20,6 +20,7 @@ struct Rocket: Decodable {
     let secondStage: Stage
     let flickrImages: [URL]
     let rocketName: String
+    let rocketId: String
 }
 
 extension Rocket {

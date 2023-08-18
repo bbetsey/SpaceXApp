@@ -206,9 +206,18 @@ private extension RocketViewController {
                 cell.configure(value: value, description: description)
                 return cell
             case .button:
-                return collectionView.dequeueReusableCell(
+                guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath
-                )
+                ) as? ButtonCollectionViewCell else { return UICollectionViewCell() }
+                cell.configure {
+                    let launchViewModel = LaunchViewModel(
+                        rocketID: self.viewModel.rocket.rocketId,
+                        rocketTitle: self.viewModel.rocket.rocketName
+                    )
+                    let launchViewController = LaunchCollectionViewController(launchViewModel: launchViewModel)
+                    self.parent?.navigationController?.pushViewController(launchViewController, animated: true)
+                }
+                return cell
             }
         }
     }

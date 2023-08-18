@@ -11,11 +11,11 @@ import RxSwift
 
 protocol RocketViewModelProtocol {
     var sections: Driver<[RocketSection]> { get }
+    var rocket: Rocket { get }
 }
 
 final class RocketViewModel: RocketViewModelProtocol {
 
-    private let rocket: Rocket
     private let networkService: NetworkService
     private let storageService: StorageService
     private let sectionsSubject = BehaviorSubject<[RocketSection]>(value: [])
@@ -31,6 +31,7 @@ final class RocketViewModel: RocketViewModelProtocol {
         return formatter
     }()
 
+    let rocket: Rocket
     var sections: Driver<[RocketSection]> {
         sectionsSubject.asDriver(onErrorJustReturn: [])
     }

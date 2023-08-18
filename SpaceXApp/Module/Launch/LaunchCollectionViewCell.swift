@@ -53,7 +53,7 @@ extension LaunchCollectionViewCell {
 // MARK: - Private Methods
 private extension LaunchCollectionViewCell {
     func setupUI() {
-        contentView.backgroundColor = .systemGray5
+        contentView.backgroundColor = .systemGray6
         contentView.layer.cornerRadius = Appearance.cornerRadius
         [labelStackView, rocketImageView].forEach(addSubview)
         [missionNameLabel, dateLabel, labelStackView, rocketImageView]
