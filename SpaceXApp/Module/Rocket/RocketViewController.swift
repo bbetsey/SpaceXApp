@@ -70,11 +70,11 @@ private extension RocketViewController {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         activityIndicator.startAnimating()
 
@@ -104,7 +104,7 @@ private extension RocketViewController {
             case .horizontal:
                 return self.makeHorizontalSection()
             case let .info(title):
-                guard let _ = title else { return self.makeInfoSection(withHeader: false) }
+                guard title != nil else { return self.makeInfoSection(withHeader: false) }
                 return self.makeInfoSection(withHeader: true)
             case .button:
                 return self.makeButtonSection()
@@ -206,9 +206,18 @@ private extension RocketViewController {
                 cell.configure(value: value, description: description)
                 return cell
             case .button:
-                return collectionView.dequeueReusableCell(
+                guard let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: ButtonCollectionViewCell.reuseIdentifier, for: indexPath
-                )
+                ) as? ButtonCollectionViewCell else { return UICollectionViewCell() }
+                cell.configure {
+                    let launchViewModel = LaunchViewModel(
+                        rocketID: self.viewModel.rocket.rocketId,
+                        rocketTitle: self.viewModel.rocket.rocketName
+                    )
+                    let launchViewController = LaunchCollectionViewController(launchViewModel: launchViewModel)
+                    self.parent?.navigationController?.pushViewController(launchViewController, animated: true)
+                }
+                return cell
             }
         }
     }

@@ -20,7 +20,10 @@ protocol APIRequest {
 
 extension APIRequest {
     func request(with baseURL: URL) -> URLRequest {
-        guard var components = URLComponents(url: baseURL.appendingPathComponent(path), resolvingAgainstBaseURL: false) else {
+        guard var components = URLComponents(
+            url: baseURL.appendingPathComponent(path),
+            resolvingAgainstBaseURL: false
+        ) else {
             fatalError("Unable to create URL components")
         }
         

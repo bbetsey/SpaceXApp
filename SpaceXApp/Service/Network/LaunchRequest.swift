@@ -8,7 +8,7 @@
 import Foundation
 
 struct LaunchRequest: APIRequest {
-    let parameters: [String : String]
+    let parameters: [String: String]
     var method: RequestType { .GET }
     var path: String { "launches" }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class ButtonCollectionViewCell: UICollectionViewCell {
 
@@ -19,6 +20,7 @@ final class ButtonCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    private var disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +29,20 @@ final class ButtonCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+}
+
+// MARK: - Public Methods
+extension ButtonCollectionViewCell {
+    func configure(closure: @escaping () -> Void) {
+        launchButton.rx.tap
+            .bind(onNext: closure)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -39,7 +55,7 @@ private extension ButtonCollectionViewCell {
             launchButton.topAnchor.constraint(equalTo: topAnchor),
             launchButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Appearance.buttonBottom),
             launchButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.buttonLeading),
-            launchButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.buttonTrailing),
+            launchButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.buttonTrailing)
         ])
     }
 }

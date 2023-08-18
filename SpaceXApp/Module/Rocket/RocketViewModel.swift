@@ -11,11 +11,11 @@ import RxSwift
 
 protocol RocketViewModelProtocol {
     var sections: Driver<[RocketSection]> { get }
+    var rocket: Rocket { get }
 }
 
 final class RocketViewModel: RocketViewModelProtocol {
 
-    private let rocket: Rocket
     private let networkService: NetworkService
     private let storageService: StorageService
     private let sectionsSubject = BehaviorSubject<[RocketSection]>(value: [])
@@ -31,6 +31,7 @@ final class RocketViewModel: RocketViewModelProtocol {
         return formatter
     }()
 
+    let rocket: Rocket
     var sections: Driver<[RocketSection]> {
         sectionsSubject.asDriver(onErrorJustReturn: [])
     }
@@ -89,7 +90,7 @@ private extension RocketViewModel {
             items: [
                 .info(value: dateFormatter.string(from: rocket.firstFlight), description: Appearance.generalTitle1),
                 .info(value: rocket.country, description: Appearance.generalTitle2),
-                .info(value: formatCost(rocket.costPerLaunch), description: Appearance.generalTitle3),
+                .info(value: formatCost(rocket.costPerLaunch), description: Appearance.generalTitle3)
             ]
         )
     }
@@ -100,7 +101,7 @@ private extension RocketViewModel {
             items: [
                 .info(value: "\(stage.engines)", description: Appearance.stageTitle1),
                 .info(value: "\(stage.fuelAmountTons) \(Appearance.fuelUnit)", description: Appearance.stageTitle2),
-                .info(value: "\(stage.burnTimeSec ?? 0) \(Appearance.timeUnit)", description: Appearance.stageTitle3),
+                .info(value: "\(stage.burnTimeSec ?? 0) \(Appearance.timeUnit)", description: Appearance.stageTitle3)
             ]
         )
     }
@@ -115,13 +116,15 @@ private extension RocketViewModel {
         let hightValue = heightSetting.selectedUnit == .meter ? rocket.height.meters : rocket.height.feet
         let diameterValue = diameterSetting.selectedUnit == .meter ? rocket.diameter.meters : rocket.diameter.feet
         let weightValue = weightSetting.selectedUnit == .pound ? rocket.mass.lb : rocket.mass.kg
-        let payloadValue = payloadSetting.selectedUnit == .pound ? rocket.payloadWeights[0].lb : rocket.payloadWeights[0].kg
+        let payloadValue = payloadSetting.selectedUnit == .pound
+            ? rocket.payloadWeights[0].lb
+            : rocket.payloadWeights[0].kg
 
         return [
             getItem(setting: heightSetting, value: hightValue),
             getItem(setting: diameterSetting, value: diameterValue),
             getItem(setting: weightSetting, value: weightValue),
-            getItem(setting: payloadSetting, value: payloadValue),
+            getItem(setting: payloadSetting, value: payloadValue)
         ]
     }
 

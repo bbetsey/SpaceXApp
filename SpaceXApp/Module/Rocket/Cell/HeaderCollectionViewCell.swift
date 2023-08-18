@@ -88,7 +88,7 @@ private extension HeaderCollectionViewCell {
             rocketImage.topAnchor.constraint(equalTo: topAnchor),
             rocketImage.trailingAnchor.constraint(equalTo: trailingAnchor),
             rocketImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            rocketImage.heightAnchor.constraint(equalToConstant: contentView.frame.height - Appearance.imageMargin),
+            rocketImage.heightAnchor.constraint(equalToConstant: contentView.frame.height - Appearance.imageMargin)
         ])
 
         NSLayoutConstraint.activate([
@@ -102,7 +102,7 @@ private extension HeaderCollectionViewCell {
             headerView.topAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: Appearance.headerViewTop),
             headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            headerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

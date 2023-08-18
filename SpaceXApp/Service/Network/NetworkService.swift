@@ -17,6 +17,11 @@ final class NetworkService {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         return dateFormatter
     }()
+    private var dateLongFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        return dateFormatter
+    }()
 
     init() {
         decoderWithShortDate = JSONDecoder()
@@ -25,7 +30,7 @@ final class NetworkService {
 
         decoderWithLongDate = JSONDecoder()
         decoderWithLongDate.keyDecodingStrategy = .convertFromSnakeCase
-        decoderWithLongDate.dateDecodingStrategy = .iso8601
+        decoderWithLongDate.dateDecodingStrategy = .formatted(dateLongFormatter)
     }
 
     func fetchRocket() -> Single<[Rocket]> {

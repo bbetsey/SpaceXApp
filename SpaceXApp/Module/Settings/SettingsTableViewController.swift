@@ -63,7 +63,7 @@ private extension SettingsTableViewController {
             .drive(
                 tableView.rx.items(cellIdentifier: SettingsTableViewCell.reuseIdentifier,
                                    cellType: SettingsTableViewCell.self)
-            ) { row, setting, cell in
+            ) { _, setting, cell in
                 cell.configure(with: setting)
                 cell.onSegmentChanged = { [weak self] index in
                     self?.settingsViewModel.updateSettings(at: setting, withSelectedIndex: index)

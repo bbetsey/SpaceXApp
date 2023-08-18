@@ -53,7 +53,7 @@ extension LaunchCollectionViewCell {
 // MARK: - Private Methods
 private extension LaunchCollectionViewCell {
     func setupUI() {
-        contentView.backgroundColor = .systemGray5
+        contentView.backgroundColor = .systemGray6
         contentView.layer.cornerRadius = Appearance.cornerRadius
         [labelStackView, rocketImageView].forEach(addSubview)
         [missionNameLabel, dateLabel, labelStackView, rocketImageView]
@@ -61,7 +61,8 @@ private extension LaunchCollectionViewCell {
 
         NSLayoutConstraint.activate([
             labelStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.stackLeading),
-            labelStackView.trailingAnchor.constraint(equalTo: rocketImageView.leadingAnchor, constant: Appearance.stackTraling),
+            labelStackView.trailingAnchor.constraint(equalTo: rocketImageView.leadingAnchor,
+                                                     constant: Appearance.stackTraling),
             labelStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
             labelStackView.heightAnchor.constraint(equalToConstant: Appearance.stackHeight)
         ])

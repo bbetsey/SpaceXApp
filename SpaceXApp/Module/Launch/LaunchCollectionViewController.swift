@@ -45,7 +45,11 @@ final class LaunchCollectionViewController: UICollectionViewController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension LaunchCollectionViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         CGSize(width: view.frame.width - (Appearance.rowLeftMargin * 2), height: Appearance.rowHeight)
     }
 }
@@ -53,7 +57,8 @@ extension LaunchCollectionViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Private Methods
 private extension LaunchCollectionViewController {
     func setupUI() {
-        collectionView.register(LaunchCollectionViewCell.self, forCellWithReuseIdentifier: LaunchCollectionViewCell.reuseIdentifier)
+        collectionView.register(LaunchCollectionViewCell.self,
+                                forCellWithReuseIdentifier: LaunchCollectionViewCell.reuseIdentifier)
         collectionView.dataSource = nil
         collectionView.contentInset = Appearance.contentInset
         collectionView.alwaysBounceVertical = true
@@ -63,7 +68,7 @@ private extension LaunchCollectionViewController {
         collectionView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         activityIndicator.startAnimating()
     }
@@ -76,7 +81,7 @@ private extension LaunchCollectionViewController {
             .drive(
                 collectionView.rx.items(cellIdentifier: LaunchCollectionViewCell.reuseIdentifier,
                                         cellType: LaunchCollectionViewCell.self)
-            ) { row, launch, cell in
+            ) { _, launch, cell in
                 cell.configure(with: launch)
             }
             .disposed(by: disposeBag)

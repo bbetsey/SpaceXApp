@@ -41,7 +41,7 @@ private extension HeaderSupplementaryView {
         NSLayoutConstraint.activate([
             sectionTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
             sectionTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Appearance.titleLeading),
-            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.titleTrailing),
+            sectionTitle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Appearance.titleTrailing)
         ])
     }
 }
