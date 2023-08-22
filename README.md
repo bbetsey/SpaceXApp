@@ -17,6 +17,7 @@
 #### Settings
 * UITableViewController
 * UISegmentedControl
+* UserDefaults
 
 #### Launches
 * UICollectionViewController
