@@ -1,4 +1,5 @@
-# SpaceXApp
+![cover](https://github.com/bbetsey/SpaceXApp/assets/70851552/a45cb713-78e5-427e-bdd1-156977e8db9d)
+
 📱 The application displays information about SpaceX rockets, a list of their launches, and user customization for measurement units
 
 ## Preview
