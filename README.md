@@ -33,6 +33,6 @@
 * iOS 13.0+
 
 ## Installation
-1. pod install
+1. `pod install`
 2. Open the `.xcworkspace` file in Xcode
 3. Build and run
