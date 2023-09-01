@@ -1,11 +1,11 @@
-![cover](https://github.com/bbetsey/SpaceXApp/assets/70851552/8acdc284-99db-496c-9827-0a72937be589)
+![cover](https://github.com/bbetsey/SpaceXApp/assets/70851552/1876a877-0afd-4f61-aa1c-fdb73ac6e46b)
 
 📱 The application displays information about SpaceX rockets, a list of their launches, and user customization for measurement units
 
 ## Preview
 | Rockets | Settings | Launches |
 :---:|:---:|:---:
-![rocketView](https://github.com/bbetsey/SpaceXApp/assets/70851552/d89d3be9-d419-49be-bc7b-acd2583cf652) | ![settingsView](https://github.com/bbetsey/SpaceXApp/assets/70851552/b97543f3-2f7b-43d9-9b09-80193ae7efc6) | ![launchView](https://github.com/bbetsey/SpaceXApp/assets/70851552/e7b426b0-6ac0-44f1-9273-498a9d9a258b)
+![rocketView](https://github.com/bbetsey/SpaceXApp/assets/70851552/93d2427a-1efb-427e-9747-94e67c768cae) | ![settingsView](https://github.com/bbetsey/SpaceXApp/assets/70851552/f14b1400-71c7-4830-9dd7-c3fa92117c15) | ![launchView](https://github.com/bbetsey/SpaceXApp/assets/70851552/2c3ddb2e-69c0-4e64-95c3-2e83cb56e33b)
 
 ## Views
 
