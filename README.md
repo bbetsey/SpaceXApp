@@ -5,7 +5,7 @@
 ## Preview
 | Rockets | Settings | Launches |
 :---:|:---:|:---:
-![rocketView](https://github.com/bbetsey/SpaceXApp/assets/70851552/075d85bc-6271-4774-a61a-f2a05cddf017) | ![settingsView](https://github.com/bbetsey/SpaceXApp/assets/70851552/5ae88a38-9821-440c-bfe9-c692afd10b2a) | ![rocketView](https://github.com/bbetsey/SpaceXApp/assets/70851552/075d85bc-6271-4774-a61a-f2a05cddf017)
+![rocketView](https://github.com/bbetsey/SpaceXApp/assets/70851552/075d85bc-6271-4774-a61a-f2a05cddf017) | ![settingsView](https://github.com/bbetsey/SpaceXApp/assets/70851552/5ae88a38-9821-440c-bfe9-c692afd10b2a) | ![launchView](https://github.com/bbetsey/SpaceXApp/assets/70851552/0355b3ef-d18c-4036-bc44-7c257d923ed3)
 
 ## Views
 
