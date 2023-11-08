@@ -1,4 +1,4 @@
-![cover](https://github.com/bbetsey/SpaceXApp/assets/70851552/bf8c08e7-49cb-46a8-820f-fd9650b338bf)
+![SpaceX App_cover](https://github.com/bbetsey/CryptoTracker/assets/70851552/403910dc-fbc8-4c1a-9c44-de746ebc6b19)
 
 📱 The application displays information about SpaceX rockets, a list of their launches, and user customization for measurement units
 
